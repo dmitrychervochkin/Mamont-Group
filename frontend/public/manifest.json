@@ -1,0 +1,47 @@
+{
+	"lang": "ru",
+	"short_name": "MAMONT Fitness",
+	"name": "Mamont Group fitness Product",
+	"description": "Описание приложения",
+	"icons": [
+		{
+			"src": "favicon-16.png",
+			"sizes": "16x16",
+			"type": "image/png"
+		},
+		{
+			"src": "images/mamont-32.png",
+			"sizes": "32x32",
+			"type": "image/png"
+		},
+		{
+			"src": "images/mamont-64.png",
+			"sizes": "64x64",
+			"type": "image/png"
+		},
+		{
+			"src": "images/mamont-192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "images/mamont-384.png",
+			"sizes": "384x384",
+			"type": "image/png"
+		},
+		{
+			"src": "images/mamont-512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
+		{
+			"src": "images/mamont-1024.png",
+			"type": "image/png",
+			"sizes": "1024x1024"
+		}
+	],
+	"start_url": "/",
+	"display": "standalone",
+	"theme_color": "#141414",
+	"background_color": "#141414"
+}

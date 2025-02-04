@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#141414" />
+
+		<!-- <link rel="shortcut icon" href="https://vk.com/images/icons/favicons/fav_logo_2x.ico?8" /> -->
+		<link rel="apple-touch-icon" href="images/mamont-512.png" />
+		<link rel="shortcut icon" href="images/mamont-16.png" />
+		<link rel="yandex-tableau-widget" href="/tableau.json">
+
+		<link rel="manifest" href="/manifest.json" />
+		<meta name="description" content='"MAMONT Group" Fitness Product' />
+		<title>MAMONT Fitness</title>
+	</head>
+	<body>
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+		<div id="preloader">
+			<div id="loader-logo">
+				<!-- <img src="/images/Loader-logo.png" alt="logo" /> -->
+			</div>
+			<div class="spinner"></div>
+		</div>
+		<div id="root"></div>
+		<script>
+			let img = document.createElement('img');
+			img.src = '/images/Loader-logo.png';
+			img.alt = 'logo';
+
+			window.onload = function () {
+				let spinner = document.querySelector('.spinner');
+				let preloader = document.querySelector('#preloader');
+				let loaderLogo = document.querySelector('#loader-logo');
+				loaderLogo.appendChild(img);
+
+				window.setTimeout(function () {
+					spinner.style.display = 'block';
+					setTimeout(() => {
+						preloader.style.opacity = '0';
+						setTimeout(() => {
+							preloader.style.display = 'none';
+						}, [300]);
+					}, [1000]);
+				}, 1000);
+			};
+		</script>
+	</body>
+</html>

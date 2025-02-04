@@ -1,0 +1,9 @@
+{
+	"version": "1.2",
+	"api_version": "4",
+	"layout": {
+		"logo": "images/yandex-2.png",
+		"color": "#393939",
+		"show_title": "none"
+	}
+}

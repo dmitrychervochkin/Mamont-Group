@@ -1,0 +1,31 @@
+const Router = require('express');
+const router = new Router();
+const exercisesRouter = require('./exercises/exercisesRouter');
+const exercisesInfoRouter = require('./exercises/exercisesInfoRouter');
+const patternRouter = require('./pattern/patternRouter');
+const patternExercisesRouter = require('./pattern/patternExercisesRouter');
+const patternWorkoutExercisesRouter = require('./pattern/patternWorkoutExercisesRouter');
+const userPatternRouter = require('./pattern/userPatternRouter');
+const typesRouter = require('./typesRouter');
+const usersRouter = require('./usersRouter');
+const workoutRouter = require('./workoutRouter');
+const workoutExercisesRouter = require('./workoutExercisesRouter');
+const rolesRouter = require('./rolesRouter');
+const userExercisesRouter = require('./userExercisesRouter');
+const calendarEventsRouter = require('./calendarEvents/calendarEventsRouter');
+
+router.use('/users', usersRouter);
+router.use('/types', typesRouter);
+router.use('/roles', rolesRouter);
+router.use('/exercises', exercisesRouter);
+router.use('/exercise_info', exercisesInfoRouter);
+router.use('/pattern', patternRouter);
+router.use('/pattern_exercises', patternExercisesRouter);
+router.use('/pattern_workout_exercises', patternWorkoutExercisesRouter);
+router.use('/user_pattern', userPatternRouter);
+router.use('/workout', workoutRouter);
+router.use('/user_exercises', userExercisesRouter);
+router.use('/workout_exercises', workoutExercisesRouter);
+router.use('/calendar_events', calendarEventsRouter);
+
+module.exports = router;

@@ -1,0 +1,12 @@
+export const addPattern = (patternData, token) =>
+	fetch(`http://localhost:7001/api/pattern`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json;charset=utf-8',
+			Authorization: `Bearer ${JSON.parse(token)}`,
+		},
+		body: JSON.stringify({
+			name: patternData.name,
+			discription: patternData.discription,
+		}),
+	}).then((data) => data.json());
