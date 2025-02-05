@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { checkDateIsEqual, checkIsToday } from '../utils';
+import { checkDateIsEqual, checkIsToday, formatDate } from '../utils';
 
-const CalendarDaysContainer = ({ className, state, functions, setSelectedDay, calendarEvents }) => {
+const CalendarDaysContainer = ({ className, state, functions, setSelectedDay, calendarEvents, workouts }) => {
 	return (
 		<div className={className}>
 			{state.calendarDays.map((day) => {
@@ -11,6 +11,7 @@ const CalendarDaysContainer = ({ className, state, functions, setSelectedDay, ca
 				const workoutEvent = calendarEvents.find(
 					(item) => item.date.toString() === day.date.toString(),
 				);
+				const workoutPast = workouts.find((item) => checkDateIsEqual(new Date(item.date), day.date));
 
 				return (
 					<div
@@ -41,6 +42,14 @@ const CalendarDaysContainer = ({ className, state, functions, setSelectedDay, ca
 											: 'none',
 								}}
 								className="calendar-event-icon"
+							></div>
+						)}
+						{!isAdditionalDay && workoutPast && (
+							<div
+								style={{
+									backgroundColor: '#646464',
+								}}
+								className="calendar-past-event-icon"
 							></div>
 						)}
 					</div>
@@ -79,5 +88,16 @@ export const CalendarDays = styled(CalendarDaysContainer)`
 		position: absolute;
 		top: 10px;
 		right: 10px;
+	}
+	.calendar-past-event-icon {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		position: absolute;
+		top: 10px;
+		right: 10px;
+	}
+	.calendar-additional-day {
+		color: #646464;
 	}
 `;

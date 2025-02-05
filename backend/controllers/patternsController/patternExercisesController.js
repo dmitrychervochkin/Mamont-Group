@@ -20,12 +20,16 @@ class PatternExercisesController {
 			next(ApiError.badRequest(err.message));
 		}
 	}
-	async getAll(req, res) {
-		let { pattern_id } = req.query;
+	async getAll(req, res, next) {
+		try {
+			let { pattern_id } = req.query;
 
-		const patternExercises = await PatternExercises.findAll({ where: { pattern_id } });
+			const patternExercises = await PatternExercises.findAll({ where: { pattern_id } });
 
-		return res.json(patternExercises);
+			return res.json(patternExercises);
+		} catch (err) {
+			return next(ApiError.badRequest(err.message));
+		}
 	}
 	async getOne(req, res) {
 		const { id } = req.params;

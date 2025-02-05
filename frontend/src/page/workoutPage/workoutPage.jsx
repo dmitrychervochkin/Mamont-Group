@@ -5,10 +5,12 @@ import {
 	addPattern,
 	closeModal,
 	openModal,
+	resetError,
 	selectModal,
 	selectStartWorkout,
 	selectUserId,
 	selectWorkoutTime,
+	setError,
 	startWorkout,
 } from '../../reducers';
 import { WorkoutHeader } from './components/workoutHeader/workoutHeader';
@@ -28,6 +30,7 @@ const WorkoutPageContainer = ({ className }) => {
 	const [isDelete, setIsDelete] = useState(false);
 	const [isSave, setIsSave] = useState(false);
 	const [patterns, setPatterns] = useState([]);
+	const [workouts, setWorkouts] = useState([]);
 	const [exercises, setExercises] = useState([]);
 	const isStartWorkout = useSelector(selectStartWorkout);
 	const userId = useSelector(selectUserId);
@@ -39,14 +42,22 @@ const WorkoutPageContainer = ({ className }) => {
 		if (location.pathname === ROUTE.HISTORY) {
 			setIsWorkoutsDropdown(true);
 		}
-		Promise.all([server.fetchExercises(), server.fetchPatterns(userId)]).then(([exercises, patterns]) => {
-			setExercises(exercises.res);
-			setPatterns(patterns.res);
-			setTimeout(() => {
-				setIsSave(false);
-				setIsLoading(false);
-			}, [500]);
-		});
+		Promise.all([server.fetchExercises(), server.fetchPatterns(userId)])
+			.then(([exercises, patterns]) => {
+				setExercises(exercises.res);
+				setPatterns(patterns.res);
+				setTimeout(() => {
+					setIsSave(false);
+					setIsLoading(false);
+				}, [500]);
+			})
+			.catch((err) => {
+				console.log(err.toString());
+				dispatch(setError(err.toString()));
+				setTimeout(() => {
+					dispatch(resetError());
+				}, [5000]);
+			});
 	}, [isDelete, isSave]);
 
 	const startNewWorkout = () => {
@@ -72,8 +83,10 @@ const WorkoutPageContainer = ({ className }) => {
 					userId={userId}
 					isWorkoutsDropdown={isWorkoutsDropdown}
 					setIsWorkoutsDropdown={setIsWorkoutsDropdown}
+					workouts={workouts}
+					setWorkouts={setWorkouts}
 				/>
-				<Calendar patterns={patterns} />
+				<Calendar patterns={patterns} workouts={workouts} />
 				<div className="workout-page-container">
 					<div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '30px' }}>
 						<div style={{ width: '220px', display: 'flex', justifyContent: 'space-between' }}>
@@ -133,24 +146,6 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 		&:hover {
 			cursor: pointer;
 			opacity: 0.6;
-		}
-	}
-	.user-workouts-container {
-		position: relative;
-		transition: 0.5s;
-		overflow: hidden;
-		margin-bottom: 10px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-	.more-workouts-btn {
-		margin-top: 7px;
-		background-color: #393939;
-
-		&:hover {
-			background-color: #646464;
-			box-shadow: none;
 		}
 	}
 `;

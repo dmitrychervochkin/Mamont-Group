@@ -24,6 +24,7 @@ export * from './remove-exercise-info';
 export * from './fetch-roles';
 export * from './fetch-users';
 export * from './fetch-types';
+export * from './fetch-pattern';
 export * from './fetch-patterns';
 export * from './fetch-workouts';
 export * from './fetch-calendar-events';

@@ -4,36 +4,52 @@ import { LIMITS, ROUTE } from '../../../../constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { server } from '../../../../bff';
-import { useSelector } from 'react-redux';
-import { selectUserId } from '../../../../reducers';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetError, selectUserId, setError } from '../../../../reducers';
 import { timeConverter } from '../../../../utils';
+import { formatDate } from '../calendar/utils';
 
-const HistoryContainer = ({ className, userId, isWorkoutsDropdown, setIsWorkoutsDropdown }) => {
-	const [workouts, setWorkouts] = useState([]);
+const HistoryContainer = ({
+	className,
+	workouts,
+	setWorkouts,
+	userId,
+	isWorkoutsDropdown,
+	setIsWorkoutsDropdown,
+}) => {
 	const [count, setCount] = useState(1);
 	const [page, setPage] = useState(1);
 	const [isLoading, setIsLoading] = useState(false);
 	const location = useLocation();
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		setIsLoading(true);
-		workouts.length < count &&
-			server.fetchWorkouts(userId, page, LIMITS.WORKOUTS).then(({ res }) => {
-				setCount(res.count);
+		workouts.length < count
+			? server
+					.fetchWorkouts(userId, page, LIMITS.WORKOUTS)
+					.then(({ res }) => {
+						setCount(res.count);
 
-				setTimeout(() => {
-					if (workouts.length === 0) {
-						setWorkouts(res.rows);
-					} else {
-						setWorkouts([...workouts, ...res.rows]);
-					}
+						setTimeout(() => {
+							if (workouts.length === 0) {
+								setWorkouts(res.rows);
+							} else {
+								setWorkouts([...workouts, ...res.rows]);
+							}
+							setIsLoading(false);
+						}, [500]);
+					})
+					.catch((err) => {
+						dispatch(setError(err));
+						setTimeout(() => {
+							dispatch(resetError());
+						}, [5000]);
+					})
+			: setTimeout(() => {
 					setIsLoading(false);
-				}, [500]);
-			});
-		setTimeout(() => {
-			setIsLoading(false);
-		}, [1000]);
+			  }, [1000]);
 	}, [page]);
 
 	const onMoreWorkoutsBtnHandler = () => {
@@ -62,12 +78,13 @@ const HistoryContainer = ({ className, userId, isWorkoutsDropdown, setIsWorkouts
 					marginTop: isWorkoutsDropdown ? '10px' : 0,
 					opacity: isWorkoutsDropdown ? 1 : 0,
 					maxHeight: isWorkoutsDropdown ? '1000px' : 0,
+					overflow: isWorkoutsDropdown ? 'visible' : 'hidden',
 				}}
 				className="user-workouts-container"
 			>
 				{workouts.map(({ id, name, userId, date, time }) => (
 					<div key={id} className="workouts-history-card">
-						<div>{date}</div>
+						<div style={{ color: 'white', width: '150px' }}>{formatDate(new Date(date), 'DDD DD MMM YYYY')}</div>
 						<div>{name}</div>
 						<div>{timeConverter(time)}</div>
 					</div>
@@ -100,6 +117,9 @@ const HistoryContainer = ({ className, userId, isWorkoutsDropdown, setIsWorkouts
 };
 
 export const History = styled(HistoryContainer)`
+	position: relative;
+	width: 1000px;
+
 	.workout-page-header {
 		padding: 30px 40px;
 		background-color: #222222;
@@ -109,6 +129,7 @@ export const History = styled(HistoryContainer)`
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		margin-bottom: 10px;
 	}
 	.workouts-history-card {
 		width: 100%;
@@ -119,5 +140,28 @@ export const History = styled(HistoryContainer)`
 		border-radius: 15px;
 		margin-bottom: 2px;
 		color: #a2a2a2;
+		box-shadow: 0 0 5px 1px #141414;
+	}
+	.user-workouts-container {
+		position: absolute;
+		transition: 0.5s;
+		// overflow: hidden;
+		margin-bottom: 10px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		z-index: 20;
+		width: 500px;
+		top: 100px;
+		right: 0;
+	}
+	.more-workouts-btn {
+		margin-top: 7px;
+		background-color: #393939;
+
+		&:hover {
+			background-color: #646464;
+			box-shadow: none;
+		}
 	}
 `;

@@ -6,8 +6,8 @@ import { useCalendar } from './hooks/useCalendar';
 import { useEffect, useState } from 'react';
 import { CalendarDays, CalendarMenu, CalendarMonths, CalendarYears, CurrentDate } from './components';
 import { server } from '../../../../bff';
-import { useSelector } from 'react-redux';
-import { selectUserId } from '../../../../reducers';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetError, selectUserId, setError } from '../../../../reducers';
 
 const CALENDAR_STATE = [
 	{
@@ -44,7 +44,7 @@ typeId
 calendarEventsId
 */
 
-const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber = 2, patterns }) => {
+const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber = 2, patterns, workouts }) => {
 	const [selectedDate, setSelectedDay] = useState(new Date());
 	const [isSave, setIsSave] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -56,15 +56,26 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 		firstWeekDayNumber,
 	});
 	const userId = useSelector(selectUserId);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		setIsLoading(true);
-		server.fetchCalendarEvents(userId).then(({ res }) => setCalendarEvents(res));
-		setTimeout(() => {
-			setIsLoading(false);
-			setIsSave(false);
-			setIsAddEvent(false);
-		}, [500]);
+		server
+			.fetchCalendarEvents(userId)
+			.then(({ res }) => {
+				setCalendarEvents(res);
+				setTimeout(() => {
+					setIsLoading(false);
+					setIsSave(false);
+					setIsAddEvent(false);
+				}, [500]);
+			})
+			.catch((err) => {
+				dispatch(setError(err));
+				setTimeout(() => {
+					dispatch(resetError());
+				}, [5000]);
+			});
 	}, [selectedDate, isSave]);
 
 	const onTodayBtnHander = () => {
@@ -86,6 +97,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 							width="200px"
 							onClick={() => setIsAddEvent(true)}
 							style={{ marginRight: '10px' }}
+							disabled={isLoading}
 						>
 							Добавить событие
 						</Button>
@@ -104,6 +116,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 					patterns={patterns}
 					setIsSave={setIsSave}
 					setIsAddEvent={setIsAddEvent}
+					workouts={workouts}
 				/>
 				<div className="calendar-body">
 					<CalendarMenu functions={functions} state={state} />
@@ -120,6 +133,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 									state={state}
 									functions={functions}
 									setSelectedDay={setSelectedDay}
+									workouts={workouts}
 								/>
 							</>
 						)}

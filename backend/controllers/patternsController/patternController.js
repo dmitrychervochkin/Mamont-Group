@@ -22,9 +22,6 @@ class PatternController {
 		try {
 			let { patternId } = req.query;
 
-			// page = page || 1;
-			// limit = limit || 9;
-			// let offset = page * limit - limit;
 			const patterns = await Patterns.findOne({ where: { id: patternId } });
 
 			return res.json(patterns);

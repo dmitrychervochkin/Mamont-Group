@@ -4,8 +4,10 @@ import { Icon } from '../../../icon/icon';
 import { ICON, TYPE } from '../../../../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+	resetError,
 	selectUserWorkout,
 	selectUserWorkoutExercises,
+	setError,
 	setUserExercises,
 	setUserWorkoutExercises,
 } from '../../../../reducers';
@@ -23,17 +25,34 @@ const WorkoutPreviewModalContainer = ({ className, onConfirm, onCancel }) => {
 	const [exercises, setExercises] = useState([]);
 	const [types, setTypes] = useState([]);
 
+	console.log(workout);
+
 	useEffect(() => {
 		setIsLoading(true);
-		server.fetchPatternExercises(workout.id).then(({ res }) => dispatch(setUserExercises(res)));
-		server
-			.fetchPatternWorkoutExercises(workout.id)
-			.then(({ res }) => dispatch(setUserWorkoutExercises(res)));
-		server.fetchExercises().then(({ res }) => setExercises(res));
-		server.fetchTypes().then(({ res }) => setTypes(res));
-		setTimeout(() => {
-			setIsLoading(false);
-		}, [500]);
+
+		Promise.all([
+			server.fetchPatternExercises(workout.id),
+			server.fetchPatternWorkoutExercises(workout.id),
+			server.fetchExercises(),
+			server.fetchTypes(),
+		])
+			.then(([patternExercises, patternWorkoutExercises, exercisesData, types]) => {
+				dispatch(setUserExercises(patternExercises.res));
+				dispatch(setUserWorkoutExercises(patternWorkoutExercises.res));
+				setExercises(exercisesData.res);
+				setTypes(types.res);
+			})
+			.catch((err) => {
+				dispatch(setError(err));
+				setTimeout(() => {
+					dispatch(resetError());
+				}, [5000]);
+			})
+			.finally(() => {
+				setTimeout(() => {
+					setIsLoading(false);
+				}, [500]);
+			});
 	}, []);
 
 	return (

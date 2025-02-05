@@ -59,8 +59,17 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		server.fetchExercises().then(({ res }) => dispatch(setExercises(res)));
-		server.fetchTypes().then(({ res }) => dispatch(setTypes(res)));
+		Promise.all([server.fetchExercises(), server.fetchTypes()])
+			.then(([exercises, types]) => {
+				dispatch(setExercises(exercises.res));
+				dispatch(setTypes(types.res));
+			})
+			.catch((err) => {
+				dispatch(setError(err));
+				setTimeout(() => {
+					dispatch(resetError());
+				}, [5000]);
+			});
 
 		document.addEventListener('dragstart', dragStart);
 		document.addEventListener('dragend', dragEnd);
@@ -141,7 +150,7 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 									dispatch(resetError());
 								}, [5000]);
 							});
-							dispatch(closeModal());
+						dispatch(closeModal());
 					},
 					onCancel: () => dispatch(closeModal()),
 				}),

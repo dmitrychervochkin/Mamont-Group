@@ -15,7 +15,6 @@ const TypesRightSideContainer = ({ className }) => {
 	const [isDelete, setIsDelete] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [addType, setAddType] = useState('');
-	const [typeError, setTypeError] = useState('');
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -47,6 +46,7 @@ const TypesRightSideContainer = ({ className }) => {
 
 	const onTypeSave = (addType) => {
 		setIsSave(true);
+
 		server.saveType({ name: addType }).then(({ error, res }) => {
 			dispatch(setError(error));
 			// setTypeError(error);

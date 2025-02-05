@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const ButtonContainer = ({ className, width, children, disabled, ...props }) => {
 	return (
-		<button disabled={disabled} className={className} {...props}>
+		<button disabled={disabled} className={className + (disabled ? ' disabled-btn' : '')} {...props}>
 			{children}
 		</button>
 	);
@@ -27,4 +27,6 @@ export const Button = styled(ButtonContainer)`
 		cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
 		box-shadow: 0 0 20px 5px #141414;
 	}
+
+	
 `;

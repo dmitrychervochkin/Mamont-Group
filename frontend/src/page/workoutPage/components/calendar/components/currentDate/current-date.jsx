@@ -1,13 +1,23 @@
 import styled from 'styled-components';
-import { formatDate } from '../../utils';
+import { checkDateIsEqual, formatDate } from '../../utils';
 import { Button, Input, Loader, Select } from '../../../../../../components';
 import { COMPLEXITY } from '../../../../../../constants';
 import { useEffect, useState } from 'react';
 import { AddNewEvent } from './add-new-event';
-import { findItem } from '../../../../../../utils';
+import { findItem, timeConverter } from '../../../../../../utils';
 import { server } from '../../../../../../bff';
 import { useDispatch } from 'react-redux';
-import { closeModal, openModal } from '../../../../../../reducers';
+import {
+	closeModal,
+	finishWorkout,
+	openModal,
+	resetError,
+	setError,
+	setUserExercises,
+	setUserWorkout,
+	setUserWorkoutExercises,
+	startWorkout,
+} from '../../../../../../reducers';
 
 const CurrentDateContainer = ({
 	className,
@@ -18,11 +28,36 @@ const CurrentDateContainer = ({
 	calendarEvents,
 	setIsSave,
 	setIsAddEvent,
+	workouts,
 }) => {
 	const currentDateEvent = calendarEvents.find((item) => item.date.toString() === selectedDate.toString());
+	const pastDateEvents = workouts.filter((item) => checkDateIsEqual(new Date(item.date), selectedDate));
 	const [calendarTypeEvents, setCalendarTypeEvents] = useState([]);
 	const [types, setTypes] = useState([]);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (currentDateEvent !== undefined) {
+			server
+				.fetchCalendarTypeEvents(currentDateEvent?.id)
+				.then(({ res }) => setCalendarTypeEvents(res))
+				.catch((err) => {
+					dispatch(setError(err));
+					setTimeout(() => {
+						dispatch(resetError());
+					}, [5000]);
+				});
+		}
+		server
+			.fetchTypes()
+			.then(({ res }) => setTypes(res))
+			.catch((err) => {
+				dispatch(setError(err));
+				setTimeout(() => {
+					dispatch(resetError());
+				}, [5000]);
+			});
+	}, [currentDateEvent]);
 
 	const onRemoveEventHandler = () => {
 		dispatch(
@@ -39,14 +74,34 @@ const CurrentDateContainer = ({
 		);
 	};
 
-	useEffect(() => {
-		if (currentDateEvent !== undefined) {
-			server
-				.fetchCalendarTypeEvents(currentDateEvent?.id)
-				.then(({ res }) => setCalendarTypeEvents(res));
-		}
-		server.fetchTypes().then(({ res }) => setTypes(res));
-	}, [currentDateEvent]);
+	const onStartWorkout = () => {
+		server
+			.fetchPattern(currentDateEvent?.patternId)
+			.then(({ res }) => {
+				dispatch(setUserWorkout(res));
+			})
+			.catch((err) => {
+				dispatch(setError(err));
+				setTimeout(() => {
+					dispatch(resetError());
+				}, [5000]);
+			})
+			.finally(() =>
+				dispatch(
+					openModal({
+						workoutPreview: true,
+						onConfirm: () => {
+							dispatch(startWorkout());
+							dispatch(closeModal());
+						},
+						onCancel: () => {
+							dispatch(finishWorkout());
+							dispatch(closeModal());
+						},
+					}),
+				),
+			);
+	};
 
 	return (
 		<div className={className}>
@@ -63,7 +118,8 @@ const CurrentDateContainer = ({
 					{isLoading ? (
 						<Loader />
 					) : (
-						currentDateEvent === undefined && (
+						currentDateEvent === undefined &&
+						pastDateEvents.length === 0 && (
 							<div className="no-events-message">На выбранную дату не найдено тренировок</div>
 						)
 					)}
@@ -139,10 +195,15 @@ const CurrentDateContainer = ({
 													','}
 											</div>
 										))}
+										{calendarTypeEvents.length === 0 && <div>Не добавлены</div>}
 									</div>
 								</div>
 								<div style={{ position: 'absolute', bottom: '10px' }}>
-									<Button width="240px" style={{ marginBottom: '10px' }}>
+									<Button
+										width="240px"
+										style={{ marginBottom: '10px' }}
+										onClick={onStartWorkout}
+									>
 										Начать
 									</Button>
 									<Button
@@ -155,6 +216,22 @@ const CurrentDateContainer = ({
 								</div>
 							</div>
 						</>
+					)}
+					{!isLoading && pastDateEvents.length !== 0 && (
+						<div className="past-calendar-events">
+							{pastDateEvents.map((item) => (
+								<div className="past-calendar-event">
+									<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+										<div style={{ color: '#a2a2a2' }}>Название:</div>
+										<div style={{ textAlign: 'end' }}>{item.name}</div>
+									</div>
+									<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+										<div style={{ color: '#a2a2a2' }}>Время:</div>
+										<div>{timeConverter(item.time)}</div>
+									</div>
+								</div>
+							))}
+						</div>
 					)}
 				</div>
 			)}
@@ -183,6 +260,15 @@ export const CurrentDate = styled(CurrentDateContainer)`
 		color: #646464;
 		padding: 0 20px;
 		text-align: center;
+	}
+	.past-calendar-events {
+		height: 100%;
+		width: 100%;
+		padding: 0 10px;
+	}
+	.past-calendar-event {
+		border-bottom: 2px solid #393939;
+		padding: 10px 0;
 	}
 
 	.current-day-events {

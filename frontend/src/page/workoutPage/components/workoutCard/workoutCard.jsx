@@ -8,10 +8,12 @@ import {
 	closeModal,
 	finishWorkout,
 	openModal,
+	resetError,
 	selectExercises,
 	selectUserExercises,
 	selectUserId,
 	selectUserWorkoutExercises,
+	setError,
 	setUserExercises,
 	setUserWorkout,
 	setUserWorkoutExercises,
@@ -28,8 +30,17 @@ const WorkoutCardContainer = ({ className, exercises, id, name, discription, use
 	const userWorkoutExercises = useSelector(selectUserWorkoutExercises);
 	const dispatch = useDispatch();
 	useEffect(() => {
-		server.fetchPatternExercises(id).then(({ res }) => setUserExercisesState(res));
-		server.fetchPatternWorkoutExercises(id).then(({ res }) => setWorkoutExercises(res));
+		Promise.all([server.fetchPatternExercises(id), server.fetchPatternWorkoutExercises(id)])
+			.then(([userExercisesData, workoutExercisesData]) => {
+				setUserExercisesState(userExercisesData.res);
+				setWorkoutExercises(workoutExercisesData.res);
+			})
+			.catch((err) => {
+				dispatch(setError(err));
+				setTimeout(() => {
+					dispatch(resetError());
+				}, [5000]);
+			});
 	}, []);
 
 	const windowClicker = (event) => {

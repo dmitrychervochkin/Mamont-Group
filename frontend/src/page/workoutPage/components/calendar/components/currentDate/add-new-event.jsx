@@ -17,7 +17,15 @@ const AddNewEventContainer = ({ className, selectedDate, patterns, setIsSave, se
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		server.fetchTypes().then(({ res }) => setTypes(res));
+		server
+			.fetchTypes()
+			.then(({ res }) => setTypes(res))
+			.catch((err) => {
+				dispatch(setError(err));
+				setTimeout(() => {
+					dispatch(resetError());
+				}, [5000]);
+			});
 	}, []);
 
 	const onSaveNewEvent = () => {

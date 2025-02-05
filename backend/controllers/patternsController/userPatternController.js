@@ -26,7 +26,7 @@ class UserPatternController {
 			next(ApiError.badRequest(err.message));
 		}
 	}
-	async getAll(req, res) {
+	async getAll(req, res, next) {
 		try {
 			let { user_id, limit, page } = req.query;
 

@@ -22,6 +22,8 @@ const UserCardContainer = ({
 	const registerDate = new Date(createdAt);
 	const dispatch = useDispatch();
 
+	console.log();
+
 	const onUserRemove = (id) => {
 		dispatch(
 			openModal({
@@ -78,7 +80,9 @@ const UserCardContainer = ({
 				</select>
 			</div>
 			<div className="icons">
-				<Icon height="23px" name={ICON.SAVE} onClick={() => onUserSave(userRole)} />
+				{roleId !== ROLE[userRole] && (
+					<Icon height="23px" name={ICON.SAVE} onClick={() => onUserSave(userRole)} />
+				)}
 				<Icon height="23px" name={ICON.DELETE} onClick={() => onUserRemove(userId)} />
 			</div>
 		</div>
@@ -146,6 +150,7 @@ export const UserCard = styled(UserCardContainer)`
 		background-color: transparent;
 		appearance: none;
 		transition: 0.2s;
+		outline: none;
 	}
 	.role-container-selector:hover {
 		cursor: pointer;

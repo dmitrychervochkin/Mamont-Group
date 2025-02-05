@@ -5,7 +5,7 @@ class PatternWorkoutExercisesController {
 	async create(req, res, next) {
 		try {
 			let { set, reps, weight, patternExerciseId, exerciseId, patternId } = req.body;
-			console.log(set, reps, weight, patternExerciseId, exerciseId, patternId);
+
 			const workoutExercises = await PatternWorkoutExercises.create({
 				pattern_exercise_id: patternExerciseId,
 				set,
@@ -20,20 +20,24 @@ class PatternWorkoutExercisesController {
 			next(ApiError.badRequest(err.message));
 		}
 	}
-	async getAll(req, res) {
-		let { pattern_id } = req.query;
+	async getAll(req, res, next) {
+		try {
+			let { pattern_id } = req.query;
 
-		// page = page || 1;
-		// limit = limit || 9;
-		// let offset = page * limit - limit;
+			// page = page || 1;
+			// limit = limit || 9;
+			// let offset = page * limit - limit;
 
-		const patternWorkoutExercises = await PatternWorkoutExercises.findAll({
-			where: { pattern_id },
-			// limit,
-			// offset,
-		});
+			const patternWorkoutExercises = await PatternWorkoutExercises.findAll({
+				where: { pattern_id },
+				// limit,
+				// offset,
+			});
 
-		return res.json(patternWorkoutExercises);
+			return res.json(patternWorkoutExercises);
+		} catch (err) {
+			return next(ApiError.badRequest(err.message));
+		}
 	}
 	async delete(req, res) {
 		const { id } = req.params;
