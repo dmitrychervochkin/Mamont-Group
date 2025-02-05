@@ -23,7 +23,7 @@ export const DropdownError = styled(DropdownErrorContainer)`
 	position: absolute;
 	width: 300px;
 	background-color: #e74e4e;
-	z-index: 1000;
+	z-index: 10;
 	right: 0;
 	margin-right: 10px;
 	border-radius: 10px;

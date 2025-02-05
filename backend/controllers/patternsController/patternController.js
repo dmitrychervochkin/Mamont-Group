@@ -1,27 +1,31 @@
-const { Pattern, PatternExercises, PatternWorkoutExercises, UserPattern } = require('../../models/models');
+const { PatternExercises, PatternWorkoutExercises, UserPattern, Patterns } = require('../../models/models');
 const ApiError = require('../../error/ApiError');
-const { Workout, UserExercises, WorkoutExercises } = require('../../models/models');
 
 class PatternController {
 	async create(req, res, next) {
 		try {
 			let { name, discription } = req.body;
+			const searchedPattern = await Patterns.findOne({ where: { name: name } });
 
-			const pattern = await Pattern.create({ name, discription });
+			if (searchedPattern) {
+				return next(ApiError.badRequest('Шаблон с таким названием уже существует!'));
+			} else {
+				const pattern = await Patterns.create({ name, discription });
 
-			return res.json(pattern);
+				return res.json(pattern);
+			}
 		} catch (err) {
-			next(ApiError.badRequest(err.message));
+			return next(ApiError.badRequest(err.message));
 		}
 	}
-	async getAll(req, res) {
+	async getAll(req, res, next) {
 		try {
 			let { patternId } = req.query;
 
 			// page = page || 1;
 			// limit = limit || 9;
 			// let offset = page * limit - limit;
-			const patterns = await Pattern.findOne({ where: { id: patternId } });
+			const patterns = await Patterns.findOne({ where: { id: patternId } });
 
 			return res.json(patterns);
 		} catch (err) {
@@ -32,7 +36,7 @@ class PatternController {
 		try {
 			const { id } = req.params;
 
-			const pattern = await Pattern.findOne({
+			const pattern = await Patterns.findOne({
 				where: { id },
 			});
 
@@ -55,7 +59,7 @@ class PatternController {
 				where: { pattern_id: id },
 			});
 
-			const pattern = await Pattern.destroy({
+			const pattern = await Patterns.destroy({
 				where: { id },
 			});
 
@@ -70,7 +74,7 @@ class PatternController {
 			const data = req.body;
 
 			const options = { where: { id }, returning: true };
-			const [count, workout] = await Workout.update(data, options);
+			const [count, workout] = await Patterns.update(data, options);
 
 			return res.json(workout);
 		} catch (err) {

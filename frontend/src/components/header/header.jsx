@@ -65,7 +65,7 @@ export const Header = styled(HeaderContainer)`
 	position: fixed;
 	width: 100%;
 	top: 0;
-	z-index: 3;
+	z-index: 100;
 	box-shadow: #141414 0px 3px 15px 3px;
 
 	.header-container {

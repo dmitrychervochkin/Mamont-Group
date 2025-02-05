@@ -2,21 +2,159 @@ import styled from 'styled-components';
 import { formatDate } from '../../utils';
 import { Button, Input, Loader, Select } from '../../../../../../components';
 import { COMPLEXITY } from '../../../../../../constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AddNewEvent } from './add-new-event';
+import { findItem } from '../../../../../../utils';
+import { server } from '../../../../../../bff';
+import { useDispatch } from 'react-redux';
+import { closeModal, openModal } from '../../../../../../reducers';
 
-const CurrentDateContainer = ({ className, selectedDate, isLoading, isAddEvent, patterns }) => {
+const CurrentDateContainer = ({
+	className,
+	selectedDate,
+	isLoading,
+	isAddEvent,
+	patterns,
+	calendarEvents,
+	setIsSave,
+	setIsAddEvent,
+}) => {
+	const currentDateEvent = calendarEvents.find((item) => item.date.toString() === selectedDate.toString());
+	const [calendarTypeEvents, setCalendarTypeEvents] = useState([]);
+	const [types, setTypes] = useState([]);
+	const dispatch = useDispatch();
+
+	const onRemoveEventHandler = () => {
+		dispatch(
+			openModal({
+				isConfirm: 'true',
+				text: 'Действительно хотите удалить событие?',
+				onConfirm: () => {
+					setIsSave(true);
+					server.removeCalendarEvent(currentDateEvent.id);
+					dispatch(closeModal());
+				},
+				onCancel: () => dispatch(closeModal()),
+			}),
+		);
+	};
+
+	useEffect(() => {
+		if (currentDateEvent !== undefined) {
+			server
+				.fetchCalendarTypeEvents(currentDateEvent?.id)
+				.then(({ res }) => setCalendarTypeEvents(res));
+		}
+		server.fetchTypes().then(({ res }) => setTypes(res));
+	}, [currentDateEvent]);
+
 	return (
 		<div className={className}>
 			<div className="current-day">{formatDate(selectedDate, 'DDD DD MMM YYYY')}</div>
 			{isAddEvent ? (
-				<AddNewEvent patterns={patterns} selectedDate={selectedDate} />
+				<AddNewEvent
+					patterns={patterns}
+					selectedDate={selectedDate}
+					setIsSave={setIsSave}
+					setIsAddEvent={setIsAddEvent}
+				/>
 			) : (
 				<div className="current-day-events">
 					{isLoading ? (
 						<Loader />
 					) : (
-						<div className="no-events-message">На выбранную дату не найдено тренировок</div>
+						currentDateEvent === undefined && (
+							<div className="no-events-message">На выбранную дату не найдено тренировок</div>
+						)
+					)}
+					{!isLoading && currentDateEvent !== undefined && (
+						<>
+							<div
+								style={{
+									height: '100%',
+									width: '100%',
+									padding: '0 10px',
+								}}
+							>
+								<div className="current-day-event-column">
+									<div>Название события:</div>
+									<div
+										style={{
+											color: '#a2a2a2',
+											padding: '10px 0',
+											borderBottom: '2px solid #393939',
+										}}
+									>
+										{currentDateEvent?.name}
+									</div>
+								</div>
+								<div className="current-day-event-column">
+									<div>Шаблон:</div>
+									<div
+										style={{
+											color: '#a2a2a2',
+											padding: '10px 0',
+											borderBottom: '2px solid #393939',
+										}}
+									>
+										{findItem(patterns, currentDateEvent?.patternId).name}
+									</div>
+								</div>
+								<div className="current-day-event-column">
+									<div>Сложность тренировки:</div>
+									<div
+										style={{
+											color:
+												currentDateEvent.complexity === 'hard'
+													? '#EE3434'
+													: currentDateEvent.complexity === 'medium'
+													? 'yellow'
+													: currentDateEvent.complexity === 'easy'
+													? '#3eb942'
+													: 'none',
+
+											padding: '10px 0',
+											borderBottom: '2px solid #393939',
+										}}
+									>
+										{currentDateEvent?.complexity}
+									</div>
+								</div>
+								<div className="current-day-event-column">
+									<div>Мышечные группы:</div>
+									<div
+										style={{
+											padding: '10px 0',
+											borderBottom: '2px solid #393939',
+											color: '#a2a2a2',
+											display: 'flex',
+											flexWrap: 'wrap',
+										}}
+									>
+										{calendarTypeEvents.map((item, i) => (
+											<div style={{ marginRight: '5px' }}>
+												{findItem(types, item.typeId).name}
+												{i + 1 !== calendarTypeEvents.length &&
+													calendarTypeEvents.length > 1 &&
+													','}
+											</div>
+										))}
+									</div>
+								</div>
+								<div style={{ position: 'absolute', bottom: '10px' }}>
+									<Button width="240px" style={{ marginBottom: '10px' }}>
+										Начать
+									</Button>
+									<Button
+										className="delete-event-btn"
+										width="240px"
+										onClick={onRemoveEventHandler}
+									>
+										Удалить
+									</Button>
+								</div>
+							</div>
+						</>
 					)}
 				</div>
 			)}
@@ -31,22 +169,14 @@ export const CurrentDate = styled(CurrentDateContainer)`
 	margin-bottom: 10px;
 	margin-right: 30px;
 	width: 30%;
+	position: relative;
 
 	.current-day {
 		font-size: 20px;
-		color: #a2a2a2;
+		color: #3eb942;
 		text-align: center;
 		padding: 10px 0;
 		border-bottom: 3px solid #393939;
-	}
-	.save-new-event {
-		background-color: #393939;
-		color: #3eb942;
-
-		&:hover {
-			background-color: #3eb942;
-			color: #393939;
-		}
 	}
 
 	.no-events-message {
@@ -58,16 +188,12 @@ export const CurrentDate = styled(CurrentDateContainer)`
 	.current-day-events {
 		display: flex;
 		align-items: center;
-		flex-direction: column;
 		justify-content: center;
+		flex-direction: column;
 		height: 400px;
-		position: relative;
+		// position: relative;
 	}
-	.new-event-property {
-		margin-bottom: 20px;
-		width: 100%;
-		color: #646464;
-	}
+
 	.new-event-selector {
 		width: 100%;
 		font-size: 15px;
@@ -82,6 +208,16 @@ export const CurrentDate = styled(CurrentDateContainer)`
 		&:hover {
 			cursor: pointer;
 			filter: brightness(80%);
+		}
+	}
+	.current-day-event-column {
+		margin: 10px 0;
+	}
+	.delete-event-btn {
+		background-color: #e74e4e;
+
+		&:hover {
+			background-color: #ee3434;
 		}
 	}
 `;

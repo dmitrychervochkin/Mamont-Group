@@ -51,7 +51,7 @@ class ExercisesController {
 		limit = limit || 20;
 		let offset = page * limit - limit;
 		let exercises;
-		console.log(type_id);
+
 		if (!type_id && !userId) {
 			exercises = await Exercises.findAndCountAll({ limit, offset });
 		}

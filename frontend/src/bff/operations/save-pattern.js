@@ -9,22 +9,28 @@ export const savePattern = async (
 	newPatternWorkoutExercisesData,
 ) => {
 	const userToken = localStorage.getItem('token');
-	// console.log(newPatternData, userId, newPatternExercisesData, newPatternWorkoutExercisesData);
 
 	let savedPattern;
 	let savedPatternUser;
 	let savedPatternExercises;
 
-	if (newPatternData.id === undefined) {
+	if (newPatternData.id === undefined || newPatternData.id === '') {
 		savedPattern = await addPattern(newPatternData, userToken);
-		savedPatternUser = await addUserPattern(userId, savedPattern.id, userToken);
-		savedPatternExercises = await Promise.all(
-			newPatternExercisesData.map((item) =>
-				savePatternExercise(item, newPatternWorkoutExercisesData, savedPattern.id),
-			),
-		);
-	} else{
-		
+		console.log(savedPattern);
+		if (savedPattern.message !== undefined) {
+			return {
+				error: savedPattern.message,
+				res: null,
+			};
+		} else {
+			savedPatternUser = await addUserPattern(userId, savedPattern.id, userToken);
+			savedPatternExercises = await Promise.all(
+				newPatternExercisesData.map((item) =>
+					savePatternExercise(item, newPatternWorkoutExercisesData, savedPattern.id),
+				),
+			);
+		}
+	} else {
 	}
 
 	return {

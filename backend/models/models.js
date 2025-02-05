@@ -113,8 +113,8 @@ const ExerciseInfo = sequelize.define(
 	},
 );
 
-const Pattern = sequelize.define(
-	'pattern',
+const Patterns = sequelize.define(
+	'patterns',
 	{
 		id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 		name: { type: DataTypes.STRING, allowNull: false },
@@ -219,6 +219,9 @@ ExerciseInfo.belongsTo(Exercises, { foreignKey: { name: 'exercise_id' } });
 Users.hasMany(Exercises, { foreignKey: { name: 'user_id' } });
 Exercises.belongsTo(Users, { foreignKey: { name: 'user_id' } });
 
+Users.hasMany(CalendarEvents, { foreignKey: { name: 'user_id' } });
+CalendarEvents.belongsTo(Users, { foreignKey: { name: 'user_id' } });
+
 Types.hasMany(Exercises, { foreignKey: { name: 'type_id' } });
 Exercises.belongsTo(Types, { foreignKey: { name: 'type_id' } });
 
@@ -231,20 +234,20 @@ PatternExercises.belongsTo(Types, { foreignKey: { name: 'type_id' } });
 Types.hasMany(UserExercises, { foreignKey: { name: 'type_id' } });
 UserExercises.belongsTo(Types, { foreignKey: { name: 'type_id' } });
 
-Pattern.hasMany(UserPattern, { foreignKey: { name: 'pattern_id' } });
-UserPattern.belongsTo(Pattern, { foreignKey: { name: 'pattern_id' } });
+Patterns.hasMany(UserPattern, { foreignKey: { name: 'pattern_id' } });
+UserPattern.belongsTo(Patterns, { foreignKey: { name: 'pattern_id' } });
 
-Pattern.hasMany(PatternExercises, { foreignKey: { name: 'pattern_id' } });
-PatternExercises.belongsTo(Pattern, { foreignKey: { name: 'pattern_id' } });
+Patterns.hasMany(PatternExercises, { foreignKey: { name: 'pattern_id' } });
+PatternExercises.belongsTo(Patterns, { foreignKey: { name: 'pattern_id' } });
 
-Pattern.hasMany(CalendarEvents, { foreignKey: { name: 'pattern_id' } });
-CalendarEvents.belongsTo(Pattern, { foreignKey: { name: 'pattern_id' } });
+Patterns.hasMany(CalendarEvents, { foreignKey: { name: 'pattern_id' } });
+CalendarEvents.belongsTo(Patterns, { foreignKey: { name: 'pattern_id' } });
 
 PatternExercises.hasMany(PatternWorkoutExercises, { foreignKey: { name: 'pattern_exercise_id' } });
 PatternWorkoutExercises.belongsTo(PatternExercises, { foreignKey: { name: 'pattern_exercise_id' } });
 
-Pattern.hasMany(PatternWorkoutExercises, { foreignKey: { name: 'pattern_id' } });
-PatternWorkoutExercises.belongsTo(Pattern, { foreignKey: { name: 'pattern_id' } });
+Patterns.hasMany(PatternWorkoutExercises, { foreignKey: { name: 'pattern_id' } });
+PatternWorkoutExercises.belongsTo(Patterns, { foreignKey: { name: 'pattern_id' } });
 
 Exercises.hasMany(PatternExercises, { foreignKey: { name: 'exercise_id' } });
 PatternExercises.belongsTo(Exercises, { foreignKey: { name: 'exercise_id' } });
@@ -264,7 +267,7 @@ module.exports = {
 	Roles,
 	Exercises,
 	ExerciseInfo,
-	Pattern,
+	Patterns,
 	PatternWorkoutExercises,
 	PatternExercises,
 	UserPattern,

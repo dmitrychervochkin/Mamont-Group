@@ -5,6 +5,9 @@ import { checkDateIsEqual, checkIsToday, createDate, formatDate, getWeekDaysName
 import { useCalendar } from './hooks/useCalendar';
 import { useEffect, useState } from 'react';
 import { CalendarDays, CalendarMenu, CalendarMonths, CalendarYears, CurrentDate } from './components';
+import { server } from '../../../../bff';
+import { useSelector } from 'react-redux';
+import { selectUserId } from '../../../../reducers';
 
 const CALENDAR_STATE = [
 	{
@@ -43,20 +46,26 @@ calendarEventsId
 
 const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber = 2, patterns }) => {
 	const [selectedDate, setSelectedDay] = useState(new Date());
+	const [isSave, setIsSave] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isAddEvent, setIsAddEvent] = useState(false);
+	const [calendarEvents, setCalendarEvents] = useState([]);
 	const { functions, state } = useCalendar({
 		locale,
 		selectedDate,
 		firstWeekDayNumber,
 	});
+	const userId = useSelector(selectUserId);
 
 	useEffect(() => {
 		setIsLoading(true);
+		server.fetchCalendarEvents(userId).then(({ res }) => setCalendarEvents(res));
 		setTimeout(() => {
 			setIsLoading(false);
+			setIsSave(false);
+			setIsAddEvent(false);
 		}, [500]);
-	}, [selectedDate]);
+	}, [selectedDate, isSave]);
 
 	const onTodayBtnHander = () => {
 		const today = createDate(new Date());
@@ -72,25 +81,33 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 			<div className="calendar-header">
 				<Heading>Календарь</Heading>
 				<div style={{ display: 'flex' }}>
-					<Button width="100px" onClick={onTodayBtnHander} style={{ marginRight: '10px' }}>
+					{!calendarEvents.find((item) => item.date === selectedDate.toString()) && (
+						<Button
+							width="200px"
+							onClick={() => setIsAddEvent(true)}
+							style={{ marginRight: '10px' }}
+						>
+							Добавить событие
+						</Button>
+					)}
+					<Button width="100px" onClick={onTodayBtnHander}>
 						Сегодня
-					</Button>
-					<Button width="200px" onClick={() => setIsAddEvent(true)}>
-						Добавить событие
 					</Button>
 				</div>
 			</div>
 			<div className="workout-calendar">
 				<CurrentDate
+					calendarEvents={calendarEvents}
 					isLoading={isLoading}
 					selectedDate={selectedDate}
 					isAddEvent={isAddEvent}
 					patterns={patterns}
+					setIsSave={setIsSave}
+					setIsAddEvent={setIsAddEvent}
 				/>
-
-				<div className="calendar-body" onClick={() => setIsAddEvent(false)}>
+				<div className="calendar-body">
 					<CalendarMenu functions={functions} state={state} />
-					<div className="calendar-main">
+					<div className="calendar-main" onClick={() => setIsAddEvent(false)}>
 						{state.mode === 'days' && (
 							<>
 								<div className="calendar-weeks">
@@ -99,6 +116,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 									))}
 								</div>
 								<CalendarDays
+									calendarEvents={calendarEvents}
 									state={state}
 									functions={functions}
 									setSelectedDay={setSelectedDay}

@@ -1,5 +1,5 @@
 export const addPattern = (patternData, token) =>
-	fetch(`http://localhost:7001/api/pattern`, {
+	fetch(`http://localhost:7001/api/patterns`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',

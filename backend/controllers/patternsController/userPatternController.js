@@ -35,8 +35,6 @@ class UserPatternController {
 			let offset = page * limit - limit;
 			const userPatterns = await UserPattern.findAndCountAll({ where: { user_id }, limit, offset });
 
-			console.log(user_id)
-
 			return res.json(userPatterns);
 		} catch (err) {
 			return next(ApiError.badRequest(err.message));

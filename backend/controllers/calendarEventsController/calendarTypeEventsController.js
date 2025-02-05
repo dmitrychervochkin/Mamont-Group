@@ -1,29 +1,28 @@
 const ApiError = require('../../error/ApiError');
-const { CalendarEvents } = require('../../models/models');
+const { CalendarEvents, CalendarTypeEvents } = require('../../models/models');
 
 class CalendarEventsController {
 	async create(req, res, next) {
 		try {
-			const { name, patternId, userId, date, complexity } = req.body;
+			const { typeId, calendarEventId } = req.body;
 
-			const calendarEvent = await CalendarEvents.create({
-				name,
-				date,
-				complexity,
-				pattern_id: patternId,
-				user_id: userId,
+			console.log(typeId, calendarEventId);
+
+			const calendarTypeEvent = await CalendarTypeEvents.create({
+				type_id: typeId,
+				calendar_event_id: calendarEventId,
 			});
 
-			return res.json(calendarEvent);
+			return res.json(calendarTypeEvent);
 		} catch (err) {
 			return next(ApiError.badRequest(err.message));
 		}
 	}
 	async getAll(req, res, next) {
 		try {
-			let { user_id } = req.query;
+			let { calendar_event_id } = req.query;
 
-			const calendarEvents = await CalendarEvents.findAll({ where: { user_id } });
+			const calendarEvents = await CalendarTypeEvents.findAll({ where: { calendar_event_id } });
 
 			return res.json(calendarEvents);
 		} catch (err) {
@@ -33,7 +32,7 @@ class CalendarEventsController {
 	async delete(req, res) {
 		const { id } = req.params;
 
-		const types = await CalendarEvents.destroy({
+		const types = await CalendarTypeEvents.destroy({
 			where: { id },
 		});
 
@@ -44,7 +43,7 @@ class CalendarEventsController {
 		const { name } = req.body;
 		console.log(req);
 		const options = { where: { id }, returning: true };
-		const [count, calendarEvent] = await CalendarEvents.update({ name }, options);
+		const [count, calendarEvent] = await CalendarTypeEvents.update({ name }, options);
 
 		return res.json(calendarEvent);
 	}

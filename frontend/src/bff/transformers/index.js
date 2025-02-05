@@ -7,3 +7,5 @@ export * from './transform-exercise-info';
 export * from './transform-user-pattern';
 export * from './transform-pattern-exercises';
 export * from './transform-pattern-workout-exercises';
+export * from './transform-calendar-events';
+export * from './transform-calendar-type-event';

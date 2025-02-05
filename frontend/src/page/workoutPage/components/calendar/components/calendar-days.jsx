@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 import { checkDateIsEqual, checkIsToday } from '../utils';
 
-const CalendarDaysContainer = ({ className, state, functions, setSelectedDay }) => {
+const CalendarDaysContainer = ({ className, state, functions, setSelectedDay, calendarEvents }) => {
 	return (
 		<div className={className}>
 			{state.calendarDays.map((day) => {
 				const isToday = checkIsToday(day.date);
 				const isSelectedDay = checkDateIsEqual(day.date, state.selectedDay.date);
 				const isAdditionalDay = day.monthIndex !== state.selectedMonth.monthIndex;
-				// const workoutEvent = CALENDAR_STATE.find(
-				// 	(item) => item.date.toString() === day.date.toString(),
-				// );
+				const workoutEvent = calendarEvents.find(
+					(item) => item.date.toString() === day.date.toString(),
+				);
 
 				return (
 					<div
@@ -28,7 +28,21 @@ const CalendarDaysContainer = ({ className, state, functions, setSelectedDay }) 
 						].join(' ')}
 					>
 						{day.dayNumber}
-						{/* {!isAdditionalDay && workoutEvent && <div className="calendar-event-icon"></div>} */}
+						{!isAdditionalDay && workoutEvent && (
+							<div
+								style={{
+									backgroundColor:
+										workoutEvent.complexity === 'hard'
+											? '#EE3434'
+											: workoutEvent.complexity === 'medium'
+											? 'yellow'
+											: workoutEvent.complexity === 'easy'
+											? '#3eb942'
+											: 'none',
+								}}
+								className="calendar-event-icon"
+							></div>
+						)}
 					</div>
 				);
 			})}
@@ -59,9 +73,8 @@ export const CalendarDays = styled(CalendarDaysContainer)`
 	}
 
 	.calendar-event-icon {
-		width: 5px;
-		height: 5px;
-		background-color: yellow;
+		width: 10px;
+		height: 10px;
 		border-radius: 50%;
 		position: absolute;
 		top: 10px;

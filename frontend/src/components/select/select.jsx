@@ -28,12 +28,14 @@ const SelectContainer = ({
 		const accountDropdownWindow = document.querySelectorAll('#select-dropdown-window-' + currentValue);
 		setIsOpen(!isOpen);
 
-		if (accountDropdownWindow[0].style.display === 'none') {
+		if (accountDropdownWindow[0]?.style.display === 'none') {
 			window.addEventListener('click', windowClicker);
 		} else {
 			window.removeEventListener('click', windowClicker);
 		}
 	};
+
+	console.log(changeValue);
 
 	return (
 		<div className={className}>
@@ -43,7 +45,7 @@ const SelectContainer = ({
 				className="custom-select-current-value"
 				onClick={onDropdownHandler}
 			>
-				{changeValue}
+				{changeValue[value]}
 			</div>
 
 			<div
@@ -56,9 +58,10 @@ const SelectContainer = ({
 						<div
 							key={item.id}
 							className="custom-select-option"
-							style={{ color: changeValue === item[value] && 'white' }}
+							style={{ color: changeValue[value] === item[value] && 'white' }}
 							onClick={() => {
-								setChangeValue(item[value]);
+								setChangeValue(item);
+								setIsOpen(false);
 							}}
 						>
 							{item[value]}
@@ -81,6 +84,7 @@ export const Select = styled(SelectContainer)`
 		padding: 5px;
 		border-radius: 5px;
 		width: 150px;
+		box-shadow: 0 0 10px 2px #141414;
 	}
 	.custom-select-option {
 		color: #a2a2a2;

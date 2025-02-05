@@ -33,7 +33,7 @@ class UsersController {
 				password: hashPassword,
 				role_id: userRole.id,
 			});
-			console.log(dataValues);
+
 			const token = generateJwt(
 				dataValues.id,
 				dataValues.email,

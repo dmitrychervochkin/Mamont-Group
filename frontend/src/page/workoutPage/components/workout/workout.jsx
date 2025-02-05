@@ -128,16 +128,20 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 					text: 'Сохранить шаблон?',
 					isConfirm: true,
 					onConfirm: () => {
-						server.savePattern(
-							userWorkout,
-							userId,
-							userExercises,
-							userWorkoutExercises,
-						);
-						setIsSave(true);
-						dispatch(finishWorkout());
-						dispatch(stopWorkout());
-						dispatch(closeModal());
+						server
+							.savePattern(userWorkout, userId, userExercises, userWorkoutExercises)
+							.then(({ error }) => {
+								if (!error) {
+									setIsSave(true);
+									dispatch(finishWorkout());
+									dispatch(stopWorkout());
+								}
+								dispatch(setError(error));
+								setTimeout(() => {
+									dispatch(resetError());
+								}, [5000]);
+							});
+							dispatch(closeModal());
 					},
 					onCancel: () => dispatch(closeModal()),
 				}),

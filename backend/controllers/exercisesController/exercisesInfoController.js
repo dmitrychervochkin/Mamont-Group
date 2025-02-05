@@ -10,7 +10,7 @@ class ExercisesInfoController {
 		try {
 			let { type, exerciseId, discription } = req.body;
 			let fileName;
-			console.log(type, exerciseId, discription);
+
 			const exerciseInfoImg = await ExerciseInfo.findAll({
 				where: { type: TYPE.IMAGE, exercise_id: exerciseId },
 			});
