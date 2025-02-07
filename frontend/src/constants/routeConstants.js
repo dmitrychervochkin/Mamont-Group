@@ -4,7 +4,8 @@ export const ROUTE = {
 	HISTORY: '/workout/history',
 	ADMIN: '/admin',
 	LOGIN: '/login',
-	REGISTRATION: '/registration',
+	REGISTRATION: '/register',
+	RESET: '/reset',
 	MUSIC: '/music',
 	COMMUNITY: '/community',
 };

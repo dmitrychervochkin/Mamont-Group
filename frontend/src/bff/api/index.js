@@ -2,6 +2,7 @@ export * from './user/add-user';
 export * from './user/get-user';
 export * from './user/get-users';
 export * from './user/delete-user';
+export * from './user/update-password';
 export * from './user/update-user';
 export * from './user/check-user';
 export * from './types/get-types';

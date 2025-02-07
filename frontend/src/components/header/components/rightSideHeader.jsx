@@ -17,8 +17,9 @@ import { useCallback, useEffect, useState } from 'react';
 const RightSideHeaderContainer = ({ className, userId }) => {
 	const userLogin = useSelector(selectUserLogin);
 	const roleId = useSelector(selectRoleId);
-	const matchLogin = useMatch('/login');
-	const matchRegistration = useMatch('/registration');
+	const matchLogin = useMatch(ROUTE.LOGIN);
+	const matchReset = useMatch(ROUTE.RESET);
+	const matchRegistration = useMatch(ROUTE.REGISTRATION);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [dropdownDisplay, setDropdownDisplay] = useState(false);
@@ -131,7 +132,7 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 				</div>
 			) : (
 				<div className="header-right-side">
-					{!matchLogin && !matchRegistration && (
+					{!matchLogin && !matchRegistration && !matchReset && (
 						<Link to={ROUTE.LOGIN}>
 							<Button width="250px">Войти в аккаунт</Button>
 						</Link>

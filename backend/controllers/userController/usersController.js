@@ -138,6 +138,38 @@ class UsersController {
 
 		return res.json(type);
 	}
+	async updatePassword(req, res, next) {
+		const { login, email, password } = req.body;
+		const data = await Users.findOne({
+			where: { email, login },
+		});
+
+		if (!data) {
+			return next(ApiError.badRequest('Пользователь не найден!'));
+		}
+		const options = { where: { email }, returning: true };
+		const [count, user] = await Users.update(password, options);
+
+		console.log(user)
+
+		// const { dataValues } = data;
+
+		// let comparePassword = bcrypt.compareSync(password, dataValues.password);
+
+		// if (!comparePassword) {
+		// 	return next(ApiError.badRequest('Указан неверный пароль!'));
+		// }
+
+		// const token = generateJwt(
+		// 	dataValues.id,
+		// 	dataValues.email,
+		// 	dataValues.role_id,
+		// 	dataValues.login,
+		// 	dataValues.created_at,
+		// );
+
+		return res.json({ token });
+	}
 }
 
 module.exports = new UsersController();

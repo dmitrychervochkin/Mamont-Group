@@ -11,6 +11,7 @@ router.get('/auth', authMiddleWare, usersController.check);
 router.get('/', usersController.getAll);
 router.get('/:id', usersController.getOne);
 router.patch('/:id', usersController.update);
+router.patch('/update_password', usersController.updatePassword);
 router.delete('/:id', checkRole(ROLE.ADMIN), usersController.delete);
 
 module.exports = router;

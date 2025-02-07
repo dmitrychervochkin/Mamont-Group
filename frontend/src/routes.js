@@ -1,5 +1,5 @@
 import { ROUTE } from './constants/routeConstants';
-import { Authorization, HomePage, AdminPage, MusicPage, CommunityPage, WorkoutPage } from './page';
+import { Authorization, HomePage, AdminPage, MusicPage, CommunityPage, WorkoutPage, AuthForm } from './page';
 
 export const authRoutes = [
 	{
@@ -27,11 +27,15 @@ export const authRoutes = [
 export const publicRoutes = [
 	{
 		path: ROUTE.LOGIN,
-		component: <Authorization />,
+		component: <AuthForm type="login" />,
 	},
 	{
 		path: ROUTE.REGISTRATION,
-		component: <Authorization />,
+		component: <AuthForm type="register" />,
+	},
+	{
+		path: ROUTE.RESET,
+		component: <AuthForm type="reset" />,
 	},
 	{
 		path: ROUTE.HOMEPAGE,

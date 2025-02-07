@@ -1,6 +1,7 @@
 export * from './register';
 export * from './authorize';
 export * from './check';
+export * from './update-password';
 export * from './save-role';
 export * from './save-type';
 export * from './save-user';
