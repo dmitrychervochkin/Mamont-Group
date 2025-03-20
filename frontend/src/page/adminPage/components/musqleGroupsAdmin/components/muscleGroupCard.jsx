@@ -6,22 +6,21 @@ import { server } from '../../../../../bff';
 import { useDispatch } from 'react-redux';
 import { closeModal, openModal } from '../../../../../reducers';
 
-const TypeCardContainer = ({ className, id, name, isDelete, setIsDelete }) => {
+const MuscleGroupCardContainer = ({ className, id, name, isDelete, setIsDelete }) => {
 	const [isEditing, setIsEditing] = useState(false);
-
-	const [editingType, setEditingType] = useState(name);
+	const [editingMuscleGroup, setEditingMuscleGroup] = useState(name);
 	const dispatch = useDispatch();
 
-	const onTypeChange = (target) => {
-		setEditingType(target.value);
+	const onMuscleGroupChange = (target) => {
+		setEditingMuscleGroup(target.value);
 	};
-	const onTypeRemove = (id) => {
+	const onMuscleGroupRemove = (id) => {
 		dispatch(
 			openModal({
 				text: 'Удалить из списка мышечных групп?',
 				isConfirm: true,
 				onConfirm: () => {
-					server.removeType(id).then(({ error, res }) => {
+					server.removeMuscleGroup(id).then(({ error, res }) => {
 						setIsDelete(false);
 					});
 					dispatch(closeModal());
@@ -33,9 +32,9 @@ const TypeCardContainer = ({ className, id, name, isDelete, setIsDelete }) => {
 		setIsDelete(false);
 	};
 
-	const onTypeSave = (editingType) => {
+	const onMuscleGroupSave = (editingType) => {
 		if (name !== editingType) {
-			server.saveType({ id, name: editingType }).then(({ error, res }) => {});
+			server.saveMuscleGroup({ id, name: editingMuscleGroup }).then(({ error, res }) => {});
 		}
 		setIsEditing(false);
 	};
@@ -55,18 +54,18 @@ const TypeCardContainer = ({ className, id, name, isDelete, setIsDelete }) => {
 								padding="0 0 0 10px"
 								width="100%"
 								placeholder="Наименование..."
-								value={editingType}
-								onChange={({ target }) => onTypeChange(target)}
+								value={editingMuscleGroup}
+								onChange={({ target }) => onMuscleGroupChange(target)}
 							/>
 						) : (
-							<span style={{ opacity: '0.7' }}>{editingType || name}</span>
+							<span style={{ opacity: '0.7' }}>{editingMuscleGroup || name}</span>
 						)}
 					</Heading>
 				</div>
 
 				<div className="type-icons">
 					{isEditing ? (
-						<Icon height="23px" name={ICON.SAVE} onClick={() => onTypeSave(editingType)} />
+						<Icon height="23px" name={ICON.SAVE} onClick={() => onMuscleGroupSave(editingMuscleGroup)} />
 					) : (
 						<Icon
 							height="23px"
@@ -81,14 +80,14 @@ const TypeCardContainer = ({ className, id, name, isDelete, setIsDelete }) => {
 							}}
 						/>
 					)}
-					<Icon height="23px" name={ICON.DELETE} onClick={() => onTypeRemove(id)} />
+					<Icon height="23px" name={ICON.DELETE} onClick={() => onMuscleGroupRemove(id)} />
 				</div>
 			</div>
 		</>
 	);
 };
 
-export const TypeCard = styled(TypeCardContainer)`
+export const MuscleGroupCard = styled(MuscleGroupCardContainer)`
 	display: flex;
 	border-bottom: 1px solid #393939;
 	padding: 20px 0px;

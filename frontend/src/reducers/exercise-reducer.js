@@ -4,9 +4,9 @@ const initialState = {
 	exercise: {
 		id: '',
 		name: '',
-		discription: '',
+		description: '',
 		userId: '',
-		typeId: '',
+		muscleGroupId: '',
 	},
 	exerciseInfo: [],
 };
@@ -19,7 +19,7 @@ export const exerciseSlice = createSlice({
 			return { ...state, exercise: { ...action.payload } };
 		},
 		setExerciseInfo: (state, action) => {
-			return { ...state, exerciseInfo: [ ...action.payload ] };
+			return { ...state, exerciseInfo: [...action.payload] };
 		},
 		resetExercise: (state, action) => {
 			return initialState;

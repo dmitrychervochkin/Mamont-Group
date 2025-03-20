@@ -57,7 +57,6 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 	};
 
 	const onFinishWorkout = () => {
-		console.log(userExercises);
 		let zeroWeight = userWorkoutExercises.find((item) => item.weight === '');
 		let zeroReps = userWorkoutExercises.find((item) => item.reps === '');
 		if (zeroWeight || zeroReps) {
@@ -102,8 +101,8 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 		}
 	};
 
-	const onPatternDiscriptionChange = (e) => {
-		dispatch(setUserWorkout({ ...userWorkout, discription: e.target.value }));
+	const onPatterndescriptionChange = (e) => {
+		dispatch(setUserWorkout({ ...userWorkout, description: e.target.value }));
 	};
 
 	const onTimerClicked = () => {
@@ -135,8 +134,8 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 					<Input
 						style={{ backgroundColor: !workoutPage && '#222222' }}
 						placeholder="Описание упражнения..."
-						value={userWorkout?.discription}
-						onChange={onPatternDiscriptionChange}
+						value={userWorkout?.description}
+						onChange={onPatterndescriptionChange}
 					/>
 				</div>
 			) : (

@@ -22,7 +22,7 @@ import {
 import { useEffect, useState } from 'react';
 import { server } from '../../../../bff';
 
-const WorkoutCardContainer = ({ className, exercises, id, name, discription, userId, setIsDelete }) => {
+const WorkoutCardContainer = ({ className, exercises, id, name, description, userId, setIsDelete }) => {
 	const [workoutExercises, setWorkoutExercises] = useState([]);
 	const [userExercisesState, setUserExercisesState] = useState([]);
 	const [currentExercises, setCurrentExercises] = useState([]);
@@ -67,7 +67,7 @@ const WorkoutCardContainer = ({ className, exercises, id, name, discription, use
 	};
 
 	const onWorkoutCardHandler = () => {
-		dispatch(setUserWorkout({ id, name, discription, userId }));
+		dispatch(setUserWorkout({ id, name, description, userId }));
 		dispatch(setUserWorkoutExercises(findLastSet(workoutExercises, id)));
 
 		dispatch(
@@ -86,7 +86,6 @@ const WorkoutCardContainer = ({ className, exercises, id, name, discription, use
 	};
 
 	const onRemovePattern = (patternId) => {
-		console.log(patternId);
 		dispatch(
 			openModal({
 				isConfirm: true,
@@ -102,7 +101,7 @@ const WorkoutCardContainer = ({ className, exercises, id, name, discription, use
 	};
 
 	const onEditPattern = () => {
-		dispatch(setUserWorkout({ id, name, discription }));
+		dispatch(setUserWorkout({ id, name, description }));
 		dispatch(setUserExercises([...userExercisesState]));
 		dispatch(setUserWorkoutExercises([...workoutExercises]));
 		dispatch(addPattern());

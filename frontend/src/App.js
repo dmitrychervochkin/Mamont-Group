@@ -22,31 +22,24 @@ const AppContainer = ({ className }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		server
-			.check()
-			.then(() => {
-				const currentUserDataJSON = localStorage.getItem('token');
-				console.log(currentUserDataJSON);
+		const fetchUserData = async () => {
+			try {
+				await server.check();
 
+				const currentUserDataJSON = localStorage.getItem('token');
 				if (!currentUserDataJSON) {
 					dispatch(userLogout());
 					return;
 				}
 
 				const currentUserData = jwtDecode(JSON.parse(currentUserDataJSON));
-
-				dispatch(
-					setUser({
-						...currentUserData,
-					}),
-				);
-			})
-			.catch((err) => {
-				dispatch(setError(err.toString()));
-				setTimeout(() => {
-					dispatch(resetError());
-				}, [10000]);
-			});
+				dispatch(setUser({ ...currentUserData }));
+			} catch (err) {
+				dispatch(setError('Ошибка при получении данных' || err.message));
+				setTimeout(() => dispatch(resetError()), 10000);
+			}
+		};
+		fetchUserData();
 	}, [dispatch]);
 
 	return (
@@ -67,7 +60,6 @@ export const App = styled(AppContainer)`
 	margin-top: 100px;
 `;
 
-
 // 1600 пикселей — для компьютеров;
-// 960 пикселей — для планшетов; 
-// 375 пикселей — для телефонов. 
+// 960 пикселей — для планшетов;
+// 375 пикселей — для телефонов.

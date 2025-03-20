@@ -5,7 +5,7 @@ import { ICON, TYPE } from '../../../../../constants';
 import { findItem } from '../../../../../utils';
 import { Icon } from '../../../../icon/icon';
 
-const WorkoutPreviewExerciseCardContainer = ({ className, item, exercises, types }) => {
+const WorkoutPreviewExerciseCardContainer = ({ className, item, exercises, muscleGroups }) => {
 	const [exerciseInfo, setExerciseInfo] = useState([]);
 	const [isShowDropdown, setIsShowDropdown] = useState(false);
 	const exercise = findItem(exercises.rows, item.exerciseId || item[0].exerciseId);
@@ -17,24 +17,24 @@ const WorkoutPreviewExerciseCardContainer = ({ className, item, exercises, types
 				setExerciseInfo(res);
 			});
 	}, []);
-	console.log(exerciseInfo);
+
 	return (
 		<div className={className}>
 			<img
 				className="workout-preview-img"
 				src={
-					exerciseInfo[0]?.discription &&
+					exerciseInfo[0]?.description &&
 					process.env.REACT_APP_API_URL +
-						exerciseInfo?.find((item) => item.type === TYPE.IMAGE)?.discription
+						exerciseInfo?.find((item) => item.type === TYPE.IMAGE)?.description
 				}
 			/>
-			<div className="workout-card-discription">
+			<div className="workout-card-description">
 				<div style={{ display: 'flex' }}>
 					<div>{item.length || 1}</div>
 					<span style={{ margin: '0 10px' }}> x </span>
 					<div>{exercise?.name}</div>
 				</div>
-				<div style={{ color: '#a2a2a2' }}>{findItem(types, exercise?.typeId)?.name}</div>
+				<div style={{ color: '#a2a2a2' }}>{findItem(muscleGroups, exercise?.muscleGroupId)?.name}</div>
 			</div>
 			<Icon
 				className="workout-preview-info-btn"
@@ -46,26 +46,26 @@ const WorkoutPreviewExerciseCardContainer = ({ className, item, exercises, types
 				<div style={{ margin: '10px 0', fontSize: '18px' }}>{exercise?.name}</div>
 				<div style={{ display: 'flex', justifyContent: 'center' }}>
 					{exerciseInfo.map(
-						({ id, discription, type }) =>
+						({ id, description, type }) =>
 							type === TYPE.IMAGE && (
 								<img
 									key={id}
 									className="workout-preview-info-img"
-									src={process.env.REACT_APP_API_URL + discription}
+									src={process.env.REACT_APP_API_URL + description}
 								/>
 							),
 					)}
 				</div>
-				{exercise?.discription && (
-					<div className="workout-preview-exercise-info-discription">{exercise?.discription}</div>
+				{exercise?.description && (
+					<div className="workout-preview-exercise-info-description">{exercise?.description}</div>
 				)}
 
 				<ol style={{ color: '#a2a2a2', textAlign: 'left' }}>
 					{exerciseInfo.map(
-						({ id, discription, type }) =>
+						({ id, description, type }) =>
 							type === TYPE.TEXT && (
 								<li className="workout-preview-instruction-item" key={id}>
-									{discription}
+									{description}
 								</li>
 							),
 					)}
@@ -90,7 +90,7 @@ export const WorkoutPreviewExerciseCard = styled(WorkoutPreviewExerciseCardConta
 		height: 50px;
 		width: 50px;
 	}
-	.workout-card-discription {
+	.workout-card-description {
 		width: 150px;
 		height: 50px;
 		display: flex;
@@ -121,7 +121,7 @@ export const WorkoutPreviewExerciseCard = styled(WorkoutPreviewExerciseCardConta
 		margin: 10px 5px;
 		border-radius: 10px;
 	}
-	.workout-preview-exercise-info-discription {
+	.workout-preview-exercise-info-description {
 		font-size: 15px;
 		padding: 10px 0;
 		background-color: #39393970;

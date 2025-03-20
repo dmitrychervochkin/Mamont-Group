@@ -5,10 +5,10 @@ export const saveExerciseInfo = async (newExerciseInfoData) => {
 
 	formInfoData.append('type', newExerciseInfoData.type);
 	formInfoData.append('exerciseId', newExerciseInfoData.exerciseId);
-	if (typeof newExerciseInfoData.discription === 'object') {
-		formInfoData.append('img', newExerciseInfoData.discription);
+	if (typeof newExerciseInfoData.description === 'object') {
+		formInfoData.append('img', newExerciseInfoData.description);
 	} else {
-		formInfoData.append('discription', newExerciseInfoData.discription);
+		formInfoData.append('description', newExerciseInfoData.description);
 	}
 	if (newExerciseInfoData.oldImg) {
 		formInfoData.append('oldImg', newExerciseInfoData.oldImg);

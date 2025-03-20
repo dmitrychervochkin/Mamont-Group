@@ -17,8 +17,6 @@ export const createMonth = (params) => {
 			days[i] = getDay(i + 1);
 		}
 
-		// console.log(days);
-
 		return days;
 	};
 

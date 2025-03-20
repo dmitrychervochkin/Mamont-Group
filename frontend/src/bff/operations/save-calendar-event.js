@@ -8,8 +8,6 @@ export const saveCalendarEvent = async (newCalendarEventData, newCalendarTypeDat
 	let savedCalendarEvent;
 	let savedCalendarTypeEvent;
 
-	console.log(newCalendarTypeData);
-
 	if (newCalendarEventData.id === undefined || newCalendarEventData.id === '') {
 		savedCalendarEvent = await addCalendarEvent(newCalendarEventData, userToken);
 		savedCalendarTypeEvent = Promise.all(

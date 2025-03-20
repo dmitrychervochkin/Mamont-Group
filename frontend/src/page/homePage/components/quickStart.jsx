@@ -17,7 +17,7 @@ const QuickStartContainer = ({ className }) => {
 		<div className={className}>
 			<div className="quick-start-left-side">
 				<Heading className="info-title">Быстрый старт</Heading>
-				<p className="info-discription">
+				<p className="info-description">
 					Если у вас нет опыта в индивидуальных тренировках, рекомендуем оформить платную подписку
 					для достижения ваших целей!
 				</p>
@@ -43,7 +43,7 @@ export const QuickStart = styled(QuickStartContainer)`
 		margin-top: 10px;
 	}
 
-	.info-discription {
+	.info-description {
 		margin: 0 0 15px 0;
 
 		font-weight: 200;

@@ -3,15 +3,16 @@ import { AccessError, Heading, Icon, Loader, Search } from '../../components';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { ICON, ROLE, ROUTE } from '../../constants';
 import { useEffect, useState } from 'react';
-import { AdminPageHeader, UsersLeftSide, RolesLeftSide, TypesRightSide } from './components';
+import { AdminPageHeader, UsersLeftSide, RolesLeftSide, MuscleGroupsAdmin } from './components';
 import { useSelector } from 'react-redux';
 import { selectRoleId, selectUserId } from '../../reducers';
 import { server } from '../../bff';
 import { ExercisesRightSide } from './components/exercisesAdmin/exercisesAdmin';
 import { TariffsRightSide } from './components/tariffsRightSide/tariffsRightSide';
+import { MuscleGroupCard } from './components/musqleGroupsAdmin/components/muscleGroupCard';
 
 const AdminPageContainer = ({ className }) => {
-	const [leftSide, setLeftSide] = useState('types');
+	const [leftSide, setLeftSide] = useState('muscleGroups');
 	const [rightSide, setRightSide] = useState('users');
 
 	return (
@@ -24,7 +25,7 @@ const AdminPageContainer = ({ className }) => {
 			/>
 			<div className="admin-page-container">
 				<div className="left-side-admin-page">
-					{leftSide === 'types' && <TypesRightSide />}
+					{leftSide === 'muscleGroups' && <MuscleGroupsAdmin />}
 					{leftSide === 'roles' && <RolesLeftSide />}
 				</div>
 				<div className="right-side-admin-page">

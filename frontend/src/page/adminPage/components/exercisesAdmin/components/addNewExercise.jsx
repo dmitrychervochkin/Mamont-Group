@@ -7,14 +7,14 @@ import { resetError, selectUserId, setError } from '../../../../../reducers';
 import { server } from '../../../../../bff';
 import { TYPE } from '../../../../../constants/infoTypesConstants';
 
-const AddNewExerciseContainer = ({ className, types, setIsSaveExercise, setIsAddNewExercise }) => {
+const AddNewExerciseContainer = ({ className, muscleGroups, setIsSaveExercise, setIsAddNewExercise }) => {
 	const [addedFile, setAddedFile] = useState(false);
 	const userId = useSelector(selectUserId);
 	const dispatch = useDispatch();
 
 	const [exerciseForAdd, setExerciseForAdd] = useState({
 		name: '',
-		typeId: types[0]?.id,
+		muscleGroupId: muscleGroups[0]?.id,
 		img: '',
 		userId: '',
 	});
@@ -32,13 +32,13 @@ const AddNewExerciseContainer = ({ className, types, setIsSaveExercise, setIsAdd
 	};
 
 	const onNewExerciseSave = () => {
-		if (exerciseForAdd.name !== '' && exerciseForAdd.typeId !== '' && exerciseForAdd.img !== '') {
+		if (exerciseForAdd.name !== '' && exerciseForAdd.muscleGroupId !== '' && exerciseForAdd.img !== '') {
 			server
 				.saveExercise({
 					name: exerciseForAdd.name,
-					typeId: exerciseForAdd.typeId,
+					muscleGroupId: exerciseForAdd.muscleGroupId,
 					userId: userId,
-					discription: '',
+					description: '',
 				})
 				.then(({ res }) => {
 					server.saveExerciseInfo({
@@ -56,10 +56,10 @@ const AddNewExerciseContainer = ({ className, types, setIsSaveExercise, setIsAdd
 			}, [5000]);
 		}
 	};
-	const onTypeChange = (target) => {
-		for (let type in types) {
-			if (types[type].name === target.value) {
-				setExerciseForAdd({ ...exerciseForAdd, typeId: types[type].id });
+	const onMuscleGroupChange = (target) => {
+		for (let type in muscleGroups) {
+			if (muscleGroups[type].name === target.value) {
+				setExerciseForAdd({ ...exerciseForAdd, muscleGroupId: muscleGroups[type].id });
 			}
 		}
 	};
@@ -100,9 +100,9 @@ const AddNewExerciseContainer = ({ className, types, setIsSaveExercise, setIsAdd
 					<label style={{ opacity: '0.6' }}>Мышечная группа:</label>
 					<select
 						className="add-exercise-type-selector"
-						onChange={({ target }) => onTypeChange(target)}
+						onChange={({ target }) => onMuscleGroupChange(target)}
 					>
-						{types.map(({ id, name }) => (
+						{muscleGroups.map(({ id, name }) => (
 							<option key={id} id={id}>
 								{name}
 							</option>

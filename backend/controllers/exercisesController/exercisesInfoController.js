@@ -8,119 +8,147 @@ const TYPE = require('../../constants/TYPE');
 class ExercisesInfoController {
 	async create(req, res, next) {
 		try {
-			let { type, exerciseId, discription } = req.body;
+			let { type, exerciseId, description } = req.body;
 			let fileName;
 
-			const exerciseInfoImg = await ExerciseInfo.findAll({
+			if (!exerciseId || !type) {
+				return next(ApiError.badRequest('exerciseId и type обязательны'));
+			}
+
+			const existingImages = await ExerciseInfo.findAll({
 				where: { type: TYPE.IMAGE, exercise_id: exerciseId },
 			});
 
-			if (!discription) {
-				if (exerciseInfoImg.length >= 3) {
+			if (!description) {
+				if (existingImages.length >= 3) {
 					return next(ApiError.badRequest('Превышен лимит "IMAGE" для упражнения'));
 				}
+
+				if (!req.files?.img) {
+					return next(ApiError.badRequest('Файл не загружен'));
+				}
+
 				const { img } = req.files;
 				fileName = uuid.v4() + '.jpg';
 				img.mv(path.resolve(__dirname, '..', '..', 'static', fileName));
 			} else {
-				fileName = discription;
+				fileName = description;
 			}
-
-			// const searchtExercises = await ExerciseInfo.findOne({
-			// 	where: { name, user_id: userId },
-			// });
-
-			// console.log(searchtExercises);
-
-			// if (!searchtExercises) {
-			// }
 
 			const exerciseInfo = await ExerciseInfo.create({
 				exercise_id: exerciseId,
-				type: type,
-				discription: fileName,
+				type,
+				description: fileName,
 			});
 
 			return res.json(exerciseInfo);
 		} catch (err) {
-			return next(ApiError.badRequest(err.message));
+			next(ApiError.badRequest('Ошибка при создании: ' + err.message));
 		}
 	}
-	async getAll(req, res) {
-		let { exercise_id, type } = req.query;
 
-		let exerciseInfo;
+	async getAll(req, res, next) {
+		try {
+			const { exercise_id, type } = req.query;
+			const whereClause = {};
 
-		if (!exercise_id) {
-			exerciseInfo = await ExerciseInfo.findAll();
+			if (exercise_id) whereClause.exercise_id = exercise_id;
+			if (type) whereClause.type = type;
+
+			const exerciseInfo = await ExerciseInfo.findAll({ where: whereClause });
+
+			return res.json(exerciseInfo);
+		} catch (error) {
+			next(ApiError.internal('Ошибка при получении списка'));
 		}
-		if (exercise_id) {
-			exerciseInfo = await ExerciseInfo.findAll({ where: { exercise_id } });
-		}
-		// if (type && !exercise_id) {
-		// 	exerciseInfo = await ExerciseInfo.findAll({ where: { type } });
-		// }
-		// if (type && exercise_id) {
-		// 	exerciseInfo = await ExerciseInfo.findAll({ where: { type, exercise_id } });
-		// }
-		return res.json(exerciseInfo);
 	}
-	async getOne(req, res) {
-		const { id } = req.params;
-		const exerciseInfo = await ExerciseInfo.findOne({
-			where: { id: { id } },
-			// include: [{ model: ExerciseInfo, as: 'info' }],
-		});
-		return res.json(exerciseInfo);
-	}
-	async delete(req, res) {
-		const { id } = req.params;
-		const exerciseInfo = await ExerciseInfo.findOne({
-			where: { id },
-		});
-		console.log(exerciseInfo);
-		if (fs.existsSync(path.resolve(__dirname, '..', '..', 'static') + '/' + exerciseInfo.discription)) {
-			fs.unlinkSync(path.resolve(__dirname, '..', '..', 'static') + '/' + exerciseInfo.discription);
-		}
 
-		const exerciseToDelete = await ExerciseInfo.destroy({
-			where: { id },
-		});
+	async getOne(req, res, next) {
+		try {
+			const { id } = req.params;
+			if (!id) {
+				return next(ApiError.badRequest('ID обязателен'));
+			}
 
-		return res.json(true);
+			const exerciseInfo = await ExerciseInfo.findOne({ where: { id } });
+
+			if (!exerciseInfo) {
+				return next(ApiError.notFound('Информация об упражнении не найдена'));
+			}
+
+			return res.json(exerciseInfo);
+		} catch (error) {
+			next(ApiError.internal('Ошибка при получении информации'));
+		}
 	}
+
+	async delete(req, res, next) {
+		try {
+			const { id } = req.params;
+			if (!id) {
+				return next(ApiError.badRequest('ID обязателен'));
+			}
+
+			const exerciseInfo = await ExerciseInfo.findOne({ where: { id } });
+
+			if (!exerciseInfo) {
+				return next(ApiError.notFound('Информация об упражнении не найдена'));
+			}
+
+			const filePath = path.resolve(__dirname, '..', '..', 'static', exerciseInfo.description);
+			if (fs.existsSync(filePath)) {
+				fs.unlinkSync(filePath);
+			}
+
+			await ExerciseInfo.destroy({ where: { id } });
+
+			return res.json({ message: 'Информация об упражнении удалена' });
+		} catch (error) {
+			next(ApiError.internal('Ошибка при удалении'));
+		}
+	}
+
 	async update(req, res, next) {
 		try {
 			const { id } = req.params;
-			const { discription, type: fileType, oldImg } = req.body;
-			let img;
-			let fileName;
+			const { description, type: fileType, oldImg } = req.body;
 
-			if (typeof discription === 'undefined') {
-				console.log(id, discription, fileType, oldImg, img);
-				img = req.files.img;
-				fileName = uuid.v4() + '.jpg';
-				if (oldImg !== undefined) {
-					fs.unlinkSync(path.resolve(__dirname, '..', '..', 'static') + '/' + oldImg);
-				}
-				img.mv(path.resolve(__dirname, '..', '..', 'static', fileName));
-			} else {
-				fileName = discription;
+			if (!id) {
+				return next(ApiError.badRequest('ID обязателен'));
 			}
 
-			// const searchtExercises = await Exercises.findOne({
-			// 	where: { name, user_id: userId },
-			// });
+			let fileName = description;
 
-			const options = { where: { id }, returning: true };
-			const [count, type] = await ExerciseInfo.update(
-				{ type: fileType, discription: fileName },
-				options,
+			if (!description) {
+				if (!req.files?.img) {
+					return next(ApiError.badRequest('Файл не загружен'));
+				}
+
+				const { img } = req.files;
+				fileName = uuid.v4() + '.jpg';
+
+				if (oldImg) {
+					const oldFilePath = path.resolve(__dirname, '..', '..', 'static', oldImg);
+					if (fs.existsSync(oldFilePath)) {
+						fs.unlinkSync(oldFilePath);
+					}
+				}
+
+				img.mv(path.resolve(__dirname, '..', '..', 'static', fileName));
+			}
+
+			const [count, updatedRows] = await ExerciseInfo.update(
+				{ type: fileType, description: fileName },
+				{ where: { id }, returning: true },
 			);
 
-			return res.json(type);
+			if (count === 0) {
+				return next(ApiError.notFound('Информация об упражнении не найдена'));
+			}
+
+			return res.json(updatedRows[0]);
 		} catch (err) {
-			return next(ApiError.badRequest(err.message));
+			next(ApiError.badRequest('Ошибка при обновлении: ' + err.message));
 		}
 	}
 }

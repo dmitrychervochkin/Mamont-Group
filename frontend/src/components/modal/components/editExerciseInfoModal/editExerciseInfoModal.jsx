@@ -30,8 +30,6 @@ const EditExerciseInfoModalContainer = ({ className, text, onConfirm, onCancel }
 	const exerciseState = useSelector(selectExercise);
 	let exerciseInfoState = useSelector(selectExerciseInfo);
 
-	console.log(exerciseInfoState);
-
 	let exerciseInfoImg = exerciseInfoState.filter((item) => item.type === TYPE.IMAGE);
 
 	useEffect(() => {
@@ -49,7 +47,7 @@ const EditExerciseInfoModalContainer = ({ className, text, onConfirm, onCancel }
 			typeof item.id === 'string'
 				? server
 						.saveExerciseInfo({
-							discription: item.type === TYPE.IMAGE ? item.img : item.discription,
+							description: item.type === TYPE.IMAGE ? item.img : item.description,
 							exerciseId: item.exerciseId,
 							type: item.type,
 						})
@@ -58,7 +56,7 @@ const EditExerciseInfoModalContainer = ({ className, text, onConfirm, onCancel }
 		);
 
 		server
-			.saveExercise({ ...exerciseState, discription: exerciseState.discription })
+			.saveExercise({ ...exerciseState, description: exerciseState.description })
 			.then(() => setIsEditExerciseInfo(false));
 
 		onConfirm();

@@ -1,5 +1,5 @@
 const Router = require('express');
-const workoutExercisesController = require('../controllers/workoutExercisesController');
+const workoutExercisesController = require('../controllers/workoutController/workoutExercisesController');
 const checkRole = require('../middleware/checkRoleMiddleware');
 
 const router = new Router();

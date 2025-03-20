@@ -5,7 +5,7 @@ import {
 	exerciseReducer,
 	exercisesReducer,
 	modalReducer,
-	typesReducer,
+	muscleGroupsReducer,
 	userReducer,
 	workoutReducer,
 } from './reducers';
@@ -17,7 +17,7 @@ export const store = configureStore({
 		workout: workoutReducer,
 		exercise: exerciseReducer,
 		exercises: exercisesReducer,
-		types: typesReducer,
+		muscleGroups: muscleGroupsReducer,
 		modal: modalReducer,
 	},
 	middleware: (getDefaultMiddleware) =>

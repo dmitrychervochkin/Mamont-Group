@@ -9,7 +9,7 @@ export const addUserExercises = (userExercisesData, workoutId, token) =>
 			exerciseId: userExercisesData.exerciseId,
 			workoutId: workoutId,
 			name: userExercisesData.name,
-			typeId: userExercisesData.typeId,
+			muscleGroupId: userExercisesData.muscleGroupId,
 			superSet: userExercisesData.superSet,
 		}),
 	}).then((loadedUserExercises) => loadedUserExercises.json());

@@ -35,8 +35,6 @@ const SelectContainer = ({
 		}
 	};
 
-	console.log(changeValue);
-
 	return (
 		<div className={className}>
 			<div

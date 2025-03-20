@@ -7,113 +7,137 @@ const { Exercises, ExerciseInfo } = require('../../models/models');
 class ExercisesController {
 	async create(req, res, next) {
 		try {
-			let { name, typeId, userId, discription } = req.body;
-			// const { img } = req.files;
-			// let fileName = uuid.v4() + '.jpg';
+			let { name, muscleGroupId, userId, description } = req.body;
+			// const { img } = req.files; // Раскомментируй, если используешь загрузку файлов
+			// let fileName = uuid.v4() + ".jpg";
 
-			const searchtExercises = await Exercises.findOne({
+			if (!name || !userId) {
+				return next(ApiError.badRequest('Имя и userId обязательны'));
+			}
+
+			const existingExercise = await Exercises.findOne({
 				where: { name, user_id: userId },
 			});
 
-			// if (!searchtExercises) {
-			// 	img.mv(path.resolve(__dirname, '..', 'static', fileName));
+			// if (!existingExercise && img) {
+			// 	img.mv(path.resolve(__dirname, "..", "static", fileName));
 			// }
 
 			const exercise =
-				searchtExercises?.dataValues?.user_id == userId
-					? searchtExercises.dataValues
+				existingExercise?.user_id === userId
+					? existingExercise
 					: await Exercises.create({
 							name,
-							type_id: typeId,
+							muscle_group_id: muscleGroupId,
 							user_id: userId,
-							discription,
+							description,
 					  });
-
-			// if (info) {
-			// 	info = JSON.parse(info);
-			// 	info.forEach((i) =>
-			// 		ExerciseInfo.create({
-			// 			exerciseId: exercise.id,
-			// 			recommendation: i.recommendation,
-			// 			description: i.description,
-			// 		}),
-			// 	);
-			// }
 
 			return res.json(exercise);
 		} catch (err) {
-			next(ApiError.badRequest(err.message));
+			next(ApiError.badRequest('Ошибка при создании упражнения: ' + err.message));
 		}
 	}
-	async getAll(req, res) {
-		let { type_id, userId, limit, page } = req.query;
-		page = page || 1;
-		limit = limit || 20;
-		let offset = page * limit - limit;
-		let exercises;
 
-		if (!type_id && !userId) {
-			exercises = await Exercises.findAndCountAll({ limit, offset });
+	async getAll(req, res, next) {
+		try {
+			let { muscle_group_id, user_id, limit, page } = req.query;
+			page = page || 1;
+			limit = limit || 20;
+			let offset = page * limit - limit;
+
+			let whereClause = {};
+			if (muscle_group_id) whereClause.muscle_group_id = muscle_group_id;
+			if (user_id) whereClause.user_id = user_id;
+
+			const exercises = await Exercises.findAndCountAll({
+				where: Object.keys(whereClause).length ? whereClause : undefined,
+				limit,
+				offset,
+			});
+			return res.json(exercises);
+		} catch (error) {
+			next(ApiError.internal('Ошибка при получении списка упражнений'));
 		}
-		if (!type_id && userId) {
-			exercises = await Exercises.findAndCountAll({ where: { userId }, limit, offset });
-		}
-		if (type_id && !userId) {
-			exercises = await Exercises.findAndCountAll({ where: { type_id }, limit, offset });
-		}
-		if (type_id && userId) {
-			exercises = await Exercises.findAndCountAll({ where: { type_id, userId }, limit, offset });
-		}
-		return res.json(exercises);
 	}
-	async getOne(req, res) {
-		const { id } = req.params;
-		const exercise = await Exercises.findOne({
-			where: { id: { id } },
-			// include: [{ model: ExerciseInfo, as: 'info' }],
-		});
-		return res.json(exercise);
+
+	async getOne(req, res, next) {
+		try {
+			const { id } = req.params;
+			if (!id) {
+				return next(ApiError.badRequest('ID обязателен'));
+			}
+
+			const exercise = await Exercises.findOne({
+				where: { id },
+				// include: [{ model: ExerciseInfo, as: "info" }],
+			});
+
+			if (!exercise) {
+				return next(ApiError.notFound('Упражнение не найдено'));
+			}
+
+			return res.json(exercise);
+		} catch (error) {
+			next(ApiError.internal('Ошибка при получении упражнения'));
+		}
 	}
-	async delete(req, res) {
-		const { id } = req.params;
-		const exercise = await Exercises.findOne({
-			where: { id },
-		});
-		const exerciseInfo = await ExerciseInfo.findAll({
-			where: { exercise_id: id },
-		});
 
-		exerciseInfo.forEach((item) => {
-			if (item.type === 'IMAGE') {
-				fs.unlinkSync(path.resolve(__dirname, '..', '..', 'static') + '/' + item.discription);
-			} 
-		});
+	async delete(req, res, next) {
+		try {
+			const { id } = req.params;
+			if (!id) {
+				return next(ApiError.badRequest('ID обязателен'));
+			}
 
-		const exerciseInfoToDelete = await ExerciseInfo.destroy({
-			where: { exercise_id: id },
-		});
+			const exercise = await Exercises.findOne({ where: { id } });
+			if (!exercise) {
+				return next(ApiError.notFound('Упражнение не найдено'));
+			}
 
-		const exerciseToDelete = await Exercises.destroy({
-			where: { id },
-		});
+			const exerciseInfo = await ExerciseInfo.findAll({ where: { exercise_id: id } });
 
-		return res.json(exerciseInfoToDelete);
+			// Удаляем файлы, если они есть
+			exerciseInfo.forEach((item) => {
+				if (item.type === 'IMAGE' && item.description) {
+					const filePath = path.resolve(__dirname, '..', '..', 'static', item.description);
+					if (fs.existsSync(filePath)) {
+						fs.unlinkSync(filePath);
+					}
+				}
+			});
+
+			await ExerciseInfo.destroy({ where: { exercise_id: id } });
+			await Exercises.destroy({ where: { id } });
+
+			return res.json({ message: 'Упражнение успешно удалено' });
+		} catch (error) {
+			next(ApiError.internal('Ошибка при удалении упражнения'));
+		}
 	}
-	async update(req, res) {
-		const { id } = req.params;
-		const { name, typeId, discription } = req.body;
 
-		// const searchtExercises = await Exercises.findOne({
-		// 	where: { name, user_id: userId },
-		// });
+	async update(req, res, next) {
+		try {
+			const { id } = req.params;
+			const { name, muscleGroupId, description } = req.body;
 
-		const options = { where: { id }, returning: true };
-		const [count, type] = await Exercises.update(
-			{ name, type_id: typeId, discription: discription },
-			options,
-		);
+			if (!id) {
+				return next(ApiError.badRequest('ID обязателен'));
+			}
 
-		return res.json(type);
+			const [count, updatedRows] = await Exercises.update(
+				{ name, muscle_group_id: muscleGroupId, description },
+				{ where: { id }, returning: true },
+			);
+
+			if (count === 0) {
+				return next(ApiError.notFound('Упражнение не найдено'));
+			}
+
+			return res.json(updatedRows[0]);
+		} catch (error) {
+			next(ApiError.internal('Ошибка при обновлении упражнения'));
+		}
 	}
 }
 

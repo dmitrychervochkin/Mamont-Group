@@ -5,16 +5,13 @@ export const saveExercise = async (newExerciseData) => {
 	formData.append('id', newExerciseData.id);
 	formData.append('name', newExerciseData.name);
 	formData.append('userId', newExerciseData.userId);
-	formData.append('typeId', newExerciseData.typeId);
-	formData.append('discription', newExerciseData.discription);
-
-	console.log(newExerciseData)
+	formData.append('muscleGroupId', newExerciseData.muscleGroupId);
+	formData.append('description', newExerciseData.description);
 
 	const savedExercise =
 		newExerciseData.id === undefined
 			? await addExercise(formData)
 			: await updateExercise(newExerciseData.id, formData);
-			
 
 	return {
 		error: null,

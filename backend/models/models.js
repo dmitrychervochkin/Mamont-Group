@@ -20,9 +20,10 @@ const UserInfo = sequelize.define(
 	'user_info',
 	{
 		id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-		date: { type: DataTypes.DATE, allowNull: false },
-		weight: { type: DataTypes.INTEGER },
-		height: { type: DataTypes.INTEGER },
+		weight: { type: DataTypes.INTEGER, allowNull: true },
+		height: { type: DataTypes.INTEGER, allowNull: true },
+		age: { type: DataTypes.INTEGER, allowNull: true },
+		goal: { type: DataTypes.INTEGER, allowNull: true },
 	},
 	{
 		timestamps: false,
@@ -40,8 +41,8 @@ const Roles = sequelize.define(
 	},
 );
 
-const Types = sequelize.define(
-	'types',
+const MuscleGroups = sequelize.define(
+	'muscle_groups',
 	{
 		id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 		name: { type: DataTypes.STRING, unique: true, allowNull: false },
@@ -94,7 +95,8 @@ const Exercises = sequelize.define(
 	{
 		id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 		name: { type: DataTypes.STRING, allowNull: false },
-		discription: { type: DataTypes.STRING }, // allowNull: false
+		description: { type: DataTypes.STRING, allowNull: true },
+		equipment_needed: { type: DataTypes.STRING, allowNull: true },
 	},
 	{
 		timestamps: false,
@@ -105,7 +107,7 @@ const ExerciseInfo = sequelize.define(
 	'exercise_info',
 	{
 		id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-		discription: { type: DataTypes.STRING, allowNull: false },
+		description: { type: DataTypes.STRING, allowNull: false },
 		type: { type: DataTypes.STRING, allowNull: false },
 	},
 	{
@@ -118,7 +120,7 @@ const Patterns = sequelize.define(
 	{
 		id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 		name: { type: DataTypes.STRING, allowNull: false },
-		discription: { type: DataTypes.STRING, allowNull: true },
+		description: { type: DataTypes.STRING, allowNull: true },
 	},
 	{
 		timestamps: false,
@@ -129,8 +131,8 @@ const PatternWorkoutExercises = sequelize.define(
 	{
 		id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 		set: { type: DataTypes.INTEGER, allowNull: false },
-		reps: { type: DataTypes.INTEGER, allowNull: false },
-		weight: { type: DataTypes.INTEGER, allowNull: false },
+		reps: { type: DataTypes.INTEGER, allowNull: true },
+		weight: { type: DataTypes.INTEGER, allowNull: true },
 	},
 	{
 		timestamps: false,
@@ -222,17 +224,17 @@ Exercises.belongsTo(Users, { foreignKey: { name: 'user_id' } });
 Users.hasMany(CalendarEvents, { foreignKey: { name: 'user_id' } });
 CalendarEvents.belongsTo(Users, { foreignKey: { name: 'user_id' } });
 
-Types.hasMany(Exercises, { foreignKey: { name: 'type_id' } });
-Exercises.belongsTo(Types, { foreignKey: { name: 'type_id' } });
+MuscleGroups.hasMany(Exercises, { foreignKey: { name: 'muscle_group_id' } });
+Exercises.belongsTo(MuscleGroups, { foreignKey: { name: 'muscle_group_id' } });
 
-Types.hasMany(CalendarTypeEvents, { foreignKey: { name: 'type_id' } });
-CalendarTypeEvents.belongsTo(Types, { foreignKey: { name: 'type_id' } });
+MuscleGroups.hasMany(CalendarTypeEvents, { foreignKey: { name: 'muscle_group_id' } });
+CalendarTypeEvents.belongsTo(MuscleGroups, { foreignKey: { name: 'muscle_group_id' } });
 
-Types.hasMany(PatternExercises, { foreignKey: { name: 'type_id' } });
-PatternExercises.belongsTo(Types, { foreignKey: { name: 'type_id' } });
+MuscleGroups.hasMany(PatternExercises, { foreignKey: { name: 'muscle_group_id' } });
+PatternExercises.belongsTo(MuscleGroups, { foreignKey: { name: 'muscle_group_id' } });
 
-Types.hasMany(UserExercises, { foreignKey: { name: 'type_id' } });
-UserExercises.belongsTo(Types, { foreignKey: { name: 'type_id' } });
+MuscleGroups.hasMany(UserExercises, { foreignKey: { name: 'muscle_group_id' } });
+UserExercises.belongsTo(MuscleGroups, { foreignKey: { name: 'muscle_group_id' } });
 
 Patterns.hasMany(UserPattern, { foreignKey: { name: 'pattern_id' } });
 UserPattern.belongsTo(Patterns, { foreignKey: { name: 'pattern_id' } });
@@ -263,7 +265,7 @@ module.exports = {
 	UserInfo,
 	Workout,
 	WorkoutExercises,
-	Types,
+	MuscleGroups,
 	Roles,
 	Exercises,
 	ExerciseInfo,

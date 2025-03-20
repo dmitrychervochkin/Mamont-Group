@@ -1,5 +1,5 @@
-const ApiError = require('../error/ApiError');
-const { Workout, UserExercises, WorkoutExercises } = require('../models/models');
+const ApiError = require('../../error/ApiError');
+const { Workout, UserExercises, WorkoutExercises } = require('../../models/models');
 
 class WorkoutController {
 	async create(req, res, next) {

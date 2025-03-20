@@ -7,21 +7,21 @@ const playlistsLinks = [
 	{
 		id: 1,
 		title: 'Rock playlist',
-		discription:
+		description:
 			'«Лестница в небо». Прогрессивные рок-баллады, которые ассоциируются с энергией, зрелищностью и потоком эмоций.',
 		musicLink: 'https://music.yandex.ru/iframe/playlist/fdrcvv88/1002',
 	},
 	{
 		id: 2,
 		title: 'Metal playlist',
-		discription:
+		description:
 			'Внутри плейлиста ждёт множество часов лихорадочной, порой до жути странной и пугающей, но всегда захватывающей метал-музыки, способной либо влюбить в этот жанр, либо оставить глубокие шрамы на психике.',
 		musicLink: 'https://music.yandex.ru/iframe/album/34013179',
 	},
 	{
 		id: 3,
 		title: 'Phonk playlist',
-		discription:
+		description:
 			'Этот плейлист представляет новые и актуальные треки в жанре фонк, которые отражают разнообразие его вариантов: агрессивного, дрифтового, хаус-фонка и других. Композиции чередуют высокооктановые смеси с электроникой и мрачную атмосферу с рваным вокалом и искажёнными рифмами.',
 		musicLink: 'https://music.yandex.ru/iframe/album/34569356',
 	},
@@ -64,14 +64,14 @@ const MusicPageContainer = ({ className }) => {
 			</div>
 			<div className="music-page-main">
 				<div className="playlists">
-					{playlistsLinks.map(({ id, musicLink, title, discription }) => (
+					{playlistsLinks.map(({ id, musicLink, title, description }) => (
 						<MusicCard
 							key={id}
 							id={id}
 							musicLink={musicLink}
 							title={title}
 							isLoading={isLoading}
-							discription={discription}
+							description={description}
 						/>
 					))}
 				</div>

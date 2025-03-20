@@ -1,8 +1,7 @@
 const ApiError = require('../../error/ApiError');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Users, Workout, Roles } = require('../../models/models');
-const { where } = require('sequelize');
+const { Users, Roles } = require('../../models/models');
 
 const generateJwt = (id, email, roleId, login, createdAt) => {
 	return jwt.sign({ id, email, roleId, login, createdAt }, process.env.SECRET_KEY, {
@@ -14,20 +13,18 @@ class UsersController {
 	async registration(req, res, next) {
 		try {
 			const { email, login, password } = req.body;
-
 			if (!email || !password) {
 				return next(ApiError.badRequest('Некорректный email или пароль!'));
 			}
 
-			const candidate = await Users.findOne({ where: { email } });
-			const userRole = await Roles.findOne({ where: { name: 'USER' } });
-
-			if (candidate) {
-				return next(ApiError.badRequest(`Пользователь с таким email "${email}" уже существует!`));
+			const existingUser = await Users.findOne({ where: { email } });
+			if (existingUser) {
+				return next(ApiError.badRequest(`Пользователь с email "${email}" уже существует!`));
 			}
 
-			const hashPassword = await bcrypt.hash(password, 5);
-			const { dataValues } = await Users.create({
+			const userRole = await Roles.findOne({ where: { name: 'USER' } });
+			const hashPassword = await bcrypt.hash(password, 10);
+			const newUser = await Users.create({
 				login,
 				email,
 				password: hashPassword,
@@ -35,140 +32,124 @@ class UsersController {
 			});
 
 			const token = generateJwt(
-				dataValues.id,
-				dataValues.email,
-				dataValues.role_id,
-				dataValues.login,
-				dataValues.created_at,
+				newUser.id,
+				newUser.email,
+				newUser.role_id,
+				newUser.login,
+				newUser.createdAt,
 			);
-
 			return res.json({ token });
-		} catch (err) {
-			return next(ApiError.badRequest('Некорректные данные при регистрации в системе!'));
+		} catch (error) {
+			return next(ApiError.internal('Ошибка регистрации!'));
 		}
 	}
+
 	async login(req, res, next) {
 		try {
 			const { email, password } = req.body;
-			const data = await Users.findOne({
-				where: { email },
-			});
-
-			if (!data) {
+			const user = await Users.findOne({ where: { email } });
+			if (!user) {
 				return next(ApiError.badRequest('Пользователь не найден!'));
 			}
 
-			const { dataValues } = data;
-
-			let comparePassword = bcrypt.compareSync(password, dataValues.password);
-
-			if (!comparePassword) {
-				return next(ApiError.badRequest('Указан неверный пароль!'));
+			const isPasswordValid = await bcrypt.compare(password, user.password);
+			if (!isPasswordValid) {
+				return next(ApiError.badRequest('Неверный пароль!'));
 			}
 
-			const token = generateJwt(
-				dataValues.id,
-				dataValues.email,
-				dataValues.role_id,
-				dataValues.login,
-				dataValues.created_at,
-			);
-
+			const token = generateJwt(user.id, user.email, user.role_id, user.login, user.created_at);
 			return res.json({ token });
-		} catch (err) {
-			return next(ApiError.badRequest('Некорректные данные при входе в систему!'));
+		} catch (error) {
+			return next(ApiError.internal('Ошибка входа!'));
 		}
 	}
-	async check(req, res, next) {
+
+	async check(req, res) {
 		const token = generateJwt(
 			req.user.id,
 			req.user.email,
 			req.user.roleId,
 			req.user.login,
-			req.user.createdAt,
+			req.user.created_at,
 		);
-
 		return res.json({ token });
 	}
-	async getAll(req, res) {
-		const users = await Users.findAll();
-		const usersFilter = users.map((user) => ({
-			id: user.id,
-			email: user.email,
-			login: user.login,
-			created_at: user.created_at,
-			role_id: user.role_id,
-		}));
 
-		return res.json(usersFilter);
+	async getAll(req, res) {
+		const users = await Users.findAll({ attributes: ['id', 'email', 'login', 'created_at', 'role_id'] });
+		return res.json(users);
 	}
-	async getOne(req, res) {
+
+	async getOne(req, res, next) {
 		try {
 			const { id } = req.params;
-			const user = await Users.findOne({
-				where: { id },
+			const user = await Users.findByPk(id, {
+				attributes: ['id', 'email', 'login', 'createdAt', 'role_id'],
 			});
-			const userFilter = {
-				id: user.id,
-				email: user.email,
-				login: user.login,
-				created_at: user.created_at,
-				role_id: user.role_id,
-			};
+			if (!user) {
+				return next(ApiError.notFound('Пользователь не найден!'));
+			}
+			return res.json(user);
+		} catch (error) {
+			return next(ApiError.internal('Ошибка при получении пользователя!'));
+		}
+	}
 
-			return res.json(userFilter);
+	async delete(req, res, next) {
+		try {
+			const { id } = req.params;
+			const deletedCount = await Users.destroy({ where: { id } });
+			if (!deletedCount) {
+				return next(ApiError.notFound('Пользователь не найден!'));
+			}
+			return res.json({ success: true });
+		} catch (error) {
+			return next(ApiError.internal('Ошибка при удалении пользователя!'));
+		}
+	}
+
+	async update(req, res, next) {
+		try {
+			const { id } = req.params;
+			const [updatedCount, updatedUsers] = await Users.update(req.body, {
+				where: { id },
+				returning: true,
+			});
+			if (!updatedCount) {
+				return next(ApiError.notFound('Пользователь не найден!'));
+			}
+			return res.json(updatedUsers[0]);
+		} catch (error) {
+			return next(ApiError.internal('Ошибка при обновлении данных пользователя!'));
+		}
+	}
+
+	async resetPassword(req, res, next) {
+		try {
+			const { email, login, password } = req.body;
+			const user = await Users.findOne({ where: { email, login } });
+
+			if (!user) {
+				return next(ApiError.badRequest('Пользователь не найден!'));
+			}
+
+			const hashPassword = await bcrypt.hash(password, 10);
+
+			const updatedUser = await Users.update(
+				{ password: hashPassword },
+				{ where: { email }, returning: true },
+			);
+
+			if (!updatedUser[0]) {
+				return next(ApiError.internal('Не удалось обновить пароль.'));
+			}
+
+			const token = generateJwt(user.id, user.email, user.role_id, user.login, user.createdAt);
+
+			return res.json({ token });
 		} catch (err) {
-			return res.status(500).json({ message: 'Пользователь не найден!' });
+			return next(ApiError.internal('Ошибка при обновлении пароля!'));
 		}
-	}
-	async delete(req, res) {
-		const { id } = req.params;
-
-		const types = await Users.destroy({
-			where: { id },
-		});
-
-		return res.json(true);
-	}
-	async update(req, res) {
-		const { id } = req.params;
-		const data = req.body;
-		const options = { where: { id }, returning: true };
-		const [count, type] = await Users.update(data, options);
-
-		return res.json(type);
-	}
-	async updatePassword(req, res, next) {
-		const { login, email, password } = req.body;
-		const data = await Users.findOne({
-			where: { email, login },
-		});
-
-		if (!data) {
-			return next(ApiError.badRequest('Пользователь не найден!'));
-		}
-		const options = { where: { email }, returning: true };
-		const [count, user] = await Users.update(password, options);
-
-		console.log(user)
-
-		// const { dataValues } = data;
-
-		// let comparePassword = bcrypt.compareSync(password, dataValues.password);
-
-		// if (!comparePassword) {
-		// 	return next(ApiError.badRequest('Указан неверный пароль!'));
-		// }
-
-		// const token = generateJwt(
-		// 	dataValues.id,
-		// 	dataValues.email,
-		// 	dataValues.role_id,
-		// 	dataValues.login,
-		// 	dataValues.created_at,
-		// );
-
-		return res.json({ token });
 	}
 }
 

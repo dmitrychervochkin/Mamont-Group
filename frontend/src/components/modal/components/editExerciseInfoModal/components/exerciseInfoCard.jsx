@@ -11,16 +11,16 @@ const ExerciseInfoCardContainer = ({ className, exerciseState }) => {
 	return (
 		<div className={className}>
 			<div style={{ display: 'flex' }}>
-				{exerciseInfoImg.map(({ id, discription }) => (
+				{exerciseInfoImg.map(({ id, description }) => (
 					<img
 						key={id}
 						className="exercise-info-modal-image"
-						src={process.env.REACT_APP_API_URL + discription}
+						src={process.env.REACT_APP_API_URL + description}
 					/>
 				))}
 			</div>
-			<div className="exercise-info-modal-discription">
-				{exerciseState.discription || 'Добавьте описание для упражнения в режиме редактирования...'}
+			<div className="exercise-info-modal-description">
+				{exerciseState.description || 'Добавьте описание для упражнения в режиме редактирования...'}
 			</div>
 			<div className="exercise-info-modal-instruction">
 				<div style={{ fontSize: '23px' }}>Инструкция:</div>
@@ -31,9 +31,9 @@ const ExerciseInfoCardContainer = ({ className, exerciseState }) => {
 				)}
 				{exerciseInfoText.length > 0 && (
 					<ol style={{ opacity: '0.6', textAlign: 'left' }}>
-						{exerciseInfoText.map(({ id, discription }) => (
+						{exerciseInfoText.map(({ id, description }) => (
 							<li className="exercise-info-modal-instruction-item" key={id}>
-								{discription}
+								{description}
 							</li>
 						))}
 					</ol>
@@ -62,7 +62,7 @@ export const ExerciseInfoCard = styled(ExerciseInfoCardContainer)`
 		align-items: flex-start;
 		width: 100%;
 	}
-	.exercise-info-modal-discription {
+	.exercise-info-modal-description {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;

@@ -3,7 +3,7 @@ import { findItem } from '../../../../../utils';
 import { Icon } from '../../../../icon/icon';
 import { ICON } from '../../../../../constants';
 import { useSelector } from 'react-redux';
-import { selectTypes } from '../../../../../reducers';
+import { selectMuscleGroups, selectTypes } from '../../../../../reducers';
 import { TYPE } from '../../../../../constants/infoTypesConstants';
 import { useEffect, useState } from 'react';
 import { server } from '../../../../../bff';
@@ -12,12 +12,12 @@ const ModalExerciseContainer = ({
 	className,
 	id,
 	name,
-	type,
+	muscleGroup,
 	userExercises,
 	currentExercise,
 	setCurrentExercise,
 }) => {
-	const types = useSelector(selectTypes);
+	const muscleGroups = useSelector(selectMuscleGroups);
 	const [exerciseImg, setExerciseImg] = useState('');
 	const [inactiveExercise, setInactiveExercise] = useState(false);
 
@@ -40,7 +40,7 @@ const ModalExerciseContainer = ({
 
 	useEffect(() => {
 		server.fetchExerciseInfo(id).then(({ res }) => {
-			setExerciseImg(res.find((item) => item.type === TYPE.IMAGE)?.discription);
+			setExerciseImg(res.find((item) => item.type === TYPE.IMAGE)?.description);
 		});
 	}, []);
 
@@ -66,7 +66,7 @@ const ModalExerciseContainer = ({
 					}}
 				>
 					<div>{name}</div>
-					<div style={{ opacity: '0.6' }}>{type?.name}</div>
+					<div style={{ opacity: '0.6' }}>{muscleGroup?.name}</div>
 				</div>
 			</div>
 			{currentExercise?.includes(id) && <Icon name={ICON.CHECK} />}

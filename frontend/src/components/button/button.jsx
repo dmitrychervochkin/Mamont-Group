@@ -1,12 +1,13 @@
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const ButtonContainer = ({ className, width, children, disabled, ...props }) => {
+const ButtonContainer = forwardRef(({ className, width, children, disabled, ...props }, ref) => {
 	return (
-		<button disabled={disabled} className={className + (disabled ? ' disabled-btn' : '')} {...props}>
+		<button ref={ref} disabled={disabled} className={className + (disabled ? ' disabled-btn' : '')} {...props}>
 			{children}
 		</button>
 	);
-};
+});
 
 export const Button = styled(ButtonContainer)`
 	display: flex;

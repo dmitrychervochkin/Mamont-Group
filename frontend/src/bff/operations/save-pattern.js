@@ -16,7 +16,7 @@ export const savePattern = async (
 
 	if (newPatternData.id === undefined || newPatternData.id === '') {
 		savedPattern = await addPattern(newPatternData, userToken);
-		console.log(savedPattern);
+
 		if (savedPattern.message !== undefined) {
 			return {
 				error: savedPattern.message,

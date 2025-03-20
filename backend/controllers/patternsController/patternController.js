@@ -4,13 +4,13 @@ const ApiError = require('../../error/ApiError');
 class PatternController {
 	async create(req, res, next) {
 		try {
-			let { name, discription } = req.body;
+			let { name, description } = req.body;
 			const searchedPattern = await Patterns.findOne({ where: { name: name } });
 
 			if (searchedPattern) {
 				return next(ApiError.badRequest('Шаблон с таким названием уже существует!'));
 			} else {
-				const pattern = await Patterns.create({ name, discription });
+				const pattern = await Patterns.create({ name, description });
 
 				return res.json(pattern);
 			}

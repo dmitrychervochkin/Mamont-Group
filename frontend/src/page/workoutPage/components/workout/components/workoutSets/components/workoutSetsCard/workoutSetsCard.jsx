@@ -10,6 +10,7 @@ import {
 	closeModal,
 	openModal,
 	resetExercise,
+	selectMuscleGroups,
 	selectTypes,
 	selectUserExercises,
 	selectUserWorkoutExercises,
@@ -24,18 +25,17 @@ import { findItem, groupArrays } from '../../../../../../../../utils';
 const WorkoutSetsCardContainer = ({
 	className,
 	exercise,
-	// types,
 	exercises,
 	mergedExercises,
 	setMergedExercises,
 	drag,
 }) => {
-	const { id, exerciseId, name, typeId, userId, superSet } = exercise;
+	const { id, exerciseId, name, muscleGroupId, userId, superSet } = exercise;
 	const [isSuperSet, setIsSuperSet] = useState(!!superSet);
 	const [calories, setCalories] = useState(0);
 	const [hover, setHover] = useState(false);
 	const userExercises = useSelector(selectUserExercises);
-	const types = useSelector(selectTypes);
+	const muscleGroups = useSelector(selectMuscleGroups);
 	const userWorkoutExercises = useSelector(selectUserWorkoutExercises);
 	const dispatch = useDispatch();
 
@@ -77,7 +77,7 @@ const WorkoutSetsCardContainer = ({
 	};
 
 	const onExerciseNameHandler = () => {
-		dispatch(setExercise({ id: exerciseId, name, userId, typeId: typeId }));
+		dispatch(setExercise({ id: exerciseId, name, userId, muscleGroupId }));
 
 		dispatch(
 			openModal({
@@ -184,7 +184,7 @@ const WorkoutSetsCardContainer = ({
 							Добавить упражнение в суперсет
 						</div>
 						<span style={{ color: '#a2a2a2', fontSize: '16px', marginLeft: '10px' }}>
-							({findItem(types, typeId)?.name})
+							({findItem(muscleGroups, muscleGroupId)?.name})
 						</span>
 					</div>
 				</div>

@@ -1,32 +1,29 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ICON, ROLE, ROUTE } from '../../../constants';
 import { Icon } from '../../icon/icon';
 import { selectRoleId } from '../../../reducers';
 import { useSelector } from 'react-redux';
 
-const checkCurrentIcon = (path) => {
-	if (path === window.location.pathname) {
-		return 'current';
-	}
-};
-
-const IconsNaмBarContainer = ({ className, userId }) => {
+const IconsNavBarContainer = ({ className, userId }) => {
 	const roleId = useSelector(selectRoleId);
-	let navigate = useNavigate();
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	const checkCurrentIcon = (path) => (path === location.pathname ? 'current' : '');
 
 	return (
 		<div className={className}>
 			<Icon
 				reverse="true"
-				className={'nav-icon' + ' ' + checkCurrentIcon(ROUTE.HOMEPAGE)}
+				className={`nav-icon ${checkCurrentIcon(ROUTE.HOMEPAGE)}`}
 				name={ICON.HOME}
 				onClick={() => navigate(ROUTE.HOMEPAGE)}
 			/>
 			<Icon
 				reverse="true"
 				disabled={!userId}
-				className={'nav-icon' + ' ' + checkCurrentIcon(ROUTE.WORKOUT)}
+				className={`nav-icon ${checkCurrentIcon(ROUTE.WORKOUT)}`}
 				name={ICON.DUMBBELL}
 				onClick={() => userId && navigate(ROUTE.WORKOUT)}
 			/>
@@ -45,10 +42,10 @@ const IconsNaмBarContainer = ({ className, userId }) => {
 				onClick={() => navigate(ROUTE.HOMEPAGE)}
 			/>
 
-			{roleId === ROLE.ADMIN && (
+			{Boolean(roleId === ROLE.ADMIN) && (
 				<Icon
 					reverse="true"
-					className={'nav-icon' + ' ' + checkCurrentIcon(ROUTE.ADMIN)}
+					className={`nav-icon ${checkCurrentIcon(ROUTE.ADMIN)}`}
 					name={ICON.ADMINPANEL}
 					onClick={() => navigate(ROUTE.ADMIN)}
 				/>
@@ -57,7 +54,7 @@ const IconsNaмBarContainer = ({ className, userId }) => {
 	);
 };
 
-export const IconsNavBar = styled(IconsNaмBarContainer)`
+export const IconsNavBar = styled(IconsNavBarContainer)`
 	width: 45%;
 	display: flex;
 	justify-content: space-around;

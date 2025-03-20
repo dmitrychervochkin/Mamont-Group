@@ -22,8 +22,6 @@ const UserCardContainer = ({
 	const registerDate = new Date(createdAt);
 	const dispatch = useDispatch();
 
-	console.log();
-
 	const onUserRemove = (id) => {
 		dispatch(
 			openModal({

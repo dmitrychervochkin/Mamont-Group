@@ -13,18 +13,18 @@ const ExerciseInfoEditContainer = ({ className, exerciseState, exerciseInfoState
 	const dispatch = useDispatch();
 	const [exerciseInfoText, setExerciseInfoText] = useState([]);
 	const [addedFiles, setAddedFiles] = useState([]);
-	console.log(exerciseInfoImg);
+
 	useEffect(() => {
 		setExerciseInfoText(exerciseInfoState.filter((item) => item.type === 'TEXT'));
 	}, [exerciseInfoState]);
 
-	const addNewDiscriptionHandler = () => {
+	const addNewdescriptionHandler = () => {
 		dispatch(
 			setExerciseInfo([
 				...exerciseInfoState,
 				{
 					id: Date.now().toString(),
-					discription: '',
+					description: '',
 					type: 'TEXT',
 					exerciseId: exerciseState.id,
 				},
@@ -32,16 +32,16 @@ const ExerciseInfoEditContainer = ({ className, exerciseState, exerciseInfoState
 		);
 	};
 
-	const onInputDiscriptionChange = (value, id) => {
+	const onInputdescriptionChange = (value, id) => {
 		dispatch(
 			setExerciseInfo(
-				exerciseInfoState.map((item) => (item.id === id ? { ...item, discription: value } : item)),
+				exerciseInfoState.map((item) => (item.id === id ? { ...item, description: value } : item)),
 			),
 		);
 	};
 
-	const onDiscriptionInfoChange = (value) => {
-		dispatch(setExercise({ ...exerciseState, discription: value }));
+	const ondescriptionInfoChange = (value) => {
+		dispatch(setExercise({ ...exerciseState, description: value }));
 	};
 
 	const onExerciseInfoDelete = (id) => {
@@ -92,7 +92,7 @@ const ExerciseInfoEditContainer = ({ className, exerciseState, exerciseInfoState
 		<div className={className}>
 			<div style={{ display: 'flex', alignItems: 'center', height: '220px' }}>
 				{exerciseInfoImg.map(
-					({ id, discription }) =>
+					({ id, description }) =>
 						typeof id === 'number' && (
 							<div
 								key={id}
@@ -102,7 +102,7 @@ const ExerciseInfoEditContainer = ({ className, exerciseState, exerciseInfoState
 								<img
 									key={id}
 									className="exercise-info-modal-image"
-									src={process.env.REACT_APP_API_URL + discription}
+									src={process.env.REACT_APP_API_URL + description}
 								/>
 								<Icon
 									className="exercise-info-img-btn"
@@ -143,15 +143,15 @@ const ExerciseInfoEditContainer = ({ className, exerciseState, exerciseInfoState
 					</div>
 				)}
 			</div>
-			<div className="exercise-info-modal-discription">
+			<div className="exercise-info-modal-description">
 				<Input
 					width="100%"
 					placeholder={
-						exerciseState.discription ||
+						exerciseState.description ||
 						'Добавьте описание для упражнения в режиме редактирования...'
 					}
-					value={exerciseState.discription}
-					onChange={(e) => onDiscriptionInfoChange(e.target.value)}
+					value={exerciseState.description}
+					onChange={(e) => ondescriptionInfoChange(e.target.value)}
 				/>
 			</div>
 			<div className="exercise-info-modal-instruction">
@@ -163,15 +163,15 @@ const ExerciseInfoEditContainer = ({ className, exerciseState, exerciseInfoState
 				)}
 				{exerciseInfoText.length > 0 && (
 					<ol style={{ opacity: '0.6', textAlign: 'left', width: '100%' }}>
-						{exerciseInfoText.map(({ id, discription }) => (
+						{exerciseInfoText.map(({ id, description }) => (
 							<div key={id} style={{ display: 'flex' }}>
 								<li className="exercise-info-modal-instruction-item">
 									<input
 										id={id}
 										className="exercise-info-modal-instruction-input"
-										value={discription}
+										value={description}
 										placeholder="Укажите инструкцию для упражнения..."
-										onChange={(e) => onInputDiscriptionChange(e.target.value, id)}
+										onChange={(e) => onInputdescriptionChange(e.target.value, id)}
 									/>
 								</li>
 								<Icon
@@ -184,7 +184,7 @@ const ExerciseInfoEditContainer = ({ className, exerciseState, exerciseInfoState
 						))}
 					</ol>
 				)}
-				<div className="add-new-discription-btn" onClick={addNewDiscriptionHandler}>
+				<div className="add-new-description-btn" onClick={addNewdescriptionHandler}>
 					<Icon inactive="true" name={ICON.ADD} margin="0 15px 0 0" />
 					<div>Добавить описание</div>
 				</div>
@@ -255,7 +255,7 @@ export const ExerciseInfoEdit = styled(ExerciseInfoEditContainer)`
 		align-items: flex-start;
 		width: 100%;
 	}
-	.exercise-info-modal-discription {
+	.exercise-info-modal-description {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -300,7 +300,7 @@ export const ExerciseInfoEdit = styled(ExerciseInfoEditContainer)`
 		color: white;
 		outline: none;
 	}
-	.add-new-discription-btn {
+	.add-new-description-btn {
 		display: flex;
 		align-items: center;
 		width: 100%;

@@ -7,6 +7,6 @@ export const addPattern = (patternData, token) =>
 		},
 		body: JSON.stringify({
 			name: patternData.name,
-			discription: patternData.discription,
+			description: patternData.description,
 		}),
 	}).then((data) => data.json());

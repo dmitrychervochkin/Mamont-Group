@@ -1,7 +1,7 @@
 import { transformExercises } from '../../transformers';
 
-export const getExercises = async (currentType) =>
-	fetch(`http://localhost:7001/api/exercises?type_id=${currentType}`)
+export const getExercises = async (params) =>
+	fetch(`http://localhost:7001/api/exercises${params.toString() ? '?' + params.toString() : ''}`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;
@@ -11,6 +11,7 @@ export const getExercises = async (currentType) =>
 				res.status === 404
 					? 'Такая страница не существует'
 					: 'Что-то пошло не так. Попробуйте ещё раз позднее.';
+
 			return Promise.reject(error);
 		})
 		.then((loadedExercises) => loadedExercises.json())

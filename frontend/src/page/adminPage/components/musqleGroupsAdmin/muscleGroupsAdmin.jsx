@@ -3,25 +3,25 @@ import { Heading, Icon, Input, Loader, ScrollSlider, Search } from '../../../../
 import { Link } from 'react-router-dom';
 import { ICON } from '../../../../constants';
 import { useEffect, useState } from 'react';
-import { TypeCard } from './components/typeCard';
+import { MuscleGroupCard, TypeCard } from './components/muscleGroupCard';
 import { server } from '../../../../bff';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetError, selectIsLoading, setError } from '../../../../reducers';
+import { resetError, setError } from '../../../../reducers';
 
-const TypesRightSideContainer = ({ className }) => {
-	const [types, setTypes] = useState([]);
+const MuscleGroupsAdminContainer = ({ className }) => {
+	const [muscleGroups, setMuscleGroups] = useState([]);
 	const [isAdd, setIsAdd] = useState(false);
 	const [isSave, setIsSave] = useState(false);
 	const [isDelete, setIsDelete] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [addType, setAddType] = useState('');
+	const [addMuscleGroup, setAddMuscleGroup] = useState('');
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		setIsLoading(true);
 		server
-			.fetchTypes()
-			.then(({ error, res }) => setTypes(res))
+			.fetchMuscleGroups()
+			.then(({ error, res }) => setMuscleGroups(res))
 			.finally(() =>
 				setTimeout(() => {
 					setIsLoading(false);
@@ -29,10 +29,10 @@ const TypesRightSideContainer = ({ className }) => {
 			);
 	}, [isSave, isDelete]);
 
-	const onTypeChange = (target) => {
-		setAddType(target.value);
+	const onMuscleGroupChange = (target) => {
+		setAddMuscleGroup(target.value);
 	};
-	const onTypeAdd = (isAdd) => {
+	const onMuscleGroupAdd = (isAdd) => {
 		if (!isAdd) {
 			setIsAdd(!isAdd);
 			setTimeout(() => {
@@ -44,14 +44,14 @@ const TypesRightSideContainer = ({ className }) => {
 		}
 	};
 
-	const onTypeSave = (addType) => {
+	const onMuscleGroupSave = (addGroup) => {
 		setIsSave(true);
 
-		server.saveType({ name: addType }).then(({ error, res }) => {
+		server.saveMuscleGroup({ name: addGroup }).then(({ error, res }) => {
 			dispatch(setError(error));
 			// setTypeError(error);
 			setIsAdd(false);
-			setAddType('');
+			setAddMuscleGroup('');
 			setIsSave(false);
 		});
 		setTimeout(() => dispatch(resetError()), [3000]);
@@ -65,7 +65,7 @@ const TypesRightSideContainer = ({ className }) => {
 					name={isAdd ? ICON.CLOSE : ICON.ADD}
 					margin="8px 0 0 0"
 					height="30px"
-					onClick={() => onTypeAdd(isAdd)}
+					onClick={() => onMuscleGroupAdd(isAdd)}
 				/>
 			</div>
 			<div className="types-container-main">
@@ -96,18 +96,18 @@ const TypesRightSideContainer = ({ className }) => {
 									className="add-type-input"
 									width="100%"
 									placeholder="Новый тип..."
-									onChange={({ target }) => onTypeChange(target)}
+									onChange={({ target }) => onMuscleGroupChange(target)}
 								/>
 								<Icon
 									height="30px"
 									name={ICON.SAVE}
 									margin="0 5px 0 20px"
-									onClick={() => onTypeSave(addType)}
+									onClick={() => onMuscleGroupSave(addMuscleGroup)}
 								/>
 							</div>
 						)}
-						{types.map(({ id, name }) => (
-							<TypeCard
+						{muscleGroups.map(({ id, name }) => (
+							<MuscleGroupCard
 								key={id}
 								id={id}
 								name={name}
@@ -125,7 +125,7 @@ const TypesRightSideContainer = ({ className }) => {
 	);
 };
 
-export const TypesRightSide = styled(TypesRightSideContainer)`
+export const MuscleGroupsAdmin = styled(MuscleGroupsAdminContainer)`
 	height: 100%;
 
 	.types-container-header {

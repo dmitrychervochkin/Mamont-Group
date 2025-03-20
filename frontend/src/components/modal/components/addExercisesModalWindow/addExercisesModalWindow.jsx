@@ -18,11 +18,11 @@ import { Loader } from '../../../loader/loader';
 import { ScrollSlider } from '../../../scrollSlider/scrollSlider';
 
 const AddExercisesModalWindowContainer = ({ className, onCancel, onConfirm }) => {
-	const types = useSelector(selectTypes);
 	const exercises = useSelector(selectExercises);
 	const userExercises = useSelector(selectUserExercises);
 	const dispatch = useDispatch(selectExercises);
-	const [currentType, setCurrentType] = useState('');
+	const [currentMuscleGroup, setCurrentMuscleGroup] = useState(null);
+	const [muscleGroups, setMuscleGroups] = useState([]);
 	const [currentExercise, setCurrentExercise] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isSearch, setIsSearch] = useState(false);
@@ -30,18 +30,18 @@ const AddExercisesModalWindowContainer = ({ className, onCancel, onConfirm }) =>
 
 	useEffect(() => {
 		setIsLoading(true);
-		server.fetchExercises(currentType).then(({ res }) => dispatch(setExercises(res)));
-		server.fetchTypes().then(({ res }) => dispatch(setTypes(res)));
+		server.fetchExercises(currentMuscleGroup).then(({ res }) => dispatch(setExercises(res)));
+		server.fetchMuscleGroups().then(({ res }) => setMuscleGroups(res));
 		setTimeout(() => {
 			setIsLoading(false);
 		}, [500]);
-	}, [currentType]);
+	}, [currentMuscleGroup]);
 
-	const onTypeClick = (id) => {
-		if (id === currentType) {
-			setCurrentType('');
+	const onMuscleGroupClick = (id) => {
+		if (id === currentMuscleGroup) {
+			setCurrentMuscleGroup('');
 		} else {
-			setCurrentType(id);
+			setCurrentMuscleGroup(id);
 		}
 	};
 
@@ -82,11 +82,11 @@ const AddExercisesModalWindowContainer = ({ className, onCancel, onConfirm }) =>
 			<div style={{ padding: '0 20px', borderBottom: '4px solid #393939' }}>
 				<Search onChange={(e) => onExercisesSearch(e.target.value)} />
 				<div className="modal-types-container">
-					{types?.map(({ id, name }) => (
+					{muscleGroups?.map(({ id, name }) => (
 						<div
 							key={id}
-							onClick={() => onTypeClick(id)}
-							style={{ cursor: 'pointer', opacity: currentType === id ? '1' : '0.6' }}
+							onClick={() => onMuscleGroupClick(id)}
+							style={{ cursor: 'pointer', opacity: currentMuscleGroup === id ? '1' : '0.6' }}
 						>
 							{name}
 						</div>
@@ -104,14 +104,14 @@ const AddExercisesModalWindowContainer = ({ className, onCancel, onConfirm }) =>
 					</div>
 				) : (
 					(isSearch ? searchingExercises : exercises?.rows)
-						.map(({ id, uniqueId, name, img, typeId, userId }) => (
+						.map(({ id, uniqueId, name, img, muscleGroupId, userId }) => (
 							// currentType === '' ? (
 							<ModalExercise
 								key={id}
 								id={id}
 								img={img}
 								name={name}
-								type={findItem(types, typeId)}
+								muscleGroup={findItem(muscleGroups, muscleGroupId)}
 								userExercises={userExercises}
 								currentExercise={currentExercise}
 								setCurrentExercise={setCurrentExercise}

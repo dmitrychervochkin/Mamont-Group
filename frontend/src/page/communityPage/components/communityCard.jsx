@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { Heading, Icon } from '../../../components';
 
-const CommunityCardContainer = ({ className, icon, title, discription }) => {
-	console.log(icon);
+const CommunityCardContainer = ({ className, icon, title, description, link }) => {
 	return (
 		<div className={className}>
 			<div className="community-icon-container">
@@ -12,10 +11,12 @@ const CommunityCardContainer = ({ className, icon, title, discription }) => {
 			</div>
 			<div style={{ width: '600px' }}>
 				<Heading>{title}</Heading>
-				<div style={{ marginTop: '10px', color: '#a2a2a2' }}>{discription}</div>
+				<div style={{ marginTop: '10px', color: '#a2a2a2' }}>{description}</div>
 			</div>
 			<span style={{ width: '130px', textAlign: 'right' }}>
-				<p className="go-to-tg-chanel-btn">Ссылка</p>
+				<a className="go-to-tg-chanel-btn" href={link} target="_blank" rel="noopener noreferrer">
+					Ссылка
+				</a>
 			</span>
 		</div>
 	);

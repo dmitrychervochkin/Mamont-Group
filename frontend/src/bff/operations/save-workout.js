@@ -6,8 +6,6 @@ import { saveWorkoutExercises } from './save-workout-exercises';
 export const saveWorkout = async (newWorkoutData, newUserExercisesData, newWorkoutExercisesData) => {
 	const userToken = localStorage.getItem('token');
 
-	console.log(newWorkoutData);
-
 	let savedWorkout;
 	let savedUserExercises;
 	if (newWorkoutData.id === undefined) {

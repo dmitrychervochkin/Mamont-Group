@@ -19,7 +19,7 @@ export const Icon = styled(IconContainer)`
 	align-items: center;
 	justify-content: center;
 	transition: opacity 0.3s;
-	opacity: ${({ reverse }) => (reverse ? '0.6' : '0.8')};
+	opacity: ${({ reverse = "true" }) => (reverse ? '0.6' : '0.8')};
 
 	.icon {
 		// height: ${({ height = '30px' }) => height};

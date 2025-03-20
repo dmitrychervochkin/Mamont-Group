@@ -14,4 +14,4 @@ export const getCalendarEvents = async (userId) =>
 			return Promise.reject(error);
 		})
 		.then((data) => data.json())
-		.then((data) => data && data.map(transformCalendarEvents));
+		.then((data) => (data.message ? data : data && data.map(transformCalendarEvents)));

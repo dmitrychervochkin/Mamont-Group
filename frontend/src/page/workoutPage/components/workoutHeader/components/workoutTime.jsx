@@ -1,68 +1,64 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import {
-	closeModal,
-	openModal,
-	selectWorkout,
-	selectWorkoutTime,
-	setUserWorkoutTime,
-	setWorkout,
-	setWorkoutTime,
-	setWorkoutTimeUser,
-	stopBreak,
-} from '../../../../../reducers';
+import { closeModal, openModal, setUserWorkoutTime, stopBreak } from '../../../../../reducers';
 import { useNavigate } from 'react-router-dom';
 
-const WorkoutTimeCointainer = ({ className, start, reverse = false, initialTime }) => {
+const WorkoutTimeContainer = ({ className, start, reverse = false, initialTime }) => {
 	const [isActive, setIsActive] = useState(false);
 	const [time, setTime] = useState(initialTime);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const intervalRef = useRef(null); // Храним интервал
 
+	// Запуск таймера при изменении isActive
 	useEffect(() => {
-		if (start) {
-			handleStart();
-		}
-		if (initialTime !== 0) {
-			if (time === 0) {
-				navigate('/workout');
-				dispatch(
-					openModal({
-						isEndOfBreak: true,
-						onCancel: () => dispatch(closeModal()),
-					}),
-				);
-				dispatch(stopBreak());
-				handleReset();
-			}
-		}
-		let interval = null;
-
 		if (isActive) {
-			!reverse && dispatch(setUserWorkoutTime(time));
-			interval = setInterval(() => {
-				if (reverse) {
-					setTime((time) => time - 1);
-				} else if (!reverse) {
-					setTime((time) => time + 1);
-				}
+			intervalRef.current = setInterval(() => {
+				setTime((prevTime) => {
+					const newTime = reverse ? prevTime - 1 : prevTime + 1;
+
+					// Если таймер дошел до 0, останавливаем и вызываем модалку
+					if (reverse && newTime <= 0) {
+						clearInterval(intervalRef.current);
+						navigate('/workout');
+						dispatch(
+							openModal({
+								isEndOfBreak: true,
+								onCancel: () => dispatch(closeModal()),
+							}),
+						);
+						dispatch(stopBreak());
+						return 0;
+					}
+
+					// Обновляем Redux-состояние только если не reverse
+					if (!reverse) {
+						dispatch(setUserWorkoutTime(newTime));
+					}
+
+					return newTime;
+				});
 			}, 1000);
 		} else {
-			clearInterval(interval);
+			clearInterval(intervalRef.current);
 		}
-		return () => {
-			clearInterval(interval);
-		};
-	}, [isActive, start, time]);
 
-	const handleStart = () => {
-		setIsActive(true);
-	};
+		// Очистка интервала при размонтировании
+		return () => clearInterval(intervalRef.current);
+	}, [isActive]); // Зависим только от isActive, не вызываем каждый ререндер
+
+	// Запускаем таймер, если проп `start === true`
+	useEffect(() => {
+		if (start) {
+			setIsActive(true);
+		}
+	}, [start]);
 
 	const handleReset = () => {
 		setIsActive(false);
 		setTime(0);
+		clearInterval(intervalRef.current);
 	};
 
 	return (
@@ -75,4 +71,4 @@ const WorkoutTimeCointainer = ({ className, start, reverse = false, initialTime 
 		</div>
 	);
 };
-export const WorkoutTime = styled(WorkoutTimeCointainer)``;
+export const WorkoutTime = styled(WorkoutTimeContainer)``;

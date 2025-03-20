@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export const check = async () => {
 	const userToken = localStorage.getItem('token');
 	const { token, message } = await checkUser(userToken);
-	console.log(token, message);
+
 	if (message) {
 		localStorage.removeItem('token');
 	}

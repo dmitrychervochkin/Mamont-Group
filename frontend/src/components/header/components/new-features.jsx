@@ -1,39 +1,15 @@
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const initialState = [
-	{
-		id: 1,
-		title: 'Календарь тренировок',
-		discription:
-			'faefb ahefb uahebfuha eufbaeuhfbuab efuhabehb fahueb fubafe hbaufba fhbua ebfuab efuhahfb uahfu abebe uafb',
-	},
-	{
-		id: 2,
-		title: 'Энергозатратность упражнений',
-		discription:
-			'faefb ahefb uahebfuha eufbaeuhfbuab efuhabehb fahueb fubafe hbaufba fhbua ebfuab efuhahfb uahfu abebe uafb',
-	},
-	{
-		id: 3,
-		title: 'Планирование тренировок',
-		discription:
-			'faefb ahefb uahebfuha eufbaeuhfbuab efuhabehb fahueb fubafe hbaufba fhbua ebfuab efuhahfb uahfu abebe uafb',
-	},
-	{
-		id: 4,
-		title: 'Раздел сообщество',
-		discription:
-			'faefb ahefb uahebfuha eufbaeuhfbuab efuhabehb fahueb fubafe hbaufba fhbua ebfuab efuhahfb uahfu abebe uafb',
-	},
-	{
-		id: 5,
-		title: 'Раздел плейлисты',
-		discription:
-			'faefb ahefb uahebfuha eufbaeuhfbuab efuhabehb fahueb fubafe hbaufba fhbua ebfuab efuhahfb uahfu abebe uafb',
-	},
+const featuresData = [
+	{ id: 1, title: 'Календарь тренировок', description: 'Описание 1' },
+	{ id: 2, title: 'Энергозатратность упражнений', description: 'Описание 2' },
+	{ id: 3, title: 'Планирование тренировок', description: 'Описание 3' },
+	{ id: 4, title: 'Раздел сообщество', description: 'Описание 4' },
+	{ id: 5, title: 'Раздел плейлисты', description: 'Описание 5' },
 ];
 
-const NewFeaturesContainer = ({ className, isDropdownOpen, setIsDropdownOpen }) => {
+const NewFeaturesContainer = ({ className, isDropdownOpen }) => {
 	return (
 		<div
 			className={className}
@@ -47,11 +23,9 @@ const NewFeaturesContainer = ({ className, isDropdownOpen, setIsDropdownOpen }) 
 			<div>
 				Что нового в разработке?
 				<ul style={{ color: '#a2a2a2' }}>
-					{initialState.map(({ id, title, discription }) => (
-						<div key={id}>
-							<li className="new-feature" key={id}>
-								{title}
-							</li>
+					{featuresData.map(({ id, title, description }) => (
+						<li key={id}>
+							<div className="new-feature">{title}</div>
 							<div className="new-features-more-info">
 								<div
 									style={{
@@ -62,9 +36,9 @@ const NewFeaturesContainer = ({ className, isDropdownOpen, setIsDropdownOpen }) 
 								>
 									{title}
 								</div>
-								<div style={{ color: '#a2a2a2' }}>{discription}</div>
+								<div style={{ color: '#a2a2a2' }}>{description}</div>
 							</div>
-						</div>
+						</li>
 					))}
 				</ul>
 			</div>

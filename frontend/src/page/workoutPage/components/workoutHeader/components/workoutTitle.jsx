@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { ICON } from '../../../../../constants';
 
 const WorkoutTitleContainer = ({ className, name }) => {
-	const [isWorkoutNameEdit, setIsWorkoutNameEdit] = useState(false);
+	const [isWorkoutNameEdit, setIsWorkoutNameEdit] = useState(true);
 	const userWorkout = useSelector(selectUserWorkout);
 	const dispatch = useDispatch();
 

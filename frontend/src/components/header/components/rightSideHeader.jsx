@@ -1,18 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import {
-	closeModal,
-	openModal,
-	selectRoleId,
-	selectUserId,
-	selectUserLogin,
-	userLogout,
-} from '../../../reducers';
+import { closeModal, openModal, selectRoleId, selectUserLogin, userLogout } from '../../../reducers';
 import { Icon } from '../../icon/icon';
 import { Button } from '../../button/button';
-import { Link, Navigate, redirect, useMatch, useNavigate } from 'react-router-dom';
+import { Link, useMatch, useNavigate } from 'react-router-dom';
 import { ICON, ROLE, ROUTE } from '../../../constants';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import ButtonField from '../../button/buttonField';
 
 const RightSideHeaderContainer = ({ className, userId }) => {
 	const userLogin = useSelector(selectUserLogin);
@@ -23,22 +17,39 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [dropdownDisplay, setDropdownDisplay] = useState(false);
+	const dropdownRef = useRef(null);
+	const buttonRef = useRef(null); // Новый ref для кнопки
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (
+				dropdownRef.current &&
+				!dropdownRef.current.contains(event.target) &&
+				(!buttonRef.current || !buttonRef.current.contains(event.target))
+			) {
+				setDropdownDisplay(false);
+			}
+		};
+
+		if (dropdownDisplay) {
+			setTimeout(() => document.addEventListener('mousedown', handleClickOutside), 0);
+		} else {
+			document.removeEventListener('mousedown', handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [dropdownDisplay]);
 
 	const onLogout = () => {
 		localStorage.removeItem('token');
 		dispatch(userLogout());
 		setDropdownDisplay(false);
 	};
-	const onMusicHandler = () => {
-		navigate('/music');
-		setDropdownDisplay(false);
-	};
-	const onCommunityHandler = () => {
-		navigate('/community');
-		setDropdownDisplay(false);
-	};
-	const onHistoryHandler = () => {
-		navigate(ROUTE.HISTORY);
+
+	const handleNavigation = (path) => {
+		navigate(path);
 		setDropdownDisplay(false);
 	};
 
@@ -54,29 +65,7 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 				onCancel: () => dispatch(closeModal()),
 			}),
 		);
-	};
-
-	const windowClicker = (event) => {
-		const accountDropdownWindow = document.querySelectorAll('#account-dropdown-window');
-		const accountDropdown = document.querySelector('#account-dropdown');
-
-		if (event.target === accountDropdown) {
-			return;
-		} else if (accountDropdownWindow[0] !== event.target.parentNode) {
-			setDropdownDisplay(false);
-			window.removeEventListener('click', windowClicker);
-		}
-	};
-
-	const onDropdownHandler = () => {
-		const accountDropdownWindow = document.querySelectorAll('#account-dropdown-window');
-		setDropdownDisplay(!dropdownDisplay);
-
-		if (accountDropdownWindow[0].style.opacity === '0') {
-			window.addEventListener('click', windowClicker);
-		} else {
-			window.removeEventListener('click', windowClicker);
-		}
+		setDropdownDisplay(false);
 	};
 
 	return (
@@ -84,18 +73,21 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 			{userId ? (
 				<div>
 					<Button
+						ref={buttonRef}
 						id="account-dropdown"
 						width="250px"
 						style={{
 							backgroundColor: dropdownDisplay && '#424242',
 							boxShadow: dropdownDisplay && '0 0 20px 5px #141414',
 						}}
-						onClick={onDropdownHandler}
+						onClick={() => setDropdownDisplay((prev) => !prev)}
 					>
 						Мой аккаунт
 					</Button>
+
 					<div
 						id="account-dropdown-window"
+						ref={dropdownRef}
 						className="dropdown-user"
 						style={{
 							maxHeight: dropdownDisplay ? '500px' : '1px',
@@ -105,24 +97,22 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 					>
 						<div className="user-information">{userLogin}</div>
 						<div className="dropdown-user-option">
-							<Icon margin="0 15px 0 0" inactive={true} height="25px" name={ICON.TARIFF} />
+							<Icon margin="0 15px 0 0" inactive height="25px" name={ICON.TARIFF} />
 							Моя подписка
 						</div>
-						<div className="dropdown-user-option" onClick={onHistoryHandler}>
-							<Icon margin="0 15px 0 0" inactive={true} height="25px" name={ICON.CLOCK} />
+						<div className="dropdown-user-option" onClick={() => handleNavigation(ROUTE.HISTORY)}>
+							<Icon margin="0 15px 0 0" inactive height="25px" name={ICON.CLOCK} />
 							История тренировок
 						</div>
-						<div className="dropdown-user-option" onClick={onCommunityHandler}>
-							<Icon
-								margin="0 15px 0 0"
-								inactive={true}
-								height="25px"
-								name={ICON.TELEGRAMGRAY}
-							/>
+						<div
+							className="dropdown-user-option"
+							onClick={() => handleNavigation(ROUTE.COMMUNITY)}
+						>
+							<Icon margin="0 15px 0 0" inactive height="25px" name={ICON.TELEGRAMGRAY} />
 							Сообщество
 						</div>
-						<div className="dropdown-user-option" onClick={onMusicHandler}>
-							<Icon margin="0 15px 0 0" inactive={true} height="25px" name={ICON.MUSIC} />
+						<div className="dropdown-user-option" onClick={() => handleNavigation(ROUTE.MUSIC)}>
+							<Icon margin="0 15px 0 0" inactive height="25px" name={ICON.MUSIC} />
 							Плейлисты
 						</div>
 						<div className="dropdown-user-option" onClick={onLogoutClick}>
@@ -176,6 +166,13 @@ export const RightSideHeader = styled(RightSideHeaderContainer)`
 		align-items: center;
 		border-bottom: 1px solid #393939;
 		justify-content: center;
+	}
+	.user-information-role {
+		position: absolute;
+		margin: 0px 10px;
+		color: #3eb942;
+		right: 0;
+		font-size: 12px;
 	}
 
 	.dropdown-user {

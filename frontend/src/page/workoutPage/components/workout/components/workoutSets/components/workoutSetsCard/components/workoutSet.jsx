@@ -27,8 +27,8 @@ const WorkoutSetContainer = ({
 	calories,
 }) => {
 	const [checked, setChecked] = useState(false);
-	const [repsValue, setRepsValue] = useState(reps || '');
-	const [weightValue, setWeightValue] = useState(weight || '');
+	const [repsValue, setRepsValue] = useState(reps || null);
+	const [weightValue, setWeightValue] = useState(weight || null);
 	const [navMenu, setNavMenu] = useState(false);
 	const isBreak = useSelector(selectIsBreak);
 	const breakTime = useSelector(selectBreakTime);
@@ -119,7 +119,7 @@ const WorkoutSetContainer = ({
 			let userStringSet = [
 				...workoutExercises.filter((item) => item.userExerciseId === userExerciseId),
 			];
-			console.log(userStringSet);
+
 			let count = 0;
 			userStringSet = userStringSet.map((item) => {
 				count++;

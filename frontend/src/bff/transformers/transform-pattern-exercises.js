@@ -3,6 +3,6 @@ export const transformPatternExercises = (data) => ({
 	exerciseId: data.exercise_id,
 	name: data.name,
 	workoutId: data.pattern_id,
-	typeId: data.type_id,
+	muscleGroupId: data.muscle_group_id,
 	superSet: data.super_set,
 });

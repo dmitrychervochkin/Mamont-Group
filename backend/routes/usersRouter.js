@@ -10,8 +10,8 @@ router.post('/login', usersController.login);
 router.get('/auth', authMiddleWare, usersController.check);
 router.get('/', usersController.getAll);
 router.get('/:id', usersController.getOne);
-router.patch('/:id', usersController.update);
-router.patch('/update_password', usersController.updatePassword);
+router.patch('/reset_password', usersController.resetPassword);
+router.patch('/update_user/:id', usersController.update);
 router.delete('/:id', checkRole(ROLE.ADMIN), usersController.delete);
 
 module.exports = router;

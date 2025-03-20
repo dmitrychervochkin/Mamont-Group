@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const LogoImgContainer = ({ className, name }) => {
 	return (
 		<div className={className}>
-			<img className="img-logo" src={'/images/' + name} alt="logo" />
+			<img className="img-logo" src={`/images/${name}`} alt={`Logo ${name}`} />
 		</div>
 	);
 };

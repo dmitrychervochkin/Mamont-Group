@@ -9,24 +9,24 @@ import { resetError, setError } from '../../../../../reducers';
 
 const EditExerciseContainer = ({
 	className,
-	types,
+	muscleGroups,
 	id,
 	name,
 	img,
-	discription,
-	type,
+	description,
+	muscleGroup,
 	setIsEditExercise,
 	setIsSaveExercise,
 }) => {
 	const [editingExercise, setEditingExercise] = useState({
 		id: id,
 		name: name,
-		img: img?.discription,
-		discription: discription,
-		typeId: type?.id,
+		img: img?.description,
+		description: description,
+		muscleGroupId: muscleGroup?.id,
 	});
 
-	const [typeValue, setTypeValue] = useState(type?.name);
+	const [typeValue, setTypeValue] = useState(muscleGroup?.name);
 	const [addedFile, setAddedFile] = useState(true);
 	const [onChange, setOnChange] = useState(false);
 	const dispatch = useDispatch();
@@ -35,27 +35,25 @@ const EditExerciseContainer = ({
 		setOnChange(true);
 		setEditingExercise({ ...editingExercise, name: target.value });
 	};
-	const onTypeChange = ({ target }) => {
+	const onMuscleGroupChange = ({ target }) => {
 		setOnChange(true);
-		for (let type in types) {
-			if (types[type]?.name === target.value) {
-				setTypeValue(types[type]?.name);
-				setEditingExercise({ ...editingExercise, typeId: types[type]?.id });
+		for (let type in muscleGroups) {
+			if (muscleGroups[type]?.name === target.value) {
+				setTypeValue(muscleGroups[type]?.name);
+				setEditingExercise({ ...editingExercise, muscleGroupId: muscleGroups[type]?.id });
 			}
 		}
 	};
 
-	console.log(editingExercise);
-
 	const onExerciseSave = () => {
-		let oldImg = img.discription;
+		let oldImg = img.description;
 		if (onChange) {
 			server
 				.saveExerciseInfo({
 					id: img.id,
 					exerciseId: img.exerciseId,
 					type: img.type,
-					discription: editingExercise.img,
+					description: editingExercise.img,
 					oldImg,
 				})
 				.then(({ error }) => {
@@ -99,7 +97,7 @@ const EditExerciseContainer = ({
 				style={{ display: !addedFile && 'none', position: 'relative' }}
 			>
 				<img
-					src={process.env.REACT_APP_API_URL + img?.discription}
+					src={process.env.REACT_APP_API_URL + img?.description}
 					id="edit-preview"
 					style={{ borderRadius: '10px', border: '2px solid #646464' }}
 				/>
@@ -129,9 +127,9 @@ const EditExerciseContainer = ({
 					<select
 						className="edit-exercise-type-selector"
 						value={typeValue}
-						onChange={(e) => onTypeChange(e)}
+						onChange={(e) => onMuscleGroupChange(e)}
 					>
-						{types?.map(({ id, name }) => (
+						{muscleGroups?.map(({ id, name }) => (
 							<option key={id} id={id}>
 								{name}
 							</option>

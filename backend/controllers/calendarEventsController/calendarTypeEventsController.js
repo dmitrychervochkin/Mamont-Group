@@ -1,52 +1,86 @@
 const ApiError = require('../../error/ApiError');
-const { CalendarEvents, CalendarTypeEvents } = require('../../models/models');
+const { CalendarTypeEvents } = require('../../models/models');
 
-class CalendarEventsController {
+class CalendarTypeEventsController {
 	async create(req, res, next) {
 		try {
-			const { typeId, calendarEventId } = req.body;
+			const { muscleGroupId, calendarEventId } = req.body;
 
-			console.log(typeId, calendarEventId);
+			if (!muscleGroupId || !calendarEventId) {
+				return next(ApiError.badRequest('muscleGroupId и calendarEventId обязательны'));
+			}
 
 			const calendarTypeEvent = await CalendarTypeEvents.create({
-				type_id: typeId,
+				muscle_group_id: muscleGroupId,
 				calendar_event_id: calendarEventId,
 			});
 
 			return res.json(calendarTypeEvent);
 		} catch (err) {
-			return next(ApiError.badRequest(err.message));
+			next(ApiError.badRequest('Ошибка при создании: ' + err.message));
 		}
 	}
+
 	async getAll(req, res, next) {
 		try {
-			let { calendar_event_id } = req.query;
+			const { calendar_event_id } = req.query;
+
+			if (!calendar_event_id) {
+				return next(ApiError.badRequest('calendar_event_id обязателен'));
+			}
 
 			const calendarEvents = await CalendarTypeEvents.findAll({ where: { calendar_event_id } });
 
 			return res.json(calendarEvents);
 		} catch (err) {
-			return next(ApiError.badRequest(err.message));
+			next(ApiError.internal('Ошибка при получении списка событий'));
 		}
 	}
-	async delete(req, res) {
-		const { id } = req.params;
 
-		const types = await CalendarTypeEvents.destroy({
-			where: { id },
-		});
+	async delete(req, res, next) {
+		try {
+			const { id } = req.params;
 
-		return res.json(true);
+			if (!id) {
+				return next(ApiError.badRequest('ID обязателен'));
+			}
+
+			const event = await CalendarTypeEvents.findOne({ where: { id } });
+
+			if (!event) {
+				return next(ApiError.notFound('Событие не найдено'));
+			}
+
+			await CalendarTypeEvents.destroy({ where: { id } });
+
+			return res.json({ message: 'Событие успешно удалено' });
+		} catch (err) {
+			next(ApiError.internal('Ошибка при удалении события'));
+		}
 	}
-	async update(req, res) {
-		const { id } = req.params;
-		const { name } = req.body;
-		console.log(req);
-		const options = { where: { id }, returning: true };
-		const [count, calendarEvent] = await CalendarTypeEvents.update({ name }, options);
 
-		return res.json(calendarEvent);
+	async update(req, res, next) {
+		try {
+			const { id } = req.params;
+			const { muscleGroupId, calendarEventId } = req.body;
+
+			if (!id) {
+				return next(ApiError.badRequest('ID обязателен'));
+			}
+
+			const event = await CalendarTypeEvents.findOne({ where: { id } });
+
+			if (!event) {
+				return next(ApiError.notFound('Событие не найдено'));
+			}
+
+			await event.update({ muscle_group_id: muscleGroupId, calendar_event_id: calendarEventId });
+
+			return res.json(event);
+		} catch (err) {
+			next(ApiError.internal('Ошибка при обновлении события'));
+		}
 	}
 }
 
-module.exports = new CalendarEventsController();
+module.exports = new CalendarTypeEventsController();

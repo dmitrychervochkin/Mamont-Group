@@ -1,7 +1,7 @@
 import styled from 'styled-components';
+import { useState, useRef } from 'react';
 import { Patterns, QuickStart } from './components';
 import { Loader } from '../../components';
-import { useEffect, useState } from 'react';
 
 const HomePageContainer = ({ className, isLoading }) => {
 	return (

@@ -1,11 +1,11 @@
-const ApiError = require('../error/ApiError');
-const { WorkoutExercises } = require('../models/models');
+const ApiError = require('../../error/ApiError');
+const { WorkoutExercises } = require('../../models/models');
 
 class WorkoutExercisesController {
 	async create(req, res, next) {
 		try {
 			let { set, reps, weight, userExerciseId, exerciseId, workoutId } = req.body;
-			console.log(set, reps, weight, userExerciseId, exerciseId, workoutId);
+
 			const workoutExercises = await WorkoutExercises.create({
 				user_exercise_id: userExerciseId,
 				set,

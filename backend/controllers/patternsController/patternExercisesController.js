@@ -5,12 +5,12 @@ const { Workout, UserExercises } = require('../../models/models');
 class PatternExercisesController {
 	async create(req, res, next) {
 		try {
-			let { name, superSet, patternId, typeId, exerciseId } = req.body;
+			let { name, superSet, patternId, muscleGroupId, exerciseId } = req.body;
 
 			const patternExercise = await PatternExercises.create({
 				name,
 				super_set: superSet,
-				type_id: typeId,
+				muscle_group_id: muscleGroupId,
 				exercise_id: exerciseId,
 				pattern_id: patternId,
 			});
@@ -41,7 +41,7 @@ class PatternExercisesController {
 	async delete(req, res) {
 		const { id } = req.params;
 
-		const types = await Workout.destroy({
+		const muscleGroups = await Workout.destroy({
 			where: { id },
 		});
 

@@ -9,27 +9,27 @@ const CommunityPageContainer = ({ className }) => {
 
 	const telegramLinks = [
 		{
-			id: 1,
-			link: '123123123',
-			title: 'Питание',
-			icon: ICON.APPLE,
-			discription:
-			'В группе будут давать советы по составлению планов питания. Также, будет публиковаться информация о разных видах питания, основах составления рациона и рецептах здоровых блюд.',
-		},
-		{
 			id: 2,
-			link: '123123123',
+			link: 'https://t.me/mamont_training',
 			title: 'Тренировки по науке',
 			icon: ICON.BICEPSSHADOW,
-			discription:
+			description:
 				'Канал будет посвящён научным исследованиям в области тренировок. Основная информация будет состоять из экспертных материалов о занятиях спортом и их пользе, о нюансах выполнения тех или иных упражнений.',
 		},
 		{
+			id: 1,
+			link: 'https://t.me/mamont_nutrition',
+			title: 'Питание',
+			icon: ICON.APPLE,
+			description:
+				'В группе будут давать советы по составлению планов питания. Также, будет публиковаться информация о разных видах питания, основах составления рациона и рецептах здоровых блюд.',
+		},
+		{
 			id: 4,
-			link: '123123123',
+			link: 'https://t.me/mamont_health',
 			title: 'Здоровье',
 			icon: ICON.HEALTH,
-			discription: (
+			description: (
 				<>
 					<i>
 						В здоровом теле - здоровый дух! <br />
@@ -41,14 +41,14 @@ const CommunityPageContainer = ({ className }) => {
 				</>
 			),
 		},
-		{
-			id: 3,
-			link: '123123123',
-			title: 'Сильный дух',
-			icon: ICON.DUMBBELLSHADOW,
-			discription:
-				'Контент канала будет сосредоточен на обычной повседневной жизни: качественный отдых, важные витамины и анализы, соблюдение режима, хобби, самореализация и становление личности. Это не про спорт - это про образ жизни.',
-		},
+		// {
+		// 	id: 3,
+		// 	link: '123123123',
+		// 	title: 'Сильный дух',
+		// 	icon: ICON.DUMBBELLSHADOW,
+		// 	description:
+		// 		'Контент канала будет сосредоточен на обычной повседневной жизни: качественный отдых, важные витамины и анализы, соблюдение режима, хобби, самореализация и становление личности. Это не про спорт - это про образ жизни.',
+		// },
 	];
 
 	return (
@@ -61,28 +61,30 @@ const CommunityPageContainer = ({ className }) => {
 			</div>
 			<div
 				style={{
-					maxHeight: isMoreInfoOpen ? '200px' : '100px',
+					maxHeight: isMoreInfoOpen ? '100%' : '100px',
 					marginTop: isMoreInfoOpen ? '0' : '-110px',
 					opacity: isMoreInfoOpen ? '1' : '0',
 				}}
 				className="community-page-info"
 			>
-				<div style={{  borderLeft: '3px solid #a2a2a2', paddingLeft: '20px' }}>
-					The border shorthand is especially useful when you want all four borders to be the same.
-					To make them different from each other, however, you can use the longhand border-width,
-					border-style, and border-color properties, which accept different values for each side.
-					Alternatively, you can target one border at a time with the physical (e.g., border-top )
-					and logical (e.g., border-block-start) border properties.The border shorthand is
-					especially useful when you want all four borders to be the same. To make them different
-					from each other, however, you can use the longhand border-width, border-style, and
-					border-color properties, which accept different values for each side. Alternatively, you
-					can target one border at a time with the physical (e.g., border-top ) and logical (e.g.,
-					border-block-start) border properties.
-				</div>
+				<p style={{ borderLeft: '3px solid #a2a2a2', paddingLeft: '20px' }}>
+					<b style={{ color: '#ffffff90' }}>Сообщество</b> – это твой проводник в мир здоровья, силы
+					и осознанного образа жизни. Здесь ты найдёшь прове&shy;ренные знания, поддержку и
+					мотивацию от единомышленников. Мы собрали три Telegram-канала, каждый из которых
+					поможет тебе прокачаться в важнейших аспектах:{' '}
+					<b style={{ color: '#ffffff90' }}>Питание </b>– разберись в основах сбалансированного
+					рациона, узнай, как грамотно подбирать БЖУ, изучи рабочие лайфхаки для набора массы,
+					похудения и поддер&shy;жания энергии. <b style={{ color: '#ffffff90' }}>Тренировки </b> –
+					эффективные программы для любого уровня, правильная техника выполнения упражнений, советы
+					по прогрессии нагрузки и мощная мотивация, чтобы не сдаться на полпути.{' '}
+					<b style={{ color: '#ffffff90' }}>Здоровье </b> – всё о восстановлении, профилактике,
+					полезных привычках и научном подходе к физическому и ментальному сос&shy;тоянию. Присоединяйся
+					и стань лучшей версией себя! 🚀
+				</p>
 			</div>
 			<div className="community-page-main">
-				{telegramLinks.map(({ id, icon, title, discription }) => (
-					<CommunityCard key={id} icon={icon} title={title} discription={discription} />
+				{telegramLinks.map(({ id, icon, title, description, link }) => (
+					<CommunityCard key={id} icon={icon} title={title} description={description} link={link} />
 				))}
 			</div>
 		</div>
@@ -105,7 +107,7 @@ export const CommunityPage = styled(CommunityPageContainer)`
 	}
 	.community-page-info {
 		position: absolute;
-		word-break: break-all;
+		// word-break: break-all;
 		transition: 0.5s;
 		overflow: hidden;
 		width: 100%;

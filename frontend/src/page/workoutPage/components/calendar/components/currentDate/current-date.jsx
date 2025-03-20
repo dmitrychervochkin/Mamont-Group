@@ -25,7 +25,7 @@ const CurrentDateContainer = ({
 	isLoading,
 	isAddEvent,
 	patterns,
-	calendarEvents,
+	calendarEvents = [],
 	setIsSave,
 	setIsAddEvent,
 	workouts,
@@ -33,7 +33,7 @@ const CurrentDateContainer = ({
 	const currentDateEvent = calendarEvents.find((item) => item.date.toString() === selectedDate.toString());
 	const pastDateEvents = workouts.filter((item) => checkDateIsEqual(new Date(item.date), selectedDate));
 	const [calendarTypeEvents, setCalendarTypeEvents] = useState([]);
-	const [types, setTypes] = useState([]);
+	const [muscleGroups, setMuscleGroups] = useState([]);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -49,8 +49,8 @@ const CurrentDateContainer = ({
 				});
 		}
 		server
-			.fetchTypes()
-			.then(({ res }) => setTypes(res))
+			.fetchMuscleGroups()
+			.then(({ res }) => setMuscleGroups(res))
 			.catch((err) => {
 				dispatch(setError(err));
 				setTimeout(() => {
@@ -188,8 +188,8 @@ const CurrentDateContainer = ({
 										}}
 									>
 										{calendarTypeEvents.map((item, i) => (
-											<div style={{ marginRight: '5px' }}>
-												{findItem(types, item.typeId).name}
+											<div key={item.id} style={{ marginRight: '5px' }}>
+												{findItem(muscleGroups, item.muscleGroupId).name}
 												{i + 1 !== calendarTypeEvents.length &&
 													calendarTypeEvents.length > 1 &&
 													','}

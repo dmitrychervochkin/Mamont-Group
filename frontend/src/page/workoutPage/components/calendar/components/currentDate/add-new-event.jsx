@@ -8,7 +8,7 @@ import { resetError, selectUserId, setError } from '../../../../../../reducers';
 
 const AddNewEventContainer = ({ className, selectedDate, patterns, setIsSave, setIsAddEvent }) => {
 	const [newNameEvent, setNewNameEvent] = useState('');
-	const [types, setTypes] = useState([]);
+	const [muscleGroups, setMuscleGroups] = useState([]);
 	const [newPatternEvent, setNewPatternEvent] = useState(patterns[0]);
 	const [newComplexityEvent, setNewComplexityEvent] = useState(COMPLEXITY[0]);
 	const [newTypesEvent, setNewTypesEvent] = useState([]);
@@ -18,8 +18,8 @@ const AddNewEventContainer = ({ className, selectedDate, patterns, setIsSave, se
 
 	useEffect(() => {
 		server
-			.fetchTypes()
-			.then(({ res }) => setTypes(res))
+			.fetchMuscleGroups()
+			.then(({ res }) => setMuscleGroups(res))
 			.catch((err) => {
 				dispatch(setError(err));
 				setTimeout(() => {
@@ -93,7 +93,7 @@ const AddNewEventContainer = ({ className, selectedDate, patterns, setIsSave, se
 					<div style={{ marginBottom: '5px' }}>Добавьте мышечные группы:</div>
 					{isOpen && (
 						<div className="types-dropdown">
-							{types.map((item) => (
+							{muscleGroups.map((item) => (
 								<div
 									style={{
 										color: newTypesEvent.find((type) => type.id === item.id) && 'white',
@@ -116,10 +116,10 @@ const AddNewEventContainer = ({ className, selectedDate, patterns, setIsSave, se
 						{newTypesEvent.map((item, i) => (
 							<div className="added-event-type" onClick={() => onAddedTypeClicked(item)}>
 								{item.name}
-								{i + 1 !== types.length && newTypesEvent.length > 1 && ','}
+								{i + 1 !== muscleGroups.length && newTypesEvent.length > 1 && ','}
 							</div>
 						))}
-						{newTypesEvent.length === types.length ? (
+						{newTypesEvent.length === muscleGroups.length ? (
 							<div></div>
 						) : (
 							<div className="add-event-types-btn" onClick={() => setIsOpen(!isOpen)}>

@@ -19,6 +19,7 @@ import {
 	selectUserWorkoutExercises,
 	setError,
 	setExercises,
+	setMuscleGroups,
 	setTypes,
 	setUser,
 	setUserExercises,
@@ -59,13 +60,13 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		Promise.all([server.fetchExercises(), server.fetchTypes()])
-			.then(([exercises, types]) => {
+		Promise.all([server.fetchExercises(), server.fetchMuscleGroups()])
+			.then(([exercises, muscleGroups]) => {
 				dispatch(setExercises(exercises.res));
-				dispatch(setTypes(types.res));
+				dispatch(setMuscleGroups(muscleGroups.res));
 			})
 			.catch((err) => {
-				dispatch(setError(err));
+				dispatch(setError(err.message));
 				setTimeout(() => {
 					dispatch(resetError());
 				}, [5000]);
@@ -95,7 +96,7 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 								id: Date.now() + item.id,
 								exerciseId: item.id,
 								name: item.name,
-								typeId: item.typeId,
+								muscleGroupId: item.muscleGroupId,
 								superSet: null,
 							})),
 						]),

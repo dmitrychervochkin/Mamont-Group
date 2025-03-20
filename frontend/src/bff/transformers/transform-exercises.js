@@ -2,7 +2,6 @@ export const transformExercises = (dbExercises) => ({
 	id: dbExercises.id,
 	name: dbExercises.name,
 	userId: dbExercises.user_id,
-	typeId: dbExercises.type_id,
-	infoId: dbExercises.info_id,
-	discription: dbExercises.discription,
+	muscleGroupId: dbExercises.muscle_group_id,
+	description: dbExercises.description,
 });

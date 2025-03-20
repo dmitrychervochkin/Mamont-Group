@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const MusicCardContainer = ({ className, isLoading, id, musicLink, title, discription }) => {
+const MusicCardContainer = ({ className, isLoading, id, musicLink, title, description }) => {
 	const [isOpenMore, setIsOpenMore] = useState(false);
 
 	return (
@@ -24,7 +24,7 @@ const MusicCardContainer = ({ className, isLoading, id, musicLink, title, discri
 						></iframe>
 					)}
 					<div
-						className="music-discription"
+						className="music-description"
 						onClick={() => setIsOpenMore(!isOpenMore)}
 						style={{ maxHeight: '500px' }}
 					>
@@ -38,13 +38,13 @@ const MusicCardContainer = ({ className, isLoading, id, musicLink, title, discri
 						>
 							{title}
 						</div>
-						<div style={{ opacity: '0.7' }}>{discription}</div>
+						<div style={{ opacity: '0.7' }}>{description}</div>
 					</div>
 				</>
 			) : (
 				<>
 					<div
-						className="music-discription"
+						className="music-description"
 						style={{ maxHeight: '500px' }}
 						onClick={() => setIsOpenMore(!isOpenMore)}
 					>
@@ -58,7 +58,7 @@ const MusicCardContainer = ({ className, isLoading, id, musicLink, title, discri
 						>
 							{title}
 						</div>
-						<div style={{ opacity: '0.7' }}>{discription}</div>
+						<div style={{ opacity: '0.7' }}>{description}</div>
 					</div>
 					{isLoading ? (
 						<div
@@ -110,7 +110,7 @@ export const MusicCard = styled(MusicCardContainer)`
 		}
 	}
 
-	.music-discription {
+	.music-description {
 		width: 100%;
 		transition: box-shadow 0.3s;
 		border-radius: 20px;

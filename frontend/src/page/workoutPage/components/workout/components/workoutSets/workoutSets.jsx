@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { groupArrays } from '../../../../../../utils';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserExercises, setUserExercises } from '../../../../../../reducers';
 import { WorkoutSetsCard } from './components/workoutSetsCard/workoutSetsCard';
@@ -37,39 +37,76 @@ const WorkoutSetsContainer = ({ className }) => {
 	};
 
 	const drop = (event) => {
+		// let userExercisesWithSupersets = groupArrays(userExercises, {
+		// 	toReturn: 'array',
+		// 	filteredBy: 'superSet',
+		// });
+
+		// const id = Number(event.dataTransfer.getData('text/plain'));
+		// event.currentTarget.querySelector('.card').classList.remove('drop');
+		// document.querySelectorAll('.card').forEach((item) => (item.style.borderTop = '0px solid #222222'));
+		// document.querySelectorAll('.card').forEach((item) => item.classList.remove('swapped'));
+		// event.preventDefault();
+
+		// const swapElements = (array, index1, index2) => {
+		// 	[array[index1], array[index2]] = [array[index2], array[index1]];
+		// };
+
+		// let newArray = [...userExercisesWithSupersets];
+		// for (let i in userExercisesWithSupersets) {
+		// 	if (
+		// 		userExercisesWithSupersets[i].id === id ||
+		// 		userExercisesWithSupersets[i][0]?.superSet === id
+		// 	) {
+		// 		for (let j in userExercisesWithSupersets) {
+		// 			if (
+		// 				userExercisesWithSupersets[j].id === swapElement ||
+		// 				userExercisesWithSupersets[j][0]?.superSet === swapElement
+		// 			) {
+		// 				swapElements(newArray, i, j);
+		// 			}
+		// 		}
+		// 	}
+		// }
+
+		// dispatch(setUserExercises(newArray.flat()));
+
+		event.preventDefault();
+
 		let userExercisesWithSupersets = groupArrays(userExercises, {
 			toReturn: 'array',
 			filteredBy: 'superSet',
 		});
 
-		const id = Number(event.dataTransfer.getData('text/plain'));
-		event.currentTarget.querySelector('.card').classList.remove('drop');
-		document.querySelectorAll('.card').forEach((item) => (item.style.borderTop = '0px solid #222222'));
-		document.querySelectorAll('.card').forEach((item) => item.classList.remove('swapped'));
-		event.preventDefault();
+		const draggedId = Number(event.dataTransfer.getData('text/plain'));
+		const targetElement = event.target.closest('[data-id]') || event.currentTarget.closest('[data-id]');
+		const targetId = targetElement ? Number(targetElement.dataset.id) : NaN;
 
-		const swapElements = (array, index1, index2) => {
-			[array[index1], array[index2]] = [array[index2], array[index1]];
-		};
-
-		let newArray = [...userExercisesWithSupersets];
-		for (let i in userExercisesWithSupersets) {
-			if (
-				userExercisesWithSupersets[i].id === id ||
-				userExercisesWithSupersets[i][0]?.superSet === id
-			) {
-				for (let j in userExercisesWithSupersets) {
-					if (
-						userExercisesWithSupersets[j].id === swapElement ||
-						userExercisesWithSupersets[j][0]?.superSet === swapElement
-					) {
-						swapElements(newArray, i, j);
-					}
-				}
-			}
+		if (isNaN(draggedId) || isNaN(targetId)) {
+			console.error('Ошибка: некорректные ID');
+			return;
 		}
 
-		console.log(newArray);
+		// Убираем классы оформления после drop
+		event.currentTarget.querySelector('.card')?.classList.remove('drop');
+		document.querySelectorAll('.card').forEach((item) => {
+			item.style.borderTop = '0px solid #222222';
+			item.classList.remove('swapped');
+		});
+
+		let newArray = [...userExercisesWithSupersets];
+
+		let draggedIndex = newArray.findIndex((el) => el.id === draggedId || el[0]?.superSet === draggedId);
+		let targetIndex = newArray.findIndex((el) => el.id === targetId || el[0]?.superSet === targetId);
+
+		if (draggedIndex === -1 || targetIndex === -1) {
+			console.error('Ошибка: не найдены индексы элементов');
+			return;
+		}
+
+		// Вставляем dragged перед target
+		const [draggedItem] = newArray.splice(draggedIndex, 1); // Удаляем перетаскиваемый элемент
+		newArray.splice(targetIndex, 0, draggedItem); // Вставляем его перед target
 
 		dispatch(setUserExercises(newArray.flat()));
 	};
@@ -92,7 +129,7 @@ const WorkoutSetsContainer = ({ className }) => {
 					<div
 						className="superset-container card"
 						key={item[0].superSet}
-						draggable={'true'}
+						draggable
 						data-id={item[0].superSet}
 						onDragStart={drag}
 						style={{ boxShadow: '0 0 10px 5px #141414' }}
@@ -101,14 +138,8 @@ const WorkoutSetsContainer = ({ className }) => {
 							<WorkoutSetsCard
 								key={exercise.id}
 								exercise={exercise}
-								// id={exercise.id}
-								// exerciseId={exercise.exerciseId}
-								// name={exercise.name}
-								// superSet={exercise.superSet}
-								// typeId={exercise.typeId}
-								// types={types}
+								muscleGroupId={exercise.muscleGroupId}
 								exercises={userExercises}
-								// setExercises={setExercises}
 								mergedExercises={mergedExercises}
 								setMergedExercises={setMergedExercises}
 								drag={drag}
@@ -120,15 +151,8 @@ const WorkoutSetsContainer = ({ className }) => {
 					<WorkoutSetsCard
 						key={item.id}
 						exercise={item}
-						// id={item.id}
-						// exerciseId={item.exerciseId}
-						// name={item.name}
-						// superSet={item.superSet}
-						// typeId={item.typeId}
-						// types={types}
+						muscleGroupId={item.muscleGroupId}
 						exercises={userExercises}
-						// setExercises={setExercises}
-						// workoutExercises={userWorkoutExercises}
 						mergedExercises={mergedExercises}
 						setMergedExercises={setMergedExercises}
 						drag={drag}

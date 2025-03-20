@@ -1,42 +1,45 @@
 import styled from 'styled-components';
 import { LOGO } from '../../constants';
 import { useSelector } from 'react-redux';
-import { selectUserId } from '../../reducers';
+import { selectErrorMessage, selectUserId } from '../../reducers';
 import { IconsNavBar, LogoImg, RightSideHeader } from './components';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NewFeatures } from './components/new-features';
+import { DropdownError } from '../dropdownError/dropdownError';
 
 const HeaderContainer = ({ className }) => {
 	const userId = useSelector(selectUserId);
+	const errorMessage = useSelector(selectErrorMessage);
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const dropdownRef = useRef(null);
+	const buttonRef = useRef(null);
 
-	const windowClicker = (event) => {
-		const accountDropdownWindow = document.querySelectorAll('#new-features-dropdown-window');
-		const accountDropdown = document.querySelector('#new-features-dropdown');
+	useEffect(() => {
+		const handleResize = () => setWindowWidth(window.innerWidth);
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
 
-		if (event.target === accountDropdown) {
-			return;
-		} else if (accountDropdownWindow[0] !== event.target.parentNode) {
-			setIsDropdownOpen(false);
-			window.removeEventListener('click', windowClicker);
-		}
-	};
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (
+				dropdownRef.current &&
+				!dropdownRef.current.contains(event.target) &&
+				buttonRef.current !== event.target
+			) {
+				setIsDropdownOpen(false);
+			}
+		};
 
-	const onDropdownHandler = () => {
-		const accountDropdownWindow = document.querySelectorAll('#new-features-dropdown-window');
-		setIsDropdownOpen(!isDropdownOpen);
-
-		if (accountDropdownWindow[0].style.opacity === '0') {
-			window.addEventListener('click', windowClicker);
+		if (isDropdownOpen) {
+			window.addEventListener('click', handleClickOutside);
 		} else {
-			window.removeEventListener('click', windowClicker);
+			window.removeEventListener('click', handleClickOutside);
 		}
-	};
 
-	window.addEventListener('resize', function (event) {
-		setWindowWidth(document.body.clientWidth);
-	});
+		return () => window.removeEventListener('click', handleClickOutside);
+	}, [isDropdownOpen]);
 
 	return (
 		<header className={className}>
@@ -46,15 +49,19 @@ const HeaderContainer = ({ className }) => {
 				<RightSideHeader userId={userId} />
 				{windowWidth > 1100 && (
 					<div
+						ref={buttonRef}
 						id="new-features-dropdown"
 						className="new-features-btn"
-						onClick={() => onDropdownHandler()}
+						// onClick={() => onDropdownHandler()}
+						onClick={() => setIsDropdownOpen((prev) => !prev)}
 					>
 						Что нового?
 					</div>
 				)}
 			</div>
-			<NewFeatures isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen}/>
+			<div ref={dropdownRef}>
+				<NewFeatures isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen} />
+			</div>
 		</header>
 	);
 };
@@ -89,5 +96,4 @@ export const Header = styled(HeaderContainer)`
 			color: white;
 		}
 	}
-	
 `;

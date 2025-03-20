@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 import { checkDateIsEqual, checkIsToday, formatDate } from '../utils';
 
-const CalendarDaysContainer = ({ className, state, functions, setSelectedDay, calendarEvents, workouts }) => {
+const CalendarDaysContainer = ({
+	className,
+	state,
+	functions,
+	setSelectedDay,
+	calendarEvents = [],
+	workouts,
+}) => {
 	return (
 		<div className={className}>
 			{state.calendarDays.map((day) => {

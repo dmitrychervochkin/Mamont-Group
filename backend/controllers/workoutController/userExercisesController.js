@@ -1,15 +1,15 @@
-const ApiError = require('../error/ApiError');
-const { Workout, UserExercises } = require('../models/models');
+const ApiError = require('../../error/ApiError');
+const { Workout, UserExercises } = require('../../models/models');
 
 class UserExercisesController {
 	async create(req, res, next) {
 		try {
-			let { name, superSet, workoutId, typeId, exerciseId } = req.body;
+			let { name, superSet, workoutId, muscleGroupId, exerciseId } = req.body;
 
 			const userExercise = await UserExercises.create({
 				name,
 				super_set: superSet,
-				type_id: typeId,
+				muscle_group_id: muscleGroupId,
 				exercise_id: exerciseId,
 				workout_id: workoutId,
 			});
@@ -36,7 +36,7 @@ class UserExercisesController {
 	async delete(req, res) {
 		const { id } = req.params;
 
-		const types = await Workout.destroy({
+		const w = await Workout.destroy({
 			where: { id },
 		});
 

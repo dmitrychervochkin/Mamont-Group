@@ -10,6 +10,6 @@ export const addPatternExercise = (patternExerciseData, patternId, token) =>
 			name: patternExerciseData.name,
 			superSet: patternExerciseData.superSet,
 			patternId: patternId,
-			typeId: patternExerciseData.typeId,
+			muscleGroupId: patternExerciseData.muscleGroupId,
 		}),
 	}).then((data) => data.json());

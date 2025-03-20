@@ -30,20 +30,6 @@ const CALENDAR_STATE = [
 	},
 ];
 
-/*
-CALENDAR_EVENTS
-id
-name
-date
-patternId
-complexity
-
-CALENDAR_TYPE_EVENTS
-id
-typeId
-calendarEventsId
-*/
-
 const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber = 2, patterns, workouts }) => {
 	const [selectedDate, setSelectedDay] = useState(new Date());
 	const [isSave, setIsSave] = useState(false);
@@ -62,19 +48,23 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 		setIsLoading(true);
 		server
 			.fetchCalendarEvents(userId)
-			.then(({ res }) => {
-				setCalendarEvents(res);
+			.then(({ res, error }) => {
+				setCalendarEvents(res ?? []);
+				dispatch(setError(error));
 				setTimeout(() => {
 					setIsLoading(false);
 					setIsSave(false);
 					setIsAddEvent(false);
-				}, [500]);
+				}, 500);
+				setTimeout(() => {
+					dispatch(resetError());
+				}, 5000);
 			})
 			.catch((err) => {
 				dispatch(setError(err));
 				setTimeout(() => {
 					dispatch(resetError());
-				}, [5000]);
+				}, 5000);
 			});
 	}, [selectedDate, isSave]);
 
@@ -92,7 +82,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 			<div className="calendar-header">
 				<Heading>Календарь</Heading>
 				<div style={{ display: 'flex' }}>
-					{!calendarEvents.find((item) => item.date === selectedDate.toString()) && (
+					{!calendarEvents?.find((item) => item.date === selectedDate.toString()) && (
 						<Button
 							width="200px"
 							onClick={() => setIsAddEvent(true)}

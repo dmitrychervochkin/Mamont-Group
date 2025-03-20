@@ -1,8 +1,46 @@
+# Общие исключения для всех проектов
+.DS_Store
+Thumbs.db
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.development
+.env.production
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.vscode/
+.idea/
+*.log
 
-/frontend/node_modules
+# Исключения для backend (Node.js, Express, NestJS и др.)
+backend/node_modules/
+backend/dist/
+backend/build/
+backend/.env
+backend/.cache/
+backend/debug.log
+backend/.npm/
 
-/build
+# Исключения для frontend (React, Next.js, Vue и др.)
+frontend/node_modules/
+frontend/.next/
+frontend/.nuxt/
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.cache/
 
-/frontend/.env
+# Исключения для OS
+*.swp
+*.swo
+*.bak
+*.tmp
+*.sublime-project
+*.sublime-workspace
 
-/backend/node_modules
+# Исключения для Git
+.git/

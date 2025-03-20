@@ -6,7 +6,7 @@ const patternRouter = require('./pattern/patternRouter');
 const patternExercisesRouter = require('./pattern/patternExercisesRouter');
 const patternWorkoutExercisesRouter = require('./pattern/patternWorkoutExercisesRouter');
 const userPatternRouter = require('./pattern/userPatternRouter');
-const typesRouter = require('./typesRouter');
+const muscleGroupsRouter = require('./muscleGroupsRouter');
 const usersRouter = require('./usersRouter');
 const workoutRouter = require('./workoutRouter');
 const workoutExercisesRouter = require('./workoutExercisesRouter');
@@ -16,7 +16,7 @@ const calendarEventsRouter = require('./calendarEvents/calendarEventsRouter');
 const calendarTypeEventsRouter = require('./calendarEvents/calendarTypeEventsRouter');
 
 router.use('/users', usersRouter);
-router.use('/types', typesRouter);
+router.use('/muscle_groups', muscleGroupsRouter);
 router.use('/roles', rolesRouter);
 router.use('/exercises', exercisesRouter);
 router.use('/exercise_info', exercisesInfoRouter);

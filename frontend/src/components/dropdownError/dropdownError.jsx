@@ -20,7 +20,7 @@ const DropdownErrorContainer = ({ className, children }) => {
 
 export const DropdownError = styled(DropdownErrorContainer)`
 	padding: 20px 20px;
-	position: absolute;
+	position: fixed;
 	width: 300px;
 	background-color: #e74e4e;
 	z-index: 10;

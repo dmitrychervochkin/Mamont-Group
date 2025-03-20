@@ -19,24 +19,24 @@ import { ExercisesAdminHeader } from './components';
 
 const ExercisesRightSideContainer = ({ className }) => {
 	const [users, setUsers] = useState([]);
-	const [types, setTypes] = useState([]);
+	const [muscleGroups, setMuscleGroups] = useState([]);
 	const [isAddNewExercise, setIsAddNewExercise] = useState(false);
 	const [isDeleteExercise, setIsDeleteExercise] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isSaveExercise, setIsSaveExercise] = useState(false);
 	const [isSearch, setIsSearch] = useState(false);
 	const [searchingExercises, setSearchingExercises] = useState([]);
-	const [currentType, setCurrentType] = useState('');
+	const [currentMuscleGroup, setCurrentMuscleGroup] = useState('');
 	const exercisesState = useSelector(selectExercises);
 	const isEditExerciseInfo = useSelector(selectIsEditExerciseInfo);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		setIsLoading(true);
-		Promise.all([server.fetchExercises(currentType), server.fetchTypes(), server.fetchUsers()]).then(
-			([exercises, types, users]) => {
+		Promise.all([server.fetchExercises(currentMuscleGroup), server.fetchMuscleGroups(), server.fetchUsers()]).then(
+			([exercises, muscleGroups, users]) => {
 				dispatch(setExercises(exercises.res));
-				setTypes(types.res);
+				setMuscleGroups(muscleGroups.res);
 				setUsers(users.res);
 				setIsSaveExercise(false);
 				setTimeout(() => {
@@ -44,13 +44,13 @@ const ExercisesRightSideContainer = ({ className }) => {
 				}, [300]);
 			},
 		);
-	}, [isDeleteExercise, isSaveExercise, currentType]);
+	}, [isDeleteExercise, isSaveExercise, currentMuscleGroup]);
 
-	const onTypeClick = (id) => {
-		if (id === currentType) {
-			setCurrentType('');
+	const onMuscleGroupClick = (id) => {
+		if (id === currentMuscleGroup) {
+			setCurrentMuscleGroup('');
 		} else {
-			setCurrentType(id);
+			setCurrentMuscleGroup(id);
 		}
 	};
 
@@ -81,8 +81,8 @@ const ExercisesRightSideContainer = ({ className }) => {
 			<ExercisesAdminHeader
 				isSearch={isSearch}
 				isLoading={isLoading}
-				currentType={currentType}
-				type={findItem(types, currentType)?.name}
+				currentMuscleGroup={currentMuscleGroup}
+				muscleGroup={findItem(muscleGroups, currentMuscleGroup)?.name}
 				searchingExercises={searchingExercises}
 				isAddNewExercise={isAddNewExercise}
 				setIsAddNewExercise={setIsAddNewExercise}
@@ -101,13 +101,13 @@ const ExercisesRightSideContainer = ({ className }) => {
 								<div className="search-types-sceleton"></div>
 							</>
 						) : (
-							types.map(({ id, name }) => (
+							muscleGroups.map(({ id, name }) => (
 								<div
 									key={id}
-									onClick={() => onTypeClick(id)}
+									onClick={() => onMuscleGroupClick(id)}
 									style={{
 										cursor: 'pointer',
-										opacity: currentType === id ? '1' : '0.6',
+										opacity: currentMuscleGroup === id ? '1' : '0.6',
 									}}
 								>
 									{name}
@@ -131,26 +131,26 @@ const ExercisesRightSideContainer = ({ className }) => {
 					<ScrollSlider className="exercises-list">
 						{isAddNewExercise && (
 							<AddNewExercise
-								types={types}
+							muscleGroups={muscleGroups}
 								setIsSaveExercise={setIsSaveExercise}
 								setIsAddNewExercise={setIsAddNewExercise}
 								setError={setError}
 							/>
 						)}
 						{(isSearch ? searchingExercises : exercisesState?.rows)
-							?.map(({ id, name, userId, typeId, discription }) => (
+							?.map(({ id, name, userId, muscleGroupId, description }) => (
 								<ExerciseCard
 									setError={setError}
 									key={id}
 									id={id}
 									name={name}
-									discription={discription}
-									types={types}
+									description={description}
+									muscleGroups={muscleGroups}
 									userId={userId}
 									setIsDeleteExercise={setIsDeleteExercise}
 									isSaveExercise={isSaveExercise}
 									setIsSaveExercise={setIsSaveExercise}
-									type={findItem(types, typeId)}
+									muscleGroup={findItem(muscleGroups, muscleGroupId)}
 									user={findItem(users, userId)}
 								/>
 							))

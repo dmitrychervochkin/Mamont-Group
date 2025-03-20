@@ -10,8 +10,8 @@ const AdminPageHeaderContainer = ({ className, leftSide, rightSide, setLeftSide,
 	const onRolesClick = () => {
 		setLeftSide('roles');
 	};
-	const onTypesClick = () => {
-		setLeftSide('types');
+	const onMuscleGroupsClick = () => {
+		setLeftSide('muscleGroups');
 	};
 	const onTariffsClick = () => {
 		setRightSide('tariffs');
@@ -37,12 +37,12 @@ const AdminPageHeaderContainer = ({ className, leftSide, rightSide, setLeftSide,
 						onClick={() => onRolesClick()}
 					/>
 				)}
-				{leftSide !== 'types' && (
+				{leftSide !== 'muscleGroups' && (
 					<Icon
 						className="admin-page-header-icon"
 						reverse="true"
 						name={ICON.TYPE}
-						onClick={() => onTypesClick()}
+						onClick={() => onMuscleGroupsClick()}
 					/>
 				)}
 				{rightSide !== 'users' && (

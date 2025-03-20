@@ -33,7 +33,7 @@ class UsersController {
 				password: hashPassword,
 				role_id: userRole.id,
 			});
-			console.log(dataValues);
+
 			const token = generateJwt(
 				dataValues.id,
 				dataValues.email,
@@ -124,7 +124,7 @@ class UsersController {
 	async delete(req, res) {
 		const { id } = req.params;
 
-		const types = await Users.destroy({
+		const muscleGroups = await Users.destroy({
 			where: { id },
 		});
 

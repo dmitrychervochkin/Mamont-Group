@@ -5,11 +5,6 @@ export const groupArrays = (array, options) => {
 	for (let i = 0; i < array.length; i++) {
 		let item = array[i];
 
-		// if (!groups[item.exerciseId]) {
-		// 	groups[item.exerciseId] = [];
-		// }
-		// console.log(item['superSet'])
-
 		if (!item[filteredBy]) {
 			groups[item.id] = [];
 		} else if (!groups[item[filteredBy]]) {

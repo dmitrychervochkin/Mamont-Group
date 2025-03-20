@@ -1,7 +1,7 @@
 import { transformUserPattern, transformWorkouts } from '../../transformers';
 
-export const getUserPatterns = async (userId) =>
-	fetch(`http://localhost:7001/api/user_patterns?user_id=${userId}`)
+export const getUserPatterns = async (userId, limit, page) =>
+	fetch(`http://localhost:7001/api/user_patterns?user_id=${userId}&limit=${limit}&page=${page}`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;

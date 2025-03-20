@@ -22,13 +22,13 @@ const ExerciseCardContainer = ({
 	id,
 	name,
 	user,
-	type,
+	muscleGroup,
 	userId,
-	discription,
+	description,
 	setIsDeleteExercise,
 	isSaveExercise,
 	setIsSaveExercise,
-	types,
+	muscleGroups,
 }) => {
 	const dispatch = useDispatch();
 	const [isEditExercise, setIsEditExercise] = useState(false);
@@ -58,7 +58,7 @@ const ExerciseCardContainer = ({
 	};
 
 	const exerciseInfoHandler = () => {
-		dispatch(setExercise({ id, name, userId, typeId: type.id, discription: discription }));
+		dispatch(setExercise({ id, name, userId, muscleGroupId: muscleGroup.id, description: description }));
 
 		dispatch(
 			openModal({
@@ -79,12 +79,12 @@ const ExerciseCardContainer = ({
 			{isEditExercise ? (
 				<EditExercise
 					id={id}
-					types={types}
+					muscleGroups={muscleGroups}
 					name={name}
-					discription={discription}
+					description={description}
 					userId={user.id}
 					img={exerciseImg}
-					type={type}
+					muscleGroup={muscleGroup}
 					setIsEditExercise={setIsEditExercise}
 					setIsSaveExercise={setIsSaveExercise}
 				/>
@@ -95,8 +95,8 @@ const ExerciseCardContainer = ({
 							<img
 								className="exercise-img"
 								src={
-									exerciseImg.discription &&
-									process.env.REACT_APP_API_URL + exerciseImg?.discription
+									exerciseImg.description &&
+									process.env.REACT_APP_API_URL + exerciseImg?.description
 								}
 							/>
 						</div>
@@ -112,7 +112,7 @@ const ExerciseCardContainer = ({
 								/>
 								{name}
 							</div>
-							<div className="exercise-type">{type?.name}</div>
+							<div className="exercise-type">{muscleGroup?.name}</div>
 							<div className="exercise-user">
 								Пользователь: {user?.login}
 								<span style={{ fontSize: '14px', margin: '0 10px 0 0' }}>ID: {id}</span>

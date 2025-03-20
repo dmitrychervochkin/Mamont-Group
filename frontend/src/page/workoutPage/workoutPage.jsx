@@ -1,84 +1,102 @@
 import styled from 'styled-components';
-import { Workout } from './components/workout/workout';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { Workout } from './components/workout/workout';
+import { WorkoutCard } from './components/workoutCard/workoutCard';
+import { Calendar, History } from './components';
+
+import { Button, Heading, Icon, Loader } from '../../components';
+import { server } from '../../bff';
+import { ICON, LIMITS, ROUTE } from '../../constants';
+
 import {
 	addPattern,
-	closeModal,
-	openModal,
+	startWorkout,
+	setError,
 	resetError,
-	selectModal,
 	selectStartWorkout,
 	selectUserId,
-	selectWorkoutTime,
-	setError,
-	startWorkout,
 } from '../../reducers';
-import { WorkoutHeader } from './components/workoutHeader/workoutHeader';
-import { Button, Heading, Icon, Loader } from '../../components';
-import { useEffect, useState } from 'react';
-import { WorkoutCard } from './components/workoutCard/workoutCard';
-import { server } from '../../bff';
-import { CALENDAR, ICON, ROUTE } from '../../constants';
-import { LIMITS } from '../../constants/limitsConstants';
-import { timeConverter } from '../../utils';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Calendar, History } from './components';
+
+const useFetchWorkouts = (userId, isDataUpdating, setIsLoading, page) => {
+	const [patterns, setPatterns] = useState([]);
+	const [exercises, setExercises] = useState([]);
+	const [workouts, setWorkouts] = useState([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				setIsLoading(true);
+				const [exercisesRes, patternsRes] = await Promise.all([
+					server.fetchExercises(),
+					server.fetchPatterns(userId, LIMITS.PATTERNS, page),
+				]);
+
+				setExercises(exercisesRes.res);
+				setPatterns(patternsRes.res);
+			} catch (err) {
+				console.error(err);
+			} finally {
+				setTimeout(() => setIsLoading(false), 500);
+			}
+		};
+
+		fetchData();
+	}, [userId, isDataUpdating, page]);
+
+	return { patterns, workouts, exercises, setWorkouts };
+};
 
 const WorkoutPageContainer = ({ className }) => {
 	const [isWorkoutsDropdown, setIsWorkoutsDropdown] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isDelete, setIsDelete] = useState(false);
-	const [isSave, setIsSave] = useState(false);
-	const [patterns, setPatterns] = useState([]);
-	const [workouts, setWorkouts] = useState([]);
-	const [exercises, setExercises] = useState([]);
+	const [isDataUpdating, setIsDataUpdating] = useState(false);
 	const isStartWorkout = useSelector(selectStartWorkout);
 	const userId = useSelector(selectUserId);
 	const dispatch = useDispatch();
+	const [page, setPage] = useState(1);
 	const location = useLocation();
 
+	const { patterns, workouts, exercises, setWorkouts } = useFetchWorkouts(
+		userId,
+		isDataUpdating,
+		setIsLoading,
+		page,
+	);
+
 	useEffect(() => {
-		setIsLoading(true);
-		if (location.pathname === ROUTE.HISTORY) {
-			setIsWorkoutsDropdown(true);
-		}
-		Promise.all([server.fetchExercises(), server.fetchPatterns(userId)])
-			.then(([exercises, patterns]) => {
-				setExercises(exercises.res);
-				setPatterns(patterns.res);
-				setTimeout(() => {
-					setIsSave(false);
-					setIsLoading(false);
-				}, [500]);
-			})
-			.catch((err) => {
-				console.log(err.toString());
-				dispatch(setError(err.toString()));
-				setTimeout(() => {
-					dispatch(resetError());
-				}, [5000]);
-			});
-	}, [isDelete, isSave]);
+		setIsWorkoutsDropdown(location.pathname === ROUTE.HISTORY);
+	}, [location.pathname]);
 
-	const startNewWorkout = () => {
-		dispatch(startWorkout());
-	};
+	const startNewWorkout = useCallback(() => dispatch(startWorkout()), [dispatch]);
 
-	const onAddPatternHandler = () => {
-		dispatch(addPattern());
-	};
+	const onAddPatternHandler = useCallback(() => dispatch(addPattern()), [dispatch]);
+
+	const renderWorkoutCards = useMemo(
+		() =>
+			patterns.map(({ id, name, description }) => (
+				<WorkoutCard
+					key={id}
+					exercises={exercises}
+					setIsDelete={() => setIsDataUpdating(true)}
+					id={id}
+					name={name}
+					description={description}
+				/>
+			)),
+		[patterns, exercises],
+	);
+
+	if (isStartWorkout) {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
 
 	return (
 		<div className={className}>
-			{isStartWorkout && <Workout setIsSave={setIsSave} />}
+			{isStartWorkout && <Workout setIsSave={setIsDataUpdating} />}
 
-			<div
-				style={{
-					transition: 'opacity 1.5s, margin-top 1s',
-					opacity: isStartWorkout ? 0 : 1,
-					marginTop: isStartWorkout ? '-1000px' : '0px',
-				}}
-			>
+			<ContentWrapper isStartWorkout={isStartWorkout}>
 				<History
 					userId={userId}
 					isWorkoutsDropdown={isWorkoutsDropdown}
@@ -87,36 +105,48 @@ const WorkoutPageContainer = ({ className }) => {
 					setWorkouts={setWorkouts}
 				/>
 				<Calendar patterns={patterns} workouts={workouts} />
+
 				<div className="workout-page-container">
-					<div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '30px' }}>
-						<div style={{ width: '220px', display: 'flex', justifyContent: 'space-between' }}>
+					<Header>
+						<HeadingContainer>
 							<Heading>Шаблоны</Heading>
 							<Icon height="35px" name={ICON.ADD} onClick={onAddPatternHandler} />
-						</div>
+						</HeadingContainer>
+						{!isLoading && (
+							<div style={{ display: 'flex' }}>
+								{page > 1 ? (
+									<Icon
+										height="30px"
+										name={ICON.ARROWLEFT}
+										onClick={() => setPage(page - 1)}
+									/>
+								) : (
+									patterns.length === 9 && (
+										<Icon
+											height="30px"
+											name={ICON.ARROWRIGHT}
+											onClick={() => setPage(page + 1)}
+										/>
+									)
+								)}
+							</div>
+						)}
 						<Button width="250px" onClick={startNewWorkout}>
 							Начать пустую тренировку
 						</Button>
-					</div>
+					</Header>
+
 					<div className="workout-page-main">
 						{isLoading ? (
-							<div style={{ position: 'absolute', width: '900px', top: '100px' }}>
+							<LoaderContainer>
 								<Loader />
-							</div>
+							</LoaderContainer>
 						) : (
-							patterns?.map(({ id, name, discription }) => (
-								<WorkoutCard
-									key={id}
-									exercises={exercises}
-									setIsDelete={setIsDelete}
-									id={id}
-									name={name}
-									discription={discription}
-								/>
-							))
+							renderWorkoutCards
 						)}
 					</div>
 				</div>
-			</div>
+			</ContentWrapper>
 		</div>
 	);
 };
@@ -133,11 +163,13 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 		min-height: 415px;
 		margin-bottom: 10px;
 	}
+
 	.workout-page-main {
 		position: relative;
 		z-index: 0;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
+		height: 850px;
 	}
 
 	.show-workouts-btn {
@@ -148,4 +180,28 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 			opacity: 0.6;
 		}
 	}
+`;
+
+const ContentWrapper = styled.div`
+	transition: opacity 1.5s, margin-top 1s;
+	opacity: ${(props) => (props.isStartWorkout ? 0 : 1)};
+	margin-top: ${(props) => (props.isStartWorkout ? '-1000px' : '0px')};
+`;
+
+const Header = styled.div`
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 30px;
+`;
+
+const HeadingContainer = styled.div`
+	width: 220px;
+	display: flex;
+	justify-content: space-between;
+`;
+
+const LoaderContainer = styled.div`
+	position: absolute;
+	width: 900px;
+	top: 400px;
 `;

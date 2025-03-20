@@ -3,3 +3,4 @@ export * from './timeConverter';
 export * from './getRandomInt';
 export * from './groupArrays';
 export * from './findLastSet';
+export * from './sanitizeString';

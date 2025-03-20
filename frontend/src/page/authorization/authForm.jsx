@@ -74,52 +74,33 @@ const AuthFormContainer = ({ className, type }) => {
 
 	const onSubmit = ({ email, login, password }) => {
 		setIsLoading(true);
-		if (type === 'login') {
-			server.authorize(email, password).then(({ error, res }) => {
-				if (error) {
-					dispatch(setError(`Ошибка запроса: ${error}`));
-					setTimeout(() => {
-						dispatch(resetError());
-					});
-					return;
-				}
 
-				setTimeout(() => {
-					setIsLoading(false);
-					dispatch(setUser(jwtDecode(res)));
-				}, [1000]);
-			});
-		} else if (type === 'register') {
-			server.register(email, login, password).then(({ error, res }) => {
-				if (error) {
-					dispatch(setError(`Ошибка запроса: ${error}`));
-					setTimeout(() => {
-						dispatch(resetError());
-					});
-					return;
-				}
-				setTimeout(() => {
-					setIsLoading(false);
-					dispatch(setUser(jwtDecode(res)));
-				}, [1000]);
-			});
-		} else if (type === 'reset') {
-			server.updatePassword(email, login, password).then(({ error, res }) => {
-				if (error) {
-					dispatch(setError(`Ошибка запроса: ${error}`));
-					setTimeout(() => {
-						dispatch(resetError());
-					});
-					return;
-				}
+		const request =
+			type === 'login'
+				? server.authorize(email, password)
+				: type === 'register'
+				? server.register(email, login, password)
+				: type === 'reset'
+				? server.resetPassword(email, login, password)
+				: null;
 
+		if (!request) return;
+
+		request.then(({ error, res }) => {
+			if (error) {
+				dispatch(setError(`Ошибка запроса: ${error}`));
 				setTimeout(() => {
-					setIsLoading(false);
-					dispatch(setUser(jwtDecode(res)));
-				}, [1000]);
-			});
-		}
-		reset();
+					dispatch(resetError());
+				}, 3000); // Задержка для очистки ошибки
+				return;
+			}
+
+			setTimeout(() => {
+				setIsLoading(false);
+				dispatch(setUser(jwtDecode(res)));
+				reset(); // Сбрасываем форму только если запрос успешен
+			}, 1000);
+		});
 	};
 
 	const handleInputChange = useCallback(
@@ -155,7 +136,7 @@ const AuthFormContainer = ({ className, type }) => {
 							style={{ marginBottom: '20px' }}
 							label="Логин"
 							placeholder="Введите логин..."
-							register={register('username')}
+							register={register('login')}
 							error={errors?.username}
 							onChange={handleInputChange('login')}
 						/>

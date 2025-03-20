@@ -23,9 +23,7 @@ const WorkoutPreviewModalContainer = ({ className, onConfirm, onCancel }) => {
 	const workoutExercises = useSelector(selectUserWorkoutExercises);
 	const [isLoading, setIsLoading] = useState(false);
 	const [exercises, setExercises] = useState([]);
-	const [types, setTypes] = useState([]);
-
-	console.log(workout);
+	const [muscleGroups, setMuscleGroups] = useState([]);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -34,13 +32,13 @@ const WorkoutPreviewModalContainer = ({ className, onConfirm, onCancel }) => {
 			server.fetchPatternExercises(workout.id),
 			server.fetchPatternWorkoutExercises(workout.id),
 			server.fetchExercises(),
-			server.fetchTypes(),
+			server.fetchMuscleGroups(),
 		])
-			.then(([patternExercises, patternWorkoutExercises, exercisesData, types]) => {
+			.then(([patternExercises, patternWorkoutExercises, exercisesData, muscleGroupsData]) => {
 				dispatch(setUserExercises(patternExercises.res));
 				dispatch(setUserWorkoutExercises(patternWorkoutExercises.res));
 				setExercises(exercisesData.res);
-				setTypes(types.res);
+				setMuscleGroups(muscleGroupsData.res);
 			})
 			.catch((err) => {
 				dispatch(setError(err));
@@ -62,9 +60,11 @@ const WorkoutPreviewModalContainer = ({ className, onConfirm, onCancel }) => {
 					<div style={{ fontSize: '20px' }}>{workout.name}</div>
 					<Icon name={ICON.CROSS} onClick={onCancel} />
 				</div>
-				<div className="workout-preview-discription">
+				<div className="workout-preview-description">
 					<div style={{ fontSize: '16px', color: '#646464' }}>
-						{workout.discription === null ? 'Нет описания' : workout.discription}
+						{workout.description === null || workout.description === undefined
+							? 'Нет описания'
+							: workout.description}
 					</div>
 				</div>
 			</div>
@@ -78,7 +78,7 @@ const WorkoutPreviewModalContainer = ({ className, onConfirm, onCancel }) => {
 						<WorkoutPreviewExerciseCard
 							key={item.id || item[0].id}
 							item={item}
-							types={types}
+							muscleGroups={muscleGroups}
 							exercises={exercises}
 							setIsLoading={setIsLoading}
 						/>
@@ -113,7 +113,7 @@ export const WorkoutPreviewModal = styled(WorkoutPreviewModalContainer)`
 		justify-content: space-between;
 		align-items: center;
 	}
-	.workout-preview-discription {
+	.workout-preview-description {
 		border-bottom: 2px solid #393939;
 		border-top: 2px solid #393939;
 		padding: 10px 0;
