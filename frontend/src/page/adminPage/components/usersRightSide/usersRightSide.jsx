@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { server } from '../../../../bff';
 import { UserCard } from './components/userCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { loading, selectIsLoading, stopLoading } from '../../../../reducers';
+import { loading, resetError, selectIsLoading, setError, stopLoading } from '../../../../reducers';
 
 const UsersLeftSideContainer = ({ className }) => {
 	const [users, setUsers] = useState([]);
@@ -19,13 +19,20 @@ const UsersLeftSideContainer = ({ className }) => {
 
 	useEffect(() => {
 		setIsLoading(true);
-		Promise.all([server.fetchUsers(), server.fetchRoles()]).then(([usersData, rolesData]) => {
-			setUsers(usersData.res);
-			setRoles(rolesData.res);
-			setTimeout(() => {
-				setIsLoading(false);
-			}, [300]);
-		});
+		Promise.all([server.fetchUsers(), server.fetchRoles()])
+			.then(([usersData, rolesData]) => {
+				setUsers(usersData.res);
+				setRoles(rolesData.res);
+				setTimeout(() => {
+					setIsLoading(false);
+				}, [300]);
+			})
+			.catch((err) => {
+				dispatch(setError(err));
+				setTimeout(() => {
+					dispatch(resetError());
+				}, [5000]);
+			});
 	}, [isDelete, isEditing]);
 
 	const onUserSearch = (userName) => {

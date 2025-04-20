@@ -4,7 +4,7 @@ import { ICON, ROLE } from '../../../../../constants';
 import { useState } from 'react';
 import { server } from '../../../../../bff';
 import { useDispatch } from 'react-redux';
-import { closeModal, openModal } from '../../../../../reducers';
+import { closeModal, openModal, resetError, setError } from '../../../../../reducers';
 
 const UserCardContainer = ({
 	className,
@@ -42,11 +42,21 @@ const UserCardContainer = ({
 	const onUserSave = (userRole) => {
 		setIsEditing(true);
 		if (roleId !== ROLE[userRole]) {
-			server.saveUser({ id: userId, userRole: ROLE[userRole] }).then(({ error, res }) => {
-				setIsEditing(false);
-			});
+			server
+				.saveUser({ id: userId, userRole: ROLE[userRole] })
+				.then(({ error, res }) => {
+					setIsEditing(false);
+				})
+				.catch((err) => {
+					dispatch(setError(err));
+					setTimeout(() => {
+						dispatch(resetError());
+					}, [5000]);
+				})
+				.finally(() => {
+					setIsEditing(false);
+				});
 		}
-		setIsEditing(false);
 	};
 
 	return (

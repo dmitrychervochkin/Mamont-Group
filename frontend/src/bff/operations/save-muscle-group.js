@@ -1,4 +1,4 @@
-import { addMuscleGroup, addType, updateMuscleGroup, updateType } from '../api';
+import { addMuscleGroup, updateMuscleGroup } from '../api';
 
 export const saveMuscleGroup = async (newMuscleGroupData) => {
 	if (newMuscleGroupData.name === '') {

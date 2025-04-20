@@ -83,9 +83,9 @@ class UsersController {
 	async getOne(req, res, next) {
 		try {
 			const { id } = req.params;
-			const user = await Users.findByPk(id, {
-				attributes: ['id', 'email', 'login', 'createdAt', 'role_id'],
-			});
+
+			const user = await Users.findOne({ where: { id } });
+
 			if (!user) {
 				return next(ApiError.notFound('Пользователь не найден!'));
 			}
@@ -111,10 +111,13 @@ class UsersController {
 	async update(req, res, next) {
 		try {
 			const { id } = req.params;
+			console.log(id)
 			const [updatedCount, updatedUsers] = await Users.update(req.body, {
 				where: { id },
 				returning: true,
 			});
+
+
 			if (!updatedCount) {
 				return next(ApiError.notFound('Пользователь не найден!'));
 			}

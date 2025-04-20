@@ -189,7 +189,7 @@ const CurrentDateContainer = ({
 									>
 										{calendarTypeEvents.map((item, i) => (
 											<div key={item.id} style={{ marginRight: '5px' }}>
-												{findItem(muscleGroups, item.muscleGroupId).name}
+												{findItem(muscleGroups, item.muscleGroupId)?.name}
 												{i + 1 !== calendarTypeEvents.length &&
 													calendarTypeEvents.length > 1 &&
 													','}

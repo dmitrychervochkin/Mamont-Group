@@ -8,8 +8,9 @@ class MuscleGroupsController {
 			if (!name) {
 				return next(ApiError.badRequest('Имя типа обязательно'));
 			}
-			const type = await MuscleGroups.create({ name });
-			return res.json(type);
+			const muscleGroup = await MuscleGroups.create({ name });
+
+			return res.json(muscleGroup);
 		} catch (error) {
 			next(ApiError.internal('Ошибка при создании типа'));
 		}
