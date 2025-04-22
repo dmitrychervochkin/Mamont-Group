@@ -1,5 +1,5 @@
 export const updateWorkout = ({ id, name }, token) =>
-	fetch(`http://localhost:7001/api/workout/${id}`, {
+	fetch(`${REACT_APP_API_URL}/api/workout/${id}`, {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',

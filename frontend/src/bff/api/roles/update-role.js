@@ -1,5 +1,5 @@
 export const updateRole = ({ id, name }) =>
-	fetch(`http://localhost:7001/api/roles/${id}`, {
+	fetch(`${REACT_APP_API_URL}/api/roles/${id}`, {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',

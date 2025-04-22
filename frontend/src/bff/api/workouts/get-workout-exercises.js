@@ -2,7 +2,7 @@ import { transformWorkouts } from '../../transformers';
 import { transformWorkoutExercises } from '../../transformers/transform-workout-exercises';
 
 export const getWorkoutExercises = async (workoutId) =>
-	fetch(`http://localhost:7001/api/workout_exercises?workout_id=${workoutId}`)
+	fetch(`${REACT_APP_API_URL}/api/workout_exercises?workout_id=${workoutId}`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;

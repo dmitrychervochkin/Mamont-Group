@@ -1,5 +1,5 @@
 export const getMuscleGroups = () =>
-	fetch(`http://localhost:7001/api/muscle_groups`)
+	fetch(`${REACT_APP_API_URL}/api/muscle_groups`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;

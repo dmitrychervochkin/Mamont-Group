@@ -1,5 +1,5 @@
 export const addUserPattern = (userId, patternId, token) =>
-	fetch(`http://localhost:7001/api/user_patterns`, {
+	fetch(`${REACT_APP_API_URL}/api/user_patterns`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',

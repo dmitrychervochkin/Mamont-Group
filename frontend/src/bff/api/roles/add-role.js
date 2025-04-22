@@ -1,5 +1,5 @@
 export const addRole = ({ name }) =>
-	fetch(`http://localhost:7001/api/roles`, {
+	fetch(`${REACT_APP_API_URL}/api/roles`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',

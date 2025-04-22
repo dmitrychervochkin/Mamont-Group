@@ -1,5 +1,5 @@
 export const addWorkout = (workoutData, token) =>
-	fetch(`http://localhost:7001/api/workout`, {
+	fetch(`${REACT_APP_API_URL}/api/workout`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',

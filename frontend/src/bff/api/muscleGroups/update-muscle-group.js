@@ -1,5 +1,5 @@
 export const updateMuscleGroup = ({ id, name }, token) =>
-	fetch(`http://localhost:7001/api/muscle_groups/${id}`, {
+	fetch(`${REACT_APP_API_URL}/api/muscle_groups/${id}`, {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',

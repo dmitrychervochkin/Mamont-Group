@@ -1,5 +1,5 @@
 export const addCalendarEvent = (calendarEventData) =>
-	fetch('http://localhost:7001/api/calendar_events', {
+	fetch(`${REACT_APP_API_URL}/api/calendar_events`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',

@@ -1,5 +1,5 @@
 export const addMuscleGroup = ({ name }, token) =>
-	fetch(`http://localhost:7001/api/muscle_groups`, {
+	fetch(`${REACT_APP_API_URL}/api/muscle_groups`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',

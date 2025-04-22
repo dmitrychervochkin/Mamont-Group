@@ -1,5 +1,5 @@
 export const addPatternWorkoutExercise = (patternWorkoutExerciseData, token) =>
-	fetch(`http://localhost:7001/api/pattern_workout_exercises`, {
+	fetch(`${REACT_APP_API_URL}/api/pattern_workout_exercises`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',

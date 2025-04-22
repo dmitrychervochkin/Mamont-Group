@@ -2,7 +2,7 @@ import { transformWorkouts, transforPatternmWorkoutExercises } from '../../trans
 import { transformWorkoutExercises } from '../../transformers/transform-workout-exercises';
 
 export const getPatternWorkoutExercises = async (patternId) =>
-	fetch(`http://localhost:7001/api/pattern_workout_exercises?pattern_id=${patternId}`)
+	fetch(`${REACT_APP_API_URL}/api/pattern_workout_exercises?pattern_id=${patternId}`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;
