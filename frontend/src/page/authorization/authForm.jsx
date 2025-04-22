@@ -130,17 +130,16 @@ const AuthFormContainer = ({ className, type }) => {
 					onChange={handleInputChange('email')}
 				/>
 
-				{type === 'register' ||
-					(type === 'reset' && (
-						<InputField
-							style={{ marginBottom: '20px' }}
-							label="Логин"
-							placeholder="Введите логин..."
-							register={register('login')}
-							error={errors?.username}
-							onChange={handleInputChange('login')}
-						/>
-					))}
+				{(type === 'register' || type === 'reset') && (
+					<InputField
+						style={{ marginBottom: '20px' }}
+						label="Логин"
+						placeholder="Введите логин..."
+						register={register('login')}
+						error={errors?.username}
+						onChange={handleInputChange('login')}
+					/>
+				)}
 
 				<InputField
 					style={{ marginBottom: '20px' }}
@@ -152,18 +151,17 @@ const AuthFormContainer = ({ className, type }) => {
 					onChange={handleInputChange('password')}
 				/>
 
-				{type === 'register' ||
-					(type === 'reset' && (
-						<InputField
-							style={{ marginBottom: '20px' }}
-							label="Повторите пароль"
-							placeholder="Повторите пароль..."
-							type="password"
-							register={register('confirmPassword')}
-							error={errors?.confirmPassword}
-							onChange={handleInputChange('confirmPassword')}
-						/>
-					))}
+				{(type === 'register' || type === 'reset') && (
+					<InputField
+						style={{ marginBottom: '20px' }}
+						label="Повторите пароль"
+						placeholder="Повторите пароль..."
+						type="password"
+						register={register('confirmPassword')}
+						error={errors?.confirmPassword}
+						onChange={handleInputChange('confirmPassword')}
+					/>
+				)}
 
 				<ButtonField variant="auth" type="submit">
 					{type === 'register'
