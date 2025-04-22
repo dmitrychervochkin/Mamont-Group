@@ -1,5 +1,5 @@
 export const addUser = (login, email, password) =>
-	fetch('http://localhost:7001/api/users/registration', {
+	fetch(`${process.env.REACT_APP_API_URL}/api/users/registration`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',
@@ -9,5 +9,4 @@ export const addUser = (login, email, password) =>
 			login,
 			password,
 		}),
-	})
-		.then((createdUser) => createdUser.json())
+	}).then((createdUser) => createdUser.json());

@@ -1,5 +1,5 @@
 export const checkUser = async (token) =>
-	fetch(`http://localhost:7001/api/users/auth`, {
+	fetch(`${process.env.REACT_APP_API_URL}/api/users/auth`, {
 		method: 'GET',
 		headers: {
 			Authorization: `Bearer ${JSON.parse(token)}`,
