@@ -1,7 +1,7 @@
 import { transformWorkouts } from '../../transformers';
 
 export const getWorkouts = async (userId, page, limit) =>
-	fetch(`${REACT_APP_API_URL}/api/workout?user_id=${userId}&page=${page}&limit=${limit}`)
+	fetch(`${process.env.REACT_APP_API_URL}/api/workout?user_id=${userId}&page=${page}&limit=${limit}`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;
