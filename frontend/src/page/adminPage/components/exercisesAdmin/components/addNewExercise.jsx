@@ -39,12 +39,12 @@ const AddNewExerciseContainer = ({ className, muscleGroups, setIsSaveExercise, s
 					name: exerciseForAdd.name,
 					muscleGroupId: exerciseForAdd.muscleGroupId,
 					userId: userId,
-					description: '',
+					description: null,
 				})
 				.then(({ res }) => {
 					server.saveExerciseInfo({
 						exerciseId: res.id,
-						img: exerciseForAdd.img,
+						description: exerciseForAdd.img,
 						type: TYPE.IMAGE,
 					});
 					setIsSaveExercise(true);

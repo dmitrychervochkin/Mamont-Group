@@ -206,17 +206,35 @@ WorkoutExercises.belongsTo(Workout, { foreignKey: { name: 'workout_id' } });
 Workout.hasMany(UserExercises, { foreignKey: { name: 'workout_id' } });
 UserExercises.belongsTo(Workout, { foreignKey: { name: 'workout_id' } });
 
-Exercises.hasMany(WorkoutExercises, { foreignKey: { name: 'exercise_id' } });
-WorkoutExercises.belongsTo(Exercises, { foreignKey: { name: 'exercise_id' } });
+Exercises.hasMany(WorkoutExercises, {
+	foreignKey: { name: 'exercise_id', allowNull: true },
+	onDelete: 'SET NULL',
+});
+WorkoutExercises.belongsTo(Exercises, {
+	foreignKey: { name: 'exercise_id', allowNull: true },
+	onDelete: 'SET NULL',
+});
 
 UserExercises.hasMany(WorkoutExercises, { foreignKey: { name: 'user_exercise_id' } });
 WorkoutExercises.belongsTo(UserExercises, { foreignKey: { name: 'user_exercise_id' } });
 
-Exercises.hasMany(UserExercises, { foreignKey: { name: 'exercise_id' } });
-UserExercises.belongsTo(Exercises, { foreignKey: { name: 'exercise_id' } });
+Exercises.hasMany(UserExercises, {
+	foreignKey: { name: 'exercise_id', allowNull: true },
+	onDelete: 'SET NULL',
+});
+UserExercises.belongsTo(Exercises, {
+	foreignKey: { name: 'exercise_id', allowNull: true },
+	onDelete: 'SET NULL',
+});
 
-Exercises.hasMany(ExerciseInfo, { foreignKey: { name: 'exercise_id' } });
-ExerciseInfo.belongsTo(Exercises, { foreignKey: { name: 'exercise_id' } });
+Exercises.hasMany(ExerciseInfo, {
+	foreignKey: { name: 'exercise_id', allowNull: true },
+	onDelete: 'SET NULL',
+});
+ExerciseInfo.belongsTo(Exercises, {
+	foreignKey: { name: 'exercise_id', allowNull: true },
+	onDelete: 'SET NULL',
+});
 
 Users.hasMany(Exercises, { foreignKey: { name: 'user_id' } });
 Exercises.belongsTo(Users, { foreignKey: { name: 'user_id' } });
@@ -251,11 +269,23 @@ PatternWorkoutExercises.belongsTo(PatternExercises, { foreignKey: { name: 'patte
 Patterns.hasMany(PatternWorkoutExercises, { foreignKey: { name: 'pattern_id' } });
 PatternWorkoutExercises.belongsTo(Patterns, { foreignKey: { name: 'pattern_id' } });
 
-Exercises.hasMany(PatternExercises, { foreignKey: { name: 'exercise_id' } });
-PatternExercises.belongsTo(Exercises, { foreignKey: { name: 'exercise_id' } });
+Exercises.hasMany(PatternExercises, {
+	foreignKey: { name: 'exercise_id', allowNull: true },
+	onDelete: 'SET NULL',
+});
+PatternExercises.belongsTo(Exercises, {
+	foreignKey: { name: 'exercise_id', allowNull: true },
+	onDelete: 'SET NULL',
+});
 
-Exercises.hasMany(PatternWorkoutExercises, { foreignKey: { name: 'exercise_id' } });
-PatternWorkoutExercises.belongsTo(Exercises, { foreignKey: { name: 'exercise_id' } });
+Exercises.hasMany(PatternWorkoutExercises, {
+	foreignKey: { name: 'exercise_id', allowNull: true },
+	onDelete: 'SET NULL',
+});
+PatternWorkoutExercises.belongsTo(Exercises, {
+	foreignKey: { name: 'exercise_id', allowNull: true },
+	onDelete: 'SET NULL',
+});
 
 CalendarEvents.hasMany(CalendarTypeEvents, { foreignKey: { name: 'calendar_event_id' } });
 CalendarTypeEvents.belongsTo(CalendarEvents, { foreignKey: { name: 'calendar_event_id' } });

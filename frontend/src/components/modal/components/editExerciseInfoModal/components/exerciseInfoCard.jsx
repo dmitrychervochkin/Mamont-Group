@@ -15,7 +15,7 @@ const ExerciseInfoCardContainer = ({ className, exerciseState }) => {
 					<img
 						key={id}
 						className="exercise-info-modal-image"
-						src={process.env.REACT_APP_API_URL + description}
+						src={process.env.REACT_APP_API_URL + '/' + description}
 					/>
 				))}
 			</div>

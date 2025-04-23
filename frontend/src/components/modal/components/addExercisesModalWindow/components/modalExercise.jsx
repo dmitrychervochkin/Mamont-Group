@@ -53,7 +53,7 @@ const ModalExerciseContainer = ({
 			<div style={{ display: 'flex' }}>
 				<img
 					style={{ height: '60px', width: '60px' }}
-					src={exerciseImg && process.env.REACT_APP_API_URL + exerciseImg}
+					src={exerciseImg && process.env.REACT_APP_API_URL + '/' + exerciseImg}
 				/>
 				<div
 					style={{

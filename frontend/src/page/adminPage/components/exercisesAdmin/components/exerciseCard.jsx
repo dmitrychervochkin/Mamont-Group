@@ -95,8 +95,8 @@ const ExerciseCardContainer = ({
 							<img
 								className="exercise-img"
 								src={
-									exerciseImg.description &&
-									process.env.REACT_APP_API_URL + exerciseImg?.description
+									exerciseImg?.description &&
+									process.env.REACT_APP_API_URL + '/' + exerciseImg?.description
 								}
 							/>
 						</div>

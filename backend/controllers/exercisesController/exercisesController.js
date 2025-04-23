@@ -112,6 +112,7 @@ class ExercisesController {
 
 			return res.json({ message: 'Упражнение успешно удалено' });
 		} catch (error) {
+			console.log(error)
 			next(ApiError.internal('Ошибка при удалении упражнения'));
 		}
 	}

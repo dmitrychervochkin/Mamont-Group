@@ -18,23 +18,27 @@ class ExercisesInfoController {
 			const existingImages = await ExerciseInfo.findAll({
 				where: { type: TYPE.IMAGE, exercise_id: exerciseId },
 			});
+			
+			if (!description || typeof description !== 'string' || description.trim() === '') {
+				console.log('DESCRIPTION ПУСТОЙ ИЛИ НЕ СТРОКА, ПАРСИМ КАРТИНКУ');
 
-			if (!description) {
 				if (existingImages.length >= 3) {
 					return next(ApiError.badRequest('Превышен лимит "IMAGE" для упражнения'));
 				}
 
-				if (!req.files?.img) {
+				if (!req.files || !req.files.img) {
 					return next(ApiError.badRequest('Файл не загружен'));
 				}
 
 				const { img } = req.files;
-				console.log(img);
 				fileName = uuid.v4() + '.jpg';
-				img.mv(path.resolve(__dirname, '..', '..', 'static', fileName));
+				await img.mv(path.resolve(__dirname, '..', '..', 'static', fileName));
 			} else {
+				console.log('DESCRIPTION НЕ ПУСТОЙ:', description);
 				fileName = description;
 			}
+
+			console.log(exerciseId, type, description);
 
 			const exerciseInfo = await ExerciseInfo.create({
 				exercise_id: exerciseId,

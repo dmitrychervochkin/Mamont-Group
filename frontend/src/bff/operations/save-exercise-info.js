@@ -3,6 +3,8 @@ import { addExerciseInfo, addExercises, updateExercise, updateExerciseInfo } fro
 export const saveExerciseInfo = async (newExerciseInfoData) => {
 	const formInfoData = new FormData();
 
+	console.log(newExerciseInfoData)
+
 	formInfoData.append('type', newExerciseInfoData.type);
 	formInfoData.append('exerciseId', newExerciseInfoData.exerciseId);
 	if (typeof newExerciseInfoData.description === 'object') {
