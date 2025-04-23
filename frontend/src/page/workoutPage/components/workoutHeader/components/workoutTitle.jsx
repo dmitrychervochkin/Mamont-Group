@@ -3,7 +3,7 @@ import { Heading, Icon } from '../../../../../components';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserWorkout, setUserWorkout } from '../../../../../reducers';
 import { useState } from 'react';
-import { ICON } from '../../../../../constants';
+import { ICON, INTERFACE } from '../../../../../constants';
 
 const WorkoutTitleContainer = ({ className, name }) => {
 	const [isWorkoutNameEdit, setIsWorkoutNameEdit] = useState(true);
@@ -15,7 +15,7 @@ const WorkoutTitleContainer = ({ className, name }) => {
 	};
 
 	return (
-		<div className={className}>
+		<div className={className} style={{ width: window.innerWidth < INTERFACE.WIDTH ? '100%' : '40%' }}>
 			<div style={{ display: 'flex', width: '130px', justifyContent: 'space-between' }}>
 				<span style={{ opacity: '0.4' }}>Тренировка:</span>
 				{isWorkoutNameEdit ? (

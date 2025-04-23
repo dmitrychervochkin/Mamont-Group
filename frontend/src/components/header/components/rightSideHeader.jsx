@@ -75,7 +75,7 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 					<Button
 						ref={buttonRef}
 						id="account-dropdown"
-						width={window.innerWidth > 800 ? '250px' : '120px'}
+						width={window.innerWidth > 800 ? '250px' : '130px'}
 						style={{
 							backgroundColor: dropdownDisplay && '#424242',
 							boxShadow: dropdownDisplay && '0 0 20px 5px #141414',

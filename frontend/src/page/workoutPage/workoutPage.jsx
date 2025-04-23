@@ -8,7 +8,7 @@ import { Calendar, History } from './components';
 
 import { Button, Heading, Icon, Loader } from '../../components';
 import { server } from '../../bff';
-import { ICON, LIMITS, ROUTE } from '../../constants';
+import { ICON, INTERFACE, LIMITS, ROUTE } from '../../constants';
 
 import {
 	addPattern,
@@ -106,8 +106,11 @@ const WorkoutPageContainer = ({ className }) => {
 				/>
 				<Calendar patterns={patterns} workouts={workouts} />
 
-				<div className="workout-page-container">
-					<Header>
+				<div
+					className="workout-page-container"
+					style={{ padding: window.innerWidth > INTERFACE.WIDTH ? '30px 40px' : '20px 30px' }}
+				>
+					<Header style={{ display: window.innerWidth > 580 ? 'flex' : 'block' }}>
 						<HeadingContainer>
 							<Heading>Шаблоны</Heading>
 							<Icon height="35px" name={ICON.ADD} onClick={onAddPatternHandler} />
@@ -159,7 +162,6 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 		height: 100%;
 		background-color: #222222;
 		border-radius: 20px;
-		padding: 30px 40px;
 		// min-height: 415px;
 		margin-bottom: 10px;
 	}
@@ -169,7 +171,8 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 		z-index: 0;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		min-height: 400px;
+		// min-height: 400px;
+		margin-bottom: 500px;
 	}
 
 	.show-workouts-btn {
@@ -189,19 +192,21 @@ const ContentWrapper = styled.div`
 `;
 
 const Header = styled.div`
-	display: flex;
 	justify-content: space-between;
 	margin-bottom: 30px;
+	align-items: center;
 `;
 
 const HeadingContainer = styled.div`
 	width: 220px;
 	display: flex;
 	justify-content: space-between;
+	margin-bottom: 10px;
 `;
 
 const LoaderContainer = styled.div`
 	position: absolute;
-	width: 900px;
-	top: 400px;
+	width: 100%;
+	top: 0;
+	bottom: 0;
 `;

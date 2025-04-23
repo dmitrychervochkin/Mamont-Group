@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button, Heading, Icon, Input } from '../../../../components';
-import { ICON } from '../../../../constants';
+import { ICON, INTERFACE } from '../../../../constants';
 import { WorkoutTime } from './components/workoutTime';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -41,6 +41,7 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 	const isError = useSelector(selectIsError);
 	const userId = useSelector(selectUserId);
 	const breakTime = useSelector(selectBreakTime);
+	const workoutPath = useMatch('/workout');
 
 	const handleMouseEnter = () => {
 		if (workoutPage) {
@@ -113,6 +114,8 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 		<div
 			className={className}
 			style={{
+				padding: window.innerWidth > INTERFACE.WIDTH ? '0 40px' : '0 20px',
+				// display: window.innerWidth > INTERFACE.WIDTH ? 'flex' : 'block',
 				position: workoutPage ? 'relative' : 'absolute',
 				backgroundColor: !workoutPage && '#393939',
 				cursor: !workoutPage && hover && 'pointer',
@@ -154,6 +157,7 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 							</div>
 						</div>
 					</div>
+
 					<div
 						style={{
 							height: '60px',
@@ -181,11 +185,10 @@ export const WorkoutHeader = styled(WorkoutHeaderContainer)`
 	background-color: #222222;
 	height: 100px;
 	border-radius: 20px;
-	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0 40px;
-	width: 1000px;
+	max-width: 1000px;
+	width: 100%;
 	transition: margin 1s, height 1s, box-shadow 0.3s;
 	margin-bottom: 10px;
 	z-index: 2;

@@ -192,6 +192,7 @@ export const Calendar = styled(CalendarContainer)`
 
 	.calendar-header {
 		justify-content: space-between;
+		align-items: center;
 		margin-bottom: 30px;
 	}
 
