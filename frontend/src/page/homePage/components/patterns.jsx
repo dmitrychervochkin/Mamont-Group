@@ -4,6 +4,7 @@ import { ICON } from '../../../constants/iconsContants';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPattern, selectUserId, startWorkout } from '../../../reducers';
 import { useNavigate } from 'react-router-dom';
+import { INTERFACE } from '../../../constants';
 
 const PatternsContainer = ({ className }) => {
 	const userId = useSelector(selectUserId);
@@ -18,8 +19,14 @@ const PatternsContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			{!userId && <div className="blocked-patterns"></div>}
-			<div className="patterns-container">
-				<div className="patterns-header">
+			<div
+				className="patterns-container"
+				style={{ padding: window.innerWidth < INTERFACE.WIDTH ? '30px' : '30px 40px 40px' }}
+			>
+				<div
+					className="patterns-header"
+					style={{ display: window.innerWidth < INTERFACE.WIDTH ? 'block' : 'flex' }}
+				>
 					<div className="left-side">
 						<Heading className="patterns-title">Шаблоны</Heading>
 						<Icon
@@ -52,7 +59,6 @@ export const Patterns = styled(PatternsContainer)`
 		position: absolute;
 		display: flex;
 		justify-content: space-between;
-		padding: 30px 40px 40px;
 	}
 	.blocked-patterns {
 		width: 100%;
@@ -72,11 +78,12 @@ export const Patterns = styled(PatternsContainer)`
 	.left-side {
 		display: flex;
 		align-items: center;
+		margin-bottom: 10px;
 	}
 	.patterns-header {
 		width: 100%;
 		display: flex;
-		justify-content: space-between;
 		align-items: end;
+		justify-content: space-between;
 	}
 `;
