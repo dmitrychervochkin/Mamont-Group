@@ -75,7 +75,7 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 					<Button
 						ref={buttonRef}
 						id="account-dropdown"
-						width="250px"
+						width={window.innerWidth > INTERFACE.WIDTH ? '250px' : '120px'}
 						style={{
 							backgroundColor: dropdownDisplay && '#424242',
 							boxShadow: dropdownDisplay && '0 0 20px 5px #141414',
@@ -178,6 +178,7 @@ export const RightSideHeader = styled(RightSideHeaderContainer)`
 	}
 
 	.dropdown-user {
+		right: 10px;
 		z-index: 10;
 		margin-top: 5px;
 		position: absolute;

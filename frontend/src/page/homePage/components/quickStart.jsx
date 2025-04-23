@@ -21,7 +21,11 @@ const QuickStartContainer = ({ className }) => {
 					Если у вас нет опыта в индивидуальных тренировках, рекомендуем оформить платную подписку
 					для достижения ваших целей!
 				</p>
-				<Button className="quick-start-btn" width="250px" onClick={newWorkoutHandler}>
+				<Button
+					className="quick-start-btn"
+					width={window.innerWidth > INTERFACE.WIDTH ? '250px' : '100%'}
+					onClick={newWorkoutHandler}
+				>
 					Начать пустую тренировку
 				</Button>
 			</div>

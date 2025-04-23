@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { LOGO, ROUTE } from '../../constants';
+import { INTERFACE, LOGO, ROUTE } from '../../constants';
 import { useSelector } from 'react-redux';
 import { selectErrorMessage, selectUserId } from '../../reducers';
 import { IconsNavBar, LogoImg, RightSideHeader } from './components';
@@ -46,7 +46,7 @@ const HeaderContainer = ({ className }) => {
 	return (
 		<header className={className}>
 			<div className="header-container">
-				<LogoImg name={LOGO.HEADER} />
+				{!userId || (windowWidth > INTERFACE.WIDTH && <LogoImg name={LOGO.HEADER} />)}
 				{(location.pathname !== ROUTE.HOMEPAGE || userId) && <IconsNavBar userId={userId} />}
 				{location.pathname === ROUTE.HOMEPAGE && <RightSideHeader userId={userId} />}
 				{windowWidth > 1100 && (

@@ -25,7 +25,7 @@ const PatternsContainer = ({ className }) => {
 			>
 				<div
 					className="patterns-header"
-					style={{ display: window.innerWidth < INTERFACE.WIDTH ? 'block' : 'flex' }}
+					style={{ display: window.innerWidth > INTERFACE.WIDTH ? 'flex' : 'block' }}
 				>
 					<div className="left-side">
 						<Heading className="patterns-title">Шаблоны</Heading>
@@ -37,7 +37,10 @@ const PatternsContainer = ({ className }) => {
 						/>
 					</div>
 					<div className="right-side">
-						<Button width="250px" onClick={addPatternHandler}>
+						<Button
+							width={window.innerWidth > INTERFACE.WIDTH ? '250px' : '100%'}
+							onClick={addPatternHandler}
+						>
 							<span className="plus">+</span>Добавить шаблон
 						</Button>
 					</div>
