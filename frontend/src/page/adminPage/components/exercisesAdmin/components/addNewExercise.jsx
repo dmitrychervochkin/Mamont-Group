@@ -32,6 +32,7 @@ const AddNewExerciseContainer = ({ className, muscleGroups, setIsSaveExercise, s
 	};
 
 	const onNewExerciseSave = () => {
+		console.log(exerciseForAdd.img);
 		if (exerciseForAdd.name !== '' && exerciseForAdd.muscleGroupId !== '' && exerciseForAdd.img !== '') {
 			server
 				.saveExercise({

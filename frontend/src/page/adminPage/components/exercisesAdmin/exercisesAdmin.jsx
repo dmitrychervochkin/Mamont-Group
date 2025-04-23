@@ -45,7 +45,7 @@ const ExercisesRightSideContainer = ({ className }) => {
 			},
 		);
 	}, [isDeleteExercise, isSaveExercise, currentMuscleGroup]);
-
+	
 	const onMuscleGroupClick = (id) => {
 		if (id === currentMuscleGroup) {
 			setCurrentMuscleGroup('');

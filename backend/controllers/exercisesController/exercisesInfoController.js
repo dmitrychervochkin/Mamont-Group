@@ -29,6 +29,7 @@ class ExercisesInfoController {
 				}
 
 				const { img } = req.files;
+				console.log(img);
 				fileName = uuid.v4() + '.jpg';
 				img.mv(path.resolve(__dirname, '..', '..', 'static', fileName));
 			} else {
