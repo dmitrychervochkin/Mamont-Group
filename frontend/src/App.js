@@ -9,11 +9,12 @@ import {
 	setUser,
 	userLogout,
 } from './reducers';
-import { DropdownError, Header, Modal, RoutesSection } from './components';
+import { DropdownError, Footer, Header, Modal, RoutesSection } from './components';
 import styled from 'styled-components';
 import { WorkoutHeader } from './page/workoutPage/components/workoutHeader/workoutHeader';
 import { jwtDecode } from 'jwt-decode';
 import { server } from './bff';
+import { INTERFACE } from './constants';
 
 const AppContainer = ({ className }) => {
 	const start = useSelector(selectStartWorkout);
@@ -43,8 +44,11 @@ const AppContainer = ({ className }) => {
 	}, [dispatch]);
 
 	return (
-		<div className={className + ' app'}>
-			<Header />
+		<div
+			className={className + ' app'}
+			style={{ marginTop: window.innerWidth > INTERFACE.WIDTH ? '100px' : '0px' }}
+		>
+			{window.innerWidth > INTERFACE.WIDTH ? <Header /> : <Footer />}
 			{errorMessage && <DropdownError>{errorMessage}</DropdownError>}
 			{start && <WorkoutHeader start={start} />}
 			<RoutesSection />
@@ -57,7 +61,6 @@ export const App = styled(AppContainer)`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: 100px;
 `;
 
 // 1600 пикселей — для компьютеров;

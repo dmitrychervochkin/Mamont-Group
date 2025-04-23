@@ -48,7 +48,7 @@ const HeaderContainer = ({ className }) => {
 			<div className="header-container">
 				{!userId || (windowWidth > INTERFACE.WIDTH && <LogoImg name={LOGO.HEADER} />)}
 				{(location.pathname !== ROUTE.HOMEPAGE || userId) && <IconsNavBar userId={userId} />}
-				{location.pathname === ROUTE.HOMEPAGE && <RightSideHeader userId={userId} />}
+				<RightSideHeader userId={userId} />
 				{windowWidth > 1100 && (
 					<div
 						ref={buttonRef}
