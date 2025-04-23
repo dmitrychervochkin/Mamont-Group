@@ -45,7 +45,7 @@ const AppContainer = ({ className }) => {
 	return (
 		<div className={className + ' app'}>
 			<Header />
-			<DropdownError>{errorMessage}</DropdownError>
+			{errorMessage && <DropdownError>{errorMessage}</DropdownError>}
 			{start && <WorkoutHeader start={start} />}
 			<RoutesSection />
 			<Modal />

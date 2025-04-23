@@ -212,20 +212,22 @@ const AuthFormContainer = ({ className, type }) => {
 };
 
 export const AuthForm = styled(AuthFormContainer)`
-	width: 1000px;
+	max-width: 1000px;
+	width: 100%;
 	height: calc(100vh - 110px);
 	background-color: #222222;
 	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 40px;
+	padding: 35px;
 
 	.auth-container {
 		margin: 30px 0px 0px 0px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		width: 350px;
+		max-width: 350px;
+		width: 100%;
 	}
 `;

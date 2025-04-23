@@ -38,6 +38,7 @@ export const RoutesSection = styled(RoutesSectionContainer)`
 	margin-bottom: 10px;
 	position: relative;
 	height: calc(100vh - 110px);
-	width: 1000px;
+	max-width: 1000px;
+	width: 100%;
 	transition: margin 0.5s, opacity 0.5s, max-height 1.5s;
 `;

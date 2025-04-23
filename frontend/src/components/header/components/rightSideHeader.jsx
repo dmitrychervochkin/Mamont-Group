@@ -4,7 +4,7 @@ import { closeModal, openModal, selectRoleId, selectUserLogin, userLogout } from
 import { Icon } from '../../icon/icon';
 import { Button } from '../../button/button';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
-import { ICON, ROLE, ROUTE } from '../../../constants';
+import { ICON, INTERFACE, ROLE, ROUTE } from '../../../constants';
 import { useEffect, useRef, useState } from 'react';
 import ButtonField from '../../button/buttonField';
 
@@ -124,7 +124,9 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 				<div className="header-right-side">
 					{!matchLogin && !matchRegistration && !matchReset && (
 						<Link to={ROUTE.LOGIN}>
-							<Button width="250px">Войти в аккаунт</Button>
+							<Button width={window.innerWidth > INTERFACE.WIDTH ? '250px' : '150px'}>
+								Войти в аккаунт
+							</Button>
 						</Link>
 					)}
 				</div>

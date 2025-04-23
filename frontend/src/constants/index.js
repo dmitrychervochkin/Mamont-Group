@@ -7,3 +7,4 @@ export * from './colorsConstants';
 export * from './limitsConstants';
 export * from './calendarConstant';
 export * from './complexityConstant';
+export * from './interfaceConstant';

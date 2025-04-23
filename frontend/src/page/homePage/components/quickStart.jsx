@@ -3,6 +3,7 @@ import { Button, Heading } from '../../../components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { startWorkout } from '../../../reducers';
+import { INTERFACE } from '../../../constants';
 
 const QuickStartContainer = ({ className }) => {
 	const navigate = useNavigate();
@@ -12,9 +13,8 @@ const QuickStartContainer = ({ className }) => {
 		dispatch(startWorkout());
 		navigate('/workout');
 	};
-
 	return (
-		<div className={className}>
+		<div className={className} style={{ padding: window.innerWidth < INTERFACE.WIDTH ? '10px' : '20px' }}>
 			<div className="quick-start-left-side">
 				<Heading className="info-title">Быстрый старт</Heading>
 				<p className="info-description">
@@ -25,7 +25,7 @@ const QuickStartContainer = ({ className }) => {
 					Начать пустую тренировку
 				</Button>
 			</div>
-			<div className="quick-start-right-side"></div>
+			{window.innerWidth > INTERFACE.WIDTH && <div className="quick-start-right-side"></div>}
 		</div>
 	);
 };
@@ -33,19 +33,16 @@ const QuickStartContainer = ({ className }) => {
 export const QuickStart = styled(QuickStartContainer)`
 	background-color: #222222;
 	border-radius: 20px;
-	// width: 1000px;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
-	padding: 20px 20px;
-	height: 200px;
+
 	.info-title {
 		margin-top: 10px;
 	}
 
 	.info-description {
-		margin: 0 0 15px 0;
-
+		margin: 15px 0 15px 0;
 		font-weight: 200;
 		font-size: 14px;
 		filter: brightness(70%);
@@ -55,7 +52,7 @@ export const QuickStart = styled(QuickStartContainer)`
 		flex-direction: column;
 		justify-content: space-between;
 		margin: 0px 20px 10px 20px;
-		width: 50%;
+		// width: 50%;
 	}
 	.quick-start-right-side {
 		width: 40%;

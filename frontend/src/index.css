@@ -57,6 +57,7 @@ a:hover {
 	overflow-x: hidden;
 	margin-right: 50px;
 	border: none;
+	margin: 0 auto;
 }
 
 @keyframes spin {

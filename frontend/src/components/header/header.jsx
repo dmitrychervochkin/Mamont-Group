@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { LOGO } from '../../constants';
+import { LOGO, ROUTE } from '../../constants';
 import { useSelector } from 'react-redux';
 import { selectErrorMessage, selectUserId } from '../../reducers';
 import { IconsNavBar, LogoImg, RightSideHeader } from './components';
 import { useEffect, useRef, useState } from 'react';
 import { NewFeatures } from './components/new-features';
 import { DropdownError } from '../dropdownError/dropdownError';
+import { useLocation } from 'react-router-dom';
 
 const HeaderContainer = ({ className }) => {
 	const userId = useSelector(selectUserId);
@@ -14,6 +15,7 @@ const HeaderContainer = ({ className }) => {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 	const dropdownRef = useRef(null);
 	const buttonRef = useRef(null);
+	const location = useLocation();
 
 	useEffect(() => {
 		const handleResize = () => setWindowWidth(window.innerWidth);
@@ -45,8 +47,8 @@ const HeaderContainer = ({ className }) => {
 		<header className={className}>
 			<div className="header-container">
 				<LogoImg name={LOGO.HEADER} />
-				<IconsNavBar userId={userId} />
-				<RightSideHeader userId={userId} />
+				{(location.pathname !== ROUTE.HOMEPAGE || userId) && <IconsNavBar userId={userId} />}
+				{location.pathname === ROUTE.HOMEPAGE && <RightSideHeader userId={userId} />}
 				{windowWidth > 1100 && (
 					<div
 						ref={buttonRef}
@@ -59,9 +61,11 @@ const HeaderContainer = ({ className }) => {
 					</div>
 				)}
 			</div>
-			<div ref={dropdownRef}>
-				<NewFeatures isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen} />
-			</div>
+			{windowWidth > 1100 && (
+				<div ref={dropdownRef}>
+					<NewFeatures isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen} />
+				</div>
+			)}
 		</header>
 	);
 };
@@ -74,14 +78,17 @@ export const Header = styled(HeaderContainer)`
 	top: 0;
 	z-index: 100;
 	box-shadow: #141414 0px 3px 15px 3px;
+	display: flex;
+	justify-content: center;
 
 	.header-container {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		height: 100%;
-		margin: 0 auto;
-		width: 1000px;
+		margin: 0 10px;
+		max-width: 1000px;
+		width: 100%;
 	}
 	.new-features-btn {
 		color: #a2a2a2;

@@ -1,9 +1,18 @@
 import styled from 'styled-components';
+import { INTERFACE, LOGO } from '../../../constants';
 
-const LogoImgContainer = ({ className, name }) => {
+const LogoImgContainer = ({ className }) => {
 	return (
 		<div className={className}>
-			<img className="img-logo" src={`/images/${name}`} alt={`Logo ${name}`} />
+			<img
+				className="img-logo"
+				style={{
+					marginTop: window.innerWidth > INTERFACE.WIDTH ? '10px' : '0px',
+					height: window.innerWidth > INTERFACE.WIDTH ? '70px' : '60px',
+				}}
+				src={`/images/${window.innerWidth > INTERFACE.WIDTH ? LOGO.HEADER : LOGO.MOBILE}`}
+				alt="Logo"
+			/>
 		</div>
 	);
 };
@@ -12,17 +21,11 @@ export const LogoImg = styled(LogoImgContainer)`
 	display: flex;
 	align-items: center;
 	border-radius: 20px;
-	width: 100%;
 	height: 58px;
-	width: 26%;
-	margin-right: 33px;
+	margin-right: 10px;
 	z-index: 6;
 	transition: 0.3s;
 
-	.img-logo {
-		margin-top: 10px;
-		height: 70px;
-	}
 	&:hover {
 		cursor: pointer;
 		transition: 0.3s;

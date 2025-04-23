@@ -8,7 +8,7 @@
 		<!-- <link rel="shortcut icon" href="https://vk.com/images/icons/favicons/fav_logo_2x.ico?8" /> -->
 		<link rel="apple-touch-icon" href="images/mamont-512.png" />
 		<link rel="shortcut icon" href="images/mamont-16.png" />
-		<link rel="yandex-tableau-widget" href="/tableau.json">
+		<link rel="yandex-tableau-widget" href="/tableau.json" />
 
 		<link rel="manifest" href="/manifest.json" />
 		<meta name="description" content='"MAMONT Group" Fitness Product' />
@@ -25,7 +25,11 @@
 		<div id="root"></div>
 		<script>
 			let img = document.createElement('img');
-			img.src = '/images/Loader-logo.png';
+			if (window.innerWidth < 1000) {
+				img.src = '/images/Logo-mobile.png';
+			} else {
+				img.src = '/images/Loader-logo.png';
+			}
 			img.alt = 'logo';
 
 			window.onload = function () {
