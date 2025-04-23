@@ -115,7 +115,7 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 			className={className}
 			style={{
 				padding: window.innerWidth > INTERFACE.WIDTH ? '0 40px' : '0 20px',
-				// display: window.innerWidth > INTERFACE.WIDTH ? 'flex' : 'block',
+				// display: window.innerWidth > 770 ? 'flex' : 'block',
 				position: workoutPage ? 'relative' : 'absolute',
 				backgroundColor: !workoutPage && '#393939',
 				cursor: !workoutPage && hover && 'pointer',
@@ -142,7 +142,14 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 					/>
 				</div>
 			) : (
-				<div style={{ width: '60%', display: 'flex', justifyContent: 'space-between' }}>
+				<div
+					style={{
+						width: window.innerWidth > INTERFACE.WIDTH ? '60%' : '',
+						display: 'flex',
+						justifyContent: 'space-between',
+						height: '100%',
+					}}
+				>
 					<div className="training-time-container">
 						<Icon
 							margin="17px 10px 0 0"
@@ -150,31 +157,43 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 							name={ICON.CLOCK}
 							onClick={() => start && onTimerClicked()}
 						/>
-						<div style={{ display: 'flex', flexDirection: 'column' }}>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								height: '100%',
+								justifyContent: 'center',
+							}}
+						>
 							<span style={{ color: '#a2a2a2' }}>Время:</span>
-							<div className="training-time">
+							<div
+								className="training-time"
+								style={{ width: window.innerWidth > INTERFACE.WIDTH ? '150px' : '' }}
+							>
 								<WorkoutTime start={start} initialTime={0} />
 							</div>
 						</div>
 					</div>
 
-					<div
-						style={{
-							height: '60px',
-							display: 'flex',
-							alignItems: 'flex-end',
-						}}
-					>
-						<Button
-							disabled={isError}
-							color={workoutPage ? '#393939' : '#222222'}
-							className="finish-workout-btn"
-							width="250px"
-							onClick={onFinishWorkout}
+					{window.innerWidth > 770 && (
+						<div
+							style={{
+								height: '100%',
+								display: 'flex',
+								alignItems: 'center',
+							}}
 						>
-							Закончить тренировку
-						</Button>
-					</div>
+							<Button
+								disabled={isError}
+								color={workoutPage ? '#393939' : '#222222'}
+								className="finish-workout-btn"
+								width="250px"
+								onClick={onFinishWorkout}
+							>
+								Закончить тренировку
+							</Button>
+						</div>
+					)}
 				</div>
 			)}
 		</div>
@@ -192,6 +211,7 @@ export const WorkoutHeader = styled(WorkoutHeaderContainer)`
 	transition: margin 1s, height 1s, box-shadow 0.3s;
 	margin-bottom: 10px;
 	z-index: 2;
+	display: flex;
 
 	.training-time-container {
 		display: flex;
@@ -204,7 +224,6 @@ export const WorkoutHeader = styled(WorkoutHeaderContainer)`
 		align-items: center;
 		// justify-content: space-between;
 		font-size: 36px;
-		width: 150px;
 	}
 
 	.finish-workout-btn {

@@ -15,7 +15,7 @@ const WorkoutTitleContainer = ({ className, name }) => {
 	};
 
 	return (
-		<div className={className} style={{ width: window.innerWidth < INTERFACE.WIDTH ? '100%' : '40%' }}>
+		<div className={className} style={{ width: window.innerWidth < INTERFACE.WIDTH ? '50%' : '40%' }}>
 			<div style={{ display: 'flex', width: '130px', justifyContent: 'space-between' }}>
 				<span style={{ opacity: '0.4' }}>Тренировка:</span>
 				{isWorkoutNameEdit ? (
@@ -41,7 +41,6 @@ const WorkoutTitleContainer = ({ className, name }) => {
 export const WorkoutTitle = styled(WorkoutTitleContainer)`
 	display: flex;
 	flex-direction: column;
-	width: 40%;
 	height: 100%;
 	padding: 20px 0;
 

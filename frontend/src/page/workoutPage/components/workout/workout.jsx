@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button, Checkbox, Heading, Icon } from '../../../../components';
-import { ICON } from '../../../../constants';
+import { ICON, INTERFACE } from '../../../../constants';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,6 +10,7 @@ import {
 	resetError,
 	selectExercises,
 	selectIsAddPattern,
+	selectIsError,
 	selectIsTimerEditing,
 	selectStartWorkout,
 	selectTypes,
@@ -33,6 +34,7 @@ import {
 import { server } from '../../../../bff';
 import { findItem, groupArrays } from '../../../../utils';
 import { RestTimeTimer, WorkoutSets } from './components';
+import { useMatch, useNavigate } from 'react-router-dom';
 
 const dragStart = (event) => {
 	if (event.target.className.includes('card')) {
@@ -58,6 +60,8 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 	const userId = useSelector(selectUserId);
 	const isAddPattern = useSelector(selectIsAddPattern);
 	const dispatch = useDispatch();
+	const isError = useSelector(selectIsError);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		Promise.all([server.fetchExercises(), server.fetchMuscleGroups()])
@@ -159,6 +163,51 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 		}
 	};
 
+	const onFinishWorkout = () => {
+		let zeroWeight = userWorkoutExercises.find((item) => item.weight === '');
+		let zeroReps = userWorkoutExercises.find((item) => item.reps === '');
+		if (zeroWeight || zeroReps) {
+			dispatch(setError('Пожалуйста заполните все упражнения!'));
+			setTimeout(() => {
+				dispatch(resetError());
+			}, [3000]);
+		} else {
+			dispatch(
+				openModal({
+					text: 'Вы хотите закончить трeнировку?',
+					isConfirm: true,
+					onConfirm: () => {
+						server.saveWorkout(
+							{
+								name: userWorkout.name,
+								time: userWorkout.time,
+								userId: userId,
+							},
+							userExercises,
+							userWorkoutExercises,
+						);
+
+						dispatch(stopWorkout());
+						dispatch(closeModal());
+						navigate('/');
+						dispatch(
+							openModal({
+								isConfirm: false,
+								isSuccess: true,
+								text: 'Ваши результаты',
+								onCancel: () => {
+									dispatch(closeModal());
+									dispatch(finishWorkout());
+								},
+							}),
+						);
+					},
+					onCancel: () => dispatch(closeModal()),
+				}),
+			);
+		}
+	};
+
 	return (
 		<div className={className}>
 			<RestTimeTimer />
@@ -168,6 +217,18 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 					<Button className="add-new-exercise-btn" width="250px" onClick={addNewExercise}>
 						Добавить упражнение
 					</Button>
+					{window.innerWidth < 770 && (
+						<Button
+							style={{ marginBottom: '10px' }}
+							disabled={isError}
+							color="#222222"
+							className="finish-workout-btn"
+							width="250px"
+							onClick={onFinishWorkout}
+						>
+							Закончить тренировку
+						</Button>
+					)}
 					{isAddPattern ? (
 						<>
 							<Button className="cancel-workout-btn" width="250px" onClick={onCancelWorkout}>
@@ -290,6 +351,14 @@ export const Workout = styled(WorkoutContainer)`
 
 		&:hover {
 			background-color: #393939;
+		}
+	}
+	.finish-workout-btn {
+		color: #3eb942;
+
+		&:hover {
+			background-color: #3eb942;
+			color: black;
 		}
 	}
 `;
