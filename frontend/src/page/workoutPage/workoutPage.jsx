@@ -160,7 +160,7 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 		background-color: #222222;
 		border-radius: 20px;
 		padding: 30px 40px;
-		min-height: 415px;
+		// min-height: 415px;
 		margin-bottom: 10px;
 	}
 
@@ -169,7 +169,7 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 		z-index: 0;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		height: 850px;
+		min-height: 400px;
 	}
 
 	.show-workouts-btn {

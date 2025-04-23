@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button, Heading, Icon, Loader } from '../../../../components';
-import { CALENDAR, ICON } from '../../../../constants';
+import { CALENDAR, ICON, INTERFACE } from '../../../../constants';
 import { checkDateIsEqual, checkIsToday, createDate, formatDate, getWeekDaysNames } from './utils';
 import { useCalendar } from './hooks/useCalendar';
 import { useEffect, useState } from 'react';
@@ -78,10 +78,15 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 	};
 
 	return (
-		<div className={className}>
-			<div className="calendar-header">
+		<div
+			className={className}
+			style={{
+				padding: window.innerWidth > INTERFACE.WIDTH ? '30px 40px' : '20px 30px',
+			}}
+		>
+			<div className="calendar-header" style={{ display: window.innerWidth > 570 ? 'flex' : 'block' }}>
 				<Heading>Календарь</Heading>
-				<div style={{ display: 'flex' }}>
+				<div style={{ display: 'flex', marginTop: '10px' }}>
 					{!calendarEvents?.find((item) => item.date === selectedDate.toString()) && (
 						<Button
 							width="200px"
@@ -97,7 +102,10 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 					</Button>
 				</div>
 			</div>
-			<div className="workout-calendar">
+			<div
+				className="workout-calendar"
+				style={{ display: window.innerWidth > INTERFACE.WIDTH ? 'flex' : 'block' }}
+			>
 				<CurrentDate
 					calendarEvents={calendarEvents}
 					isLoading={isLoading}
@@ -108,7 +116,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 					setIsAddEvent={setIsAddEvent}
 					workouts={workouts}
 				/>
-				<div className="calendar-body">
+				<div className="calendar-body" style={{ width: window.innerWidth > INTERFACE.WIDTH ? '70%' : '100%' }}>
 					<CalendarMenu functions={functions} state={state} />
 					<div className="calendar-main" onClick={() => setIsAddEvent(false)}>
 						{state.mode === 'days' && (
@@ -154,7 +162,6 @@ export const Calendar = styled(CalendarContainer)`
 	background-color: #222222;
 	border-radius: 20px;
 	margin-bottom: 10px;
-	padding: 30px 40px;
 	color: white;
 
 	.calendar-weeks {
@@ -172,20 +179,18 @@ export const Calendar = styled(CalendarContainer)`
 	}
 
 	.workout-calendar {
-		display: flex;
 		height: 100%;
+		width: 100%;
 		justify-content: space-between;
-		// height: 500px;
 	}
 	.calendar-body {
-		width: 70%;
+		margin-top: 20px;
 	}
 	.calendar-main {
 		height: 500px;
 	}
 
 	.calendar-header {
-		display: flex;
 		justify-content: space-between;
 		margin-bottom: 30px;
 	}

@@ -7,6 +7,7 @@ import { AccessError } from '../accessError/accessError';
 import { Loader } from '../loader/loader';
 import { useEffect, useState } from 'react';
 import { WorkoutHeader } from '../../page/workoutPage/components/workoutHeader/workoutHeader';
+import { INTERFACE } from '../../constants';
 
 const RoutesSectionContainer = ({ className }) => {
 	let navigate = useNavigate();
@@ -18,7 +19,12 @@ const RoutesSectionContainer = ({ className }) => {
 
 	return (
 		//style={{ marginTop: !workoutPage && start && '110px' }}
-		<section className={className}>
+		<section
+			className={className}
+			style={{
+				height: window.innerWidth > INTERFACE.WIDTH ? 'calc(100vh - 110px)' : 'calc(100vh - 210px)',
+			}}
+		>
 			<Routes>
 				{isAuth &&
 					authRoutes.map(({ path, component }) => (
@@ -37,7 +43,7 @@ const RoutesSectionContainer = ({ className }) => {
 export const RoutesSection = styled(RoutesSectionContainer)`
 	margin-bottom: 10px;
 	position: relative;
-	height: calc(100vh - 110px);
+	height: calc(100vh - 210px);
 	max-width: 1000px;
 	width: 100%;
 	transition: margin 0.5s, opacity 0.5s, max-height 1.5s;

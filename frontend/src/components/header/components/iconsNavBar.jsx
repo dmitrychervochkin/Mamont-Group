@@ -15,11 +15,11 @@ const IconsNavBarContainer = ({ className, userId }) => {
 	return (
 		<div
 			className={className}
-			style={{ justifyContent: window.innerWidth < INTERFACE.WIDTH ? 'center' : 'flex-start' }}
+			style={{ justifyContent: window.innerWidth < INTERFACE.WIDTH ? 'center' : 'center' }}
 		>
 			<div
 				className="icons-header-container"
-				style={{ gap: window.innerWidth < INTERFACE.WIDTH ? '10px' : '50px' }}
+				// style={{ gap: window.innerWidth < INTERFACE.WIDTH ? '10px' : '50px' }}
 			>
 				<Icon
 					reverse="true"

@@ -50,14 +50,13 @@ const FooterContainer = ({ className }) => {
 	);
 };
 export const Footer = styled(FooterContainer)`
-	margin-top: auto;
 	box-shadow: #141414 0px 3px 15px 10px;
 	bottom: 0;
-	position: absolute;
-	z-index: 1;
+	position: fixed;
+	z-index: 99;
 	display: flex;
 	justify-content: space-around;
-	height: 70px;
+	height: 100px;
 	background-color: #222222;
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;

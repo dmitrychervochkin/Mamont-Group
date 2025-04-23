@@ -221,6 +221,7 @@ export const AuthForm = styled(AuthFormContainer)`
 	flex-direction: column;
 	align-items: center;
 	padding: 35px;
+	height: 100%;
 
 	.auth-container {
 		margin: 30px 0px 0px 0px;

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { checkDateIsEqual, formatDate } from '../../utils';
 import { Button, Input, Loader, Select } from '../../../../../../components';
-import { COMPLEXITY } from '../../../../../../constants';
+import { COMPLEXITY, INTERFACE } from '../../../../../../constants';
 import { useEffect, useState } from 'react';
 import { AddNewEvent } from './add-new-event';
 import { findItem, timeConverter } from '../../../../../../utils';
@@ -104,7 +104,7 @@ const CurrentDateContainer = ({
 	};
 
 	return (
-		<div className={className}>
+		<div className={className} style={{ width: window.innerWidth > INTERFACE.WIDTH ? '30%' : '100%' }}>
 			<div className="current-day">{formatDate(selectedDate, 'DDD DD MMM YYYY')}</div>
 			{isAddEvent ? (
 				<AddNewEvent
@@ -245,7 +245,6 @@ export const CurrentDate = styled(CurrentDateContainer)`
 	border-radius: 20px;
 	margin-bottom: 10px;
 	margin-right: 30px;
-	width: 30%;
 	position: relative;
 
 	.current-day {

@@ -75,7 +75,7 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 					<Button
 						ref={buttonRef}
 						id="account-dropdown"
-						width={window.innerWidth > INTERFACE.WIDTH ? '250px' : '120px'}
+						width={window.innerWidth > 800 ? '250px' : '120px'}
 						style={{
 							backgroundColor: dropdownDisplay && '#424242',
 							boxShadow: dropdownDisplay && '0 0 20px 5px #141414',
@@ -124,7 +124,7 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 				<div className="header-right-side">
 					{!matchLogin && !matchRegistration && !matchReset && (
 						<Link to={ROUTE.LOGIN}>
-							<Button width={window.innerWidth > INTERFACE.WIDTH ? '250px' : '150px'}>
+							<Button width={window.innerWidth > 800 ? '250px' : '150px'}>
 								Войти в аккаунт
 							</Button>
 						</Link>
@@ -140,6 +140,7 @@ export const RightSideHeader = styled(RightSideHeaderContainer)`
 	align-items: center;
 	justify-content: flex-end;
 	width: 33%;
+	position: relative;
 
 	.user-name {
 		display: flex;
@@ -178,7 +179,7 @@ export const RightSideHeader = styled(RightSideHeaderContainer)`
 	}
 
 	.dropdown-user {
-		right: 10px;
+		right: 0px;
 		z-index: 10;
 		margin-top: 5px;
 		position: absolute;
@@ -206,5 +207,8 @@ export const RightSideHeader = styled(RightSideHeaderContainer)`
 			transition: 0.3s;
 			background-color: #393939;
 		}
+	}
+	.header-right-side {
+		margin-left: 40px;
 	}
 `;

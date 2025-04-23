@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button, Heading, Loader } from '../../../../components';
-import { LIMITS, ROUTE } from '../../../../constants';
+import { INTERFACE, LIMITS, ROUTE } from '../../../../constants';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { server } from '../../../../bff';
@@ -67,7 +67,13 @@ const HistoryContainer = ({
 
 	return (
 		<div className={className}>
-			<div className="workout-page-header">
+			<div
+				className="workout-page-header"
+				style={{
+					padding: window.innerWidth > 430 ? '30px 40px' : '20px 30px',
+					display: window.innerWidth > 430 ? 'flex' : 'block',
+				}}
+			>
 				<Heading>Мои тренировки</Heading>
 				<div className="show-workouts-btn" onClick={onHistoryClick}>
 					{isWorkoutsDropdown ? 'Скрыть' : 'Показать'}
@@ -83,8 +89,14 @@ const HistoryContainer = ({
 				className="user-workouts-container"
 			>
 				{workouts.map(({ id, name, userId, date, time }) => (
-					<div key={id} className="workouts-history-card">
-						<div style={{ color: 'white', width: '150px' }}>{formatDate(new Date(date), 'DDD DD MMM YYYY')}</div>
+					<div
+						key={id}
+						className="workouts-history-card"
+						style={{ padding: window.innerWidth > 430 ? '20px 30px' : '20px 10px' }}
+					>
+						<div style={{ color: 'white', width: '150px' }}>
+							{formatDate(new Date(date), 'DDD DD MMM YYYY')}
+						</div>
 						<div>{name}</div>
 						<div>{timeConverter(time)}</div>
 					</div>
@@ -118,15 +130,21 @@ const HistoryContainer = ({
 
 export const History = styled(HistoryContainer)`
 	position: relative;
-	width: 1000px;
+	max-width: 1000px;
+	width: 100%;
+
+	.show-workouts-btn {
+		margin-top: 10px;
+		text-align: center;
+		color: #a2a2a2;
+	}
 
 	.workout-page-header {
-		padding: 30px 40px;
 		background-color: #222222;
 		width: 100%;
-		height: 100px;
+		// height: 100px;
 		border-radius: 20px;
-		display: flex;
+		// display: flex;
 		justify-content: space-between;
 		align-items: center;
 		margin-bottom: 10px;
@@ -136,7 +154,6 @@ export const History = styled(HistoryContainer)`
 		display: flex;
 		justify-content: space-between;
 		background-color: #393939;
-		padding: 20px 30px;
 		border-radius: 15px;
 		margin-bottom: 2px;
 		color: #a2a2a2;
@@ -151,7 +168,8 @@ export const History = styled(HistoryContainer)`
 		flex-direction: column;
 		align-items: center;
 		z-index: 20;
-		width: 500px;
+		max-width: 500px;
+		width: 100%;
 		top: 100px;
 		right: 0;
 	}

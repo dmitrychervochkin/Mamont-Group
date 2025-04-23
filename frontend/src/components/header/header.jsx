@@ -46,8 +46,8 @@ const HeaderContainer = ({ className }) => {
 	return (
 		<header className={className}>
 			<div className="header-container">
-				{!userId || (windowWidth > INTERFACE.WIDTH && <LogoImg name={LOGO.HEADER} />)}
-				{(location.pathname !== ROUTE.HOMEPAGE || userId) && <IconsNavBar userId={userId} />}
+				<LogoImg name={LOGO.HEADER} />
+				{windowWidth > INTERFACE.WIDTH && <IconsNavBar userId={userId} />}
 				<RightSideHeader userId={userId} />
 				{windowWidth > 1100 && (
 					<div

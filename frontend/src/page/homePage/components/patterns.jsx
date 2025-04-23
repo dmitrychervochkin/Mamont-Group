@@ -25,22 +25,14 @@ const PatternsContainer = ({ className }) => {
 			>
 				<div
 					className="patterns-header"
-					style={{ display: window.innerWidth > INTERFACE.WIDTH ? 'flex' : 'block' }}
+					style={{ display: window.innerWidth > 540 ? 'flex' : 'block' }}
 				>
 					<div className="left-side">
 						<Heading className="patterns-title">Шаблоны</Heading>
-						<Icon
-							height="31px"
-							name={userId ? ICON.UNLOCK : ICON.LOCK}
-							margin="5px 30px"
-							inactive="true"
-						/>
+						<Icon height="31px" name={userId ? ICON.UNLOCK : ICON.LOCK} inactive="true" />
 					</div>
 					<div className="right-side">
-						<Button
-							width={window.innerWidth > INTERFACE.WIDTH ? '250px' : '100%'}
-							onClick={addPatternHandler}
-						>
+						<Button width="250px" onClick={addPatternHandler}>
 							<span className="plus">+</span>Добавить шаблон
 						</Button>
 					</div>
@@ -81,12 +73,13 @@ export const Patterns = styled(PatternsContainer)`
 	.left-side {
 		display: flex;
 		align-items: center;
+		gap: 30px;
 		margin-bottom: 10px;
 	}
 	.patterns-header {
 		width: 100%;
 		display: flex;
-		align-items: end;
+		align-items: top;
 		justify-content: space-between;
 	}
 `;

@@ -46,18 +46,19 @@ const AppContainer = ({ className }) => {
 	return (
 		<div
 			className={className + ' app'}
-			style={{ marginTop: window.innerWidth > INTERFACE.WIDTH ? '100px' : '0px' }}
 		>
-			{window.innerWidth > INTERFACE.WIDTH ? <Header /> : <Footer />}
+			<Header />
 			{errorMessage && <DropdownError>{errorMessage}</DropdownError>}
 			{start && <WorkoutHeader start={start} />}
 			<RoutesSection />
+			{window.innerWidth < INTERFACE.WIDTH && <Footer />}
 			<Modal />
 		</div>
 	);
 };
 
 export const App = styled(AppContainer)`
+	margin-top: 100px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
