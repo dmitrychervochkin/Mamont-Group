@@ -1,6 +1,6 @@
 export const deleteUser = async (id, token) => {
 	try {
-		const response = await fetch(`${process.env.REACT_APP_API_URL}api/users/${id}`, {
+		const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${id}`, {
 			method: 'DELETE',
 			headers: {
 				Authorization: `Bearer ${JSON.parse(token)}`,

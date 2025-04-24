@@ -1,5 +1,5 @@
 export const getRoles = async () =>
-	fetch(`${process.env.REACT_APP_API_URL}api/roles`)
+	fetch(`${process.env.REACT_APP_API_URL}/api/roles`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;

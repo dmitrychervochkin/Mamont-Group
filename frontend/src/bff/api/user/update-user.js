@@ -1,6 +1,6 @@
 export const updateUser = async ({ id, userRole }) => {
 	try {
-		const response = await fetch(`${process.env.REACT_APP_API_URL}api/users/${id}`, {
+		const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${id}`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json;charset=utf-8',

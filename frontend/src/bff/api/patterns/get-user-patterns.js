@@ -1,7 +1,7 @@
 import { transformUserPattern, transformWorkouts } from '../../transformers';
 
 export const getUserPatterns = async (userId, limit, page) =>
-	fetch(`${process.env.REACT_APP_API_URL}api/user_patterns?user_id=${userId}&limit=${limit}&page=${page}`)
+	fetch(`${process.env.REACT_APP_API_URL}/api/user_patterns?user_id=${userId}&limit=${limit}&page=${page}`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;

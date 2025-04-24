@@ -1,7 +1,7 @@
 import { transformExerciseInfo, transformExercises } from '../../transformers';
 
 export const getExerciseInfo = async (exerciseId, type) =>
-	fetch(`${process.env.REACT_APP_API_URL}api/exercise_info?exercise_id=${exerciseId}&type=${type}`)
+	fetch(`${process.env.REACT_APP_API_URL}/api/exercise_info?exercise_id=${exerciseId}&type=${type}`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;

@@ -1,5 +1,5 @@
 export const addPattern = (patternData, token) =>
-	fetch(`${process.env.REACT_APP_API_URL}api/patterns`, {
+	fetch(`${process.env.REACT_APP_API_URL}/api/patterns`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json;charset=utf-8',
