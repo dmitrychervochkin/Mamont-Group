@@ -3,7 +3,7 @@ import { INTERFACE, LOGO } from '../../../constants';
 
 const LogoImgContainer = ({ className }) => {
 	return (
-		<div className={className}>
+		<div className={className} style={{ width: window.innerWidth > INTERFACE.WIDTH ? '260px' : '80px' }}>
 			<img
 				className="img-logo"
 				style={{

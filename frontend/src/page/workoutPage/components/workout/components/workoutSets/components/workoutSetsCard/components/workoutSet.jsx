@@ -27,8 +27,8 @@ const WorkoutSetContainer = ({
 	calories,
 }) => {
 	const [checked, setChecked] = useState(false);
-	const [repsValue, setRepsValue] = useState(reps || null);
-	const [weightValue, setWeightValue] = useState(weight || null);
+	const [repsValue, setRepsValue] = useState(reps || '');
+	const [weightValue, setWeightValue] = useState(weight || '');
 	const [navMenu, setNavMenu] = useState(false);
 	const isBreak = useSelector(selectIsBreak);
 	const breakTime = useSelector(selectBreakTime);
@@ -88,6 +88,7 @@ const WorkoutSetContainer = ({
 			setRepsValue(target.value);
 		}
 	};
+
 	const onWeightChange = (target) => {
 		if (target.value === '') {
 			setWeightValue(target.value);
@@ -208,10 +209,10 @@ const WorkoutSetContainer = ({
 			<div className="current-rep">
 				<Input
 					style={{ textAlign: 'center', opacity: checked && '0.5' }}
-					placeholder={weightValue ? weight + 'кг' : 'Укажите вес'}
+					placeholder={weightValue !== '' ? weight + 'кг' : 'Укажите вес'}
 					width={window.innerWidth > INTERFACE.WIDTH ? '200px' : '100%'}
 					disabled={checked}
-					value={checked ? weightValue + 'кг' : weightValue}
+					value={checked && weightValue !== '' ? weightValue + 'кг' : weightValue}
 					onChange={(e) => onWeightChange(e.target)}
 				/>
 			</div>
