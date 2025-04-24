@@ -37,6 +37,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 
 // 🔹 Обработчик ошибок (должен быть последним Middleware)
 app.use(errorHandler);
+console.log('STATIC PATH:', path.join(__dirname, 'static'));
 
 async function start() {
 	try {
