@@ -93,6 +93,7 @@ const ExerciseCardContainer = ({
 					<div className="left-side-exercise-container">
 						<div>
 							<img
+								id={id}
 								className="exercise-img"
 								src={
 									exerciseImg?.description &&
