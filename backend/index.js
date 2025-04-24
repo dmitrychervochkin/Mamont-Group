@@ -33,7 +33,7 @@ app.use(fileUpload({}));
 app.use('/api', router);
 
 // 🔹 Статические файлы (переместил ниже API)
-app.use('static', express.static(path.resolve(__dirname, 'static')));
+app.use('static', express.static(path.join(__dirname, 'static')));
 
 // 🔹 Обработчик ошибок (должен быть последним Middleware)
 app.use(errorHandler);
