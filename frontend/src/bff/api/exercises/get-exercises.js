@@ -1,7 +1,7 @@
 import { transformExercises } from '../../transformers';
 
 export const getExercises = async (params) =>
-	fetch(`${process.env.REACT_APP_API_URL}/api/exercises${params.toString() ? '?' + params.toString() : ''}`)
+	fetch(`${process.env.REACT_APP_API_URL}api/exercises${params.toString() ? '?' + params.toString() : ''}`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;

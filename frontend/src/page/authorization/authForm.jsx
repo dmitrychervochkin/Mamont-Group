@@ -6,11 +6,11 @@ import * as yup from 'yup';
 import styled from 'styled-components';
 import { Heading, Loader } from '../../components';
 import InputField from '../../components/input/inputField';
-import ButtonField from '../../components/button/buttonField';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetError, selectUserId, setError, setUser } from '../../reducers';
 import { server } from '../../bff';
 import { jwtDecode } from 'jwt-decode';
+import { Button } from '../../components/button/button';
 
 const emailField = yup
 	.string()
@@ -163,13 +163,13 @@ const AuthFormContainer = ({ className, type }) => {
 					/>
 				)}
 
-				<ButtonField variant="auth" type="submit">
+				<Button variant="auth" type="submit">
 					{type === 'register'
 						? 'Зарегистрироваться'
 						: type === 'reset'
 						? 'Сбросить пароль'
 						: 'Войти'}
-				</ButtonField>
+				</Button>
 			</form>
 			{isLoading ? (
 				<div style={{ marginTop: '20px' }}>

@@ -1,7 +1,7 @@
 import { transformWorkouts } from '../../transformers';
 
 export const getPatterns = async (id) =>
-	fetch(`${process.env.REACT_APP_API_URL}/api/patterns/${id}`)
+	fetch(`${process.env.REACT_APP_API_URL}api/patterns/${id}`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;

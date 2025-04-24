@@ -32,10 +32,11 @@ const AppContainer = ({ className }) => {
 					dispatch(userLogout());
 					return;
 				}
-
 				const currentUserData = jwtDecode(JSON.parse(currentUserDataJSON));
+				console.log(currentUserData)
 				dispatch(setUser({ ...currentUserData }));
 			} catch (err) {
+
 				dispatch(setError('Ошибка при получении данных' || err.message));
 				setTimeout(() => dispatch(resetError()), 10000);
 			}
@@ -44,9 +45,7 @@ const AppContainer = ({ className }) => {
 	}, [dispatch]);
 
 	return (
-		<div
-			className={className + ' app'}
-		>
+		<div className={className + ' app'}>
 			<Header />
 			{errorMessage && <DropdownError>{errorMessage}</DropdownError>}
 			{start && <WorkoutHeader start={start} />}

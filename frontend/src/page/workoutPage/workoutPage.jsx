@@ -110,7 +110,7 @@ const WorkoutPageContainer = ({ className }) => {
 					className="workout-page-container"
 					style={{ padding: window.innerWidth > INTERFACE.WIDTH ? '30px 40px' : '20px 30px' }}
 				>
-					<Header style={{ display: window.innerWidth > 580 ? 'flex' : 'block' }}>
+					<Header style={{ display: window.innerWidth > 540 ? 'flex' : 'block' }}>
 						<HeadingContainer>
 							<Heading>Шаблоны</Heading>
 							<Icon height="35px" name={ICON.ADD} onClick={onAddPatternHandler} />
@@ -134,7 +134,7 @@ const WorkoutPageContainer = ({ className }) => {
 								)}
 							</div>
 						)}
-						<Button width="250px" onClick={startNewWorkout}>
+						<Button width={window.innerWidth > 540 ? '250px' : '100%'} onClick={startNewWorkout}>
 							Начать пустую тренировку
 						</Button>
 					</Header>
@@ -194,13 +194,14 @@ const ContentWrapper = styled.div`
 const Header = styled.div`
 	justify-content: space-between;
 	margin-bottom: 30px;
-	align-items: center;
+	// align-items: center;
 `;
 
 const HeadingContainer = styled.div`
-	width: 220px;
+	// width: 220px;
 	display: flex;
 	justify-content: space-between;
+	gap: 30px;
 	margin-bottom: 10px;
 `;
 

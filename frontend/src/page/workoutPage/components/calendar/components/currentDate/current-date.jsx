@@ -246,6 +246,7 @@ export const CurrentDate = styled(CurrentDateContainer)`
 	margin-bottom: 10px;
 	margin-right: 30px;
 	position: relative;
+	height: 100%;
 
 	.current-day {
 		font-size: 20px;
@@ -275,7 +276,8 @@ export const CurrentDate = styled(CurrentDateContainer)`
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
-		height: 400px;
+		min-height: 400px;
+		height: 100%;
 		// position: relative;
 	}
 

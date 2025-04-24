@@ -1,6 +1,6 @@
 export const getUser = async (email) => {
 	try {
-		const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/${email}`);
+		const response = await fetch(`${process.env.REACT_APP_API_URL}api/users/${email}`);
 
 		// Проверка на успешный ответ
 		if (!response.ok) {

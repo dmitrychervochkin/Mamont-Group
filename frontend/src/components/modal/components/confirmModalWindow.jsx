@@ -22,7 +22,8 @@ const ConfirmModalWindowContainer = ({ className, text, onConfirm, onCancel }) =
 export const ConfirmModalWindow = styled(ConfirmModalWindowContainer)`
 	text-align: center;
 	position: relative;
-	width: 400px;
+	max-width: 400px;
+	width: 100%;
 	margin: 0 auto;
 	border-radius: 20px;
 	z-index: 30;

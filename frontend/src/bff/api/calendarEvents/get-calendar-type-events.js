@@ -1,7 +1,7 @@
 import { transformCalendarEvents, transformCalendarTypeEvent, transformExercises } from '../../transformers';
 
 export const getCalendarTypeEvents = async (calendarEventId) =>
-	fetch(`${process.env.REACT_APP_API_URL}/api/calendar_type_events?calendar_event_id=${calendarEventId}`)
+	fetch(`${process.env.REACT_APP_API_URL}api/calendar_type_events?calendar_event_id=${calendarEventId}`)
 		.catch((res) => {
 			if (res.ok) {
 				return res;

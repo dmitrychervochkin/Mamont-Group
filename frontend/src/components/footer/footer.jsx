@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import { ICON, ROLE, ROUTE } from '../../constants';
 import { Icon } from '../icon/icon';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { selectRoleId } from '../../reducers';
+import { selectRoleId, selectUserId } from '../../reducers';
 import { useSelector } from 'react-redux';
 
 const FooterContainer = ({ className }) => {
 	const roleId = useSelector(selectRoleId);
+	const userId = useSelector(selectUserId);
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -17,11 +18,13 @@ const FooterContainer = ({ className }) => {
 			<Icon
 				name={ICON.BICEPS}
 				reverse="true"
+				disabled="true"
 				onClick={() => navigate(ROUTE.HOMEPAGE)}
 				className={`nav-icon `}
 			/>
 			<Icon
 				name={ICON.DUMBBELL}
+				disabled={!userId}
 				reverse="true"
 				onClick={() => navigate(ROUTE.WORKOUT)}
 				className={`nav-icon ${checkCurrentIcon(ROUTE.WORKOUT)}`}
@@ -34,6 +37,7 @@ const FooterContainer = ({ className }) => {
 			/>
 			<Icon
 				name={ICON.TELEGRAM}
+				disabled="true"
 				reverse="true"
 				onClick={() => navigate(ROUTE.HOMEPAGE)}
 				className={`nav-icon `}
@@ -41,6 +45,7 @@ const FooterContainer = ({ className }) => {
 			{roleId === ROLE.ADMIN && (
 				<Icon
 					name={ICON.ADMINPANEL}
+					disabled={!userId}
 					reverse="true"
 					onClick={() => navigate(ROUTE.ADMIN)}
 					className={`nav-icon ${checkCurrentIcon(ROUTE.ADMIN)}`}

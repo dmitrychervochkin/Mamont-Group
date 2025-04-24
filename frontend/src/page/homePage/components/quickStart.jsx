@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { Button, Heading } from '../../../components';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { startWorkout } from '../../../reducers';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserId, startWorkout } from '../../../reducers';
 import { INTERFACE } from '../../../constants';
 
 const QuickStartContainer = ({ className }) => {
+	const userId = useSelector(selectUserId);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -22,6 +23,7 @@ const QuickStartContainer = ({ className }) => {
 					для достижения ваших целей!
 				</p>
 				<Button
+					disabled={!userId}
 					className="quick-start-btn"
 					width={window.innerWidth > INTERFACE.WIDTH ? '250px' : '100%'}
 					onClick={newWorkoutHandler}

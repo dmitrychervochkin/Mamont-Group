@@ -86,7 +86,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 		>
 			<div className="calendar-header" style={{ display: window.innerWidth > 570 ? 'flex' : 'block' }}>
 				<Heading>Календарь</Heading>
-				<div style={{ display: 'flex', marginTop: '10px' }}>
+				<div style={{ display: 'flex', marginTop: '10px', justifyContent: 'space-between' }}>
 					{!calendarEvents?.find((item) => item.date === selectedDate.toString()) && (
 						<Button
 							width="200px"
@@ -116,7 +116,10 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 					setIsAddEvent={setIsAddEvent}
 					workouts={workouts}
 				/>
-				<div className="calendar-body" style={{ width: window.innerWidth > INTERFACE.WIDTH ? '70%' : '100%' }}>
+				<div
+					className="calendar-body"
+					style={{ width: window.innerWidth > INTERFACE.WIDTH ? '70%' : '100%' }}
+				>
 					<CalendarMenu functions={functions} state={state} />
 					<div className="calendar-main" onClick={() => setIsAddEvent(false)}>
 						{state.mode === 'days' && (

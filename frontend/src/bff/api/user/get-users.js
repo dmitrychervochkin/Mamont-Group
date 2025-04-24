@@ -2,7 +2,7 @@ import { transformUsers } from '../../transformers';
 
 export const getUsers = async () => {
 	try {
-		const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users`);
+		const response = await fetch(`${process.env.REACT_APP_API_URL}api/users`);
 
 		// Если запрос не успешен
 		if (!response.ok) {

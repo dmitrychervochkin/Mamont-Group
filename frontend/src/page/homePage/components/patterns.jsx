@@ -27,12 +27,18 @@ const PatternsContainer = ({ className }) => {
 					className="patterns-header"
 					style={{ display: window.innerWidth > 540 ? 'flex' : 'block' }}
 				>
-					<div className="left-side">
+					<div
+						className="left-side"
+						style={{ justifyContent: window.innerWidth > 540 ? '' : 'space-between' }}
+					>
 						<Heading className="patterns-title">Шаблоны</Heading>
 						<Icon height="31px" name={userId ? ICON.UNLOCK : ICON.LOCK} inactive="true" />
 					</div>
 					<div className="right-side">
-						<Button width="250px" onClick={addPatternHandler}>
+						<Button
+							width={window.innerWidth > 540 ? '250px' : '100%'}
+							onClick={addPatternHandler}
+						>
 							<span className="plus">+</span>Добавить шаблон
 						</Button>
 					</div>

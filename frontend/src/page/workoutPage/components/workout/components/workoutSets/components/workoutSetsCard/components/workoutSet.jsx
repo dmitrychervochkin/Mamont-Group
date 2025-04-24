@@ -11,7 +11,7 @@ import {
 	startBreak,
 	stopBreak,
 } from '../../../../../../../../../reducers';
-import { ICON } from '../../../../../../../../../constants';
+import { ICON, INTERFACE } from '../../../../../../../../../constants';
 import { COLOR } from '../../../../../../../../../constants/colorsConstants';
 
 const WorkoutSetContainer = ({
@@ -209,7 +209,7 @@ const WorkoutSetContainer = ({
 				<Input
 					style={{ textAlign: 'center', opacity: checked && '0.5' }}
 					placeholder={weightValue ? weight + 'кг' : 'Укажите вес'}
-					width="200px"
+					width={window.innerWidth > INTERFACE.WIDTH ? '200px' : '100%'}
 					disabled={checked}
 					value={checked ? weightValue + 'кг' : weightValue}
 					onChange={(e) => onWeightChange(e.target)}
@@ -219,7 +219,7 @@ const WorkoutSetContainer = ({
 				<Input
 					style={{ textAlign: 'center', opacity: checked && '0.5' }}
 					placeholder={repsValue ? reps : 'Укажите повторения'}
-					width="200px"
+					width={window.innerWidth > INTERFACE.WIDTH ? '200px' : '100%'}
 					disabled={checked}
 					value={checked ? repsValue : repsValue}
 					onChange={(e) => onRepsChange(e.target)}
@@ -345,7 +345,7 @@ export const WorkoutSet = styled(WorkoutSetContainer)`
 	.current-rep {
 		height: 40px;
 		background-color: #393939;
-		width: 200px;
+		max-width: 200px;
 		border-radius: 10px;
 		display: flex;
 		align-items: center;

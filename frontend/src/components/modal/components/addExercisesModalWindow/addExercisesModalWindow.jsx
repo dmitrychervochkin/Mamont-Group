@@ -127,7 +127,7 @@ const AddExercisesModalWindowContainer = ({ className, onCancel, onConfirm }) =>
 export const AddExercisesModalWindow = styled(AddExercisesModalWindowContainer)`
 	text-align: center;
 	position: relative;
-	width: 400px;
+	max-width: 400px;
 	margin: 0 auto;
 	min-height: 700px;
 	border-radius: 20px;

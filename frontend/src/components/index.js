@@ -1,7 +1,6 @@
 export * from './header/header';
 export * from './header/components/logoImg';
 export * from './button/button';
-export * from './button/buttonField';
 export * from './footer/footer';
 export * from './icon/icon';
 export * from './input/input';

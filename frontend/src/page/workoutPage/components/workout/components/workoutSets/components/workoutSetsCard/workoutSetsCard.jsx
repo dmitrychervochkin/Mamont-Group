@@ -3,7 +3,7 @@ import { WorkoutSet } from './components/workoutSet';
 import { WorkoutTableTitle } from './components/workoutTableTitle';
 import { Component, useEffect, useRef, useState } from 'react';
 import { Icon } from '../../../../../../../../components';
-import { ICON } from '../../../../../../../../constants';
+import { ICON, INTERFACE } from '../../../../../../../../constants';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -133,6 +133,7 @@ const WorkoutSetsCardContainer = ({
 		<div
 			className={className + ' card'}
 			style={{
+				padding: window.innerWidth > INTERFACE.WIDTH ? '30px' : '15px',
 				borderRadius:
 					isSuperSet && userExercises.filter((item) => item.superSet === superSet).length >= 2
 						? 'none'
@@ -243,7 +244,6 @@ export const WorkoutSetsCard = styled(WorkoutSetsCardContainer)`
 	flex: 1;
 	position: relative;
 	z-index: 5;
-	padding: 30px;
 
 	.workout-exercises-container {
 		// z-index: 4;
