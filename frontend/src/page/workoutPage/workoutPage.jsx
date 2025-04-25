@@ -18,6 +18,7 @@ import {
 	selectStartWorkout,
 	selectUserId,
 } from '../../reducers';
+import { getScreenWidth } from '../../utils';
 
 const useFetchWorkouts = (userId, isDataUpdating, setIsLoading, page) => {
 	const [patterns, setPatterns] = useState([]);
@@ -108,9 +109,9 @@ const WorkoutPageContainer = ({ className }) => {
 
 				<div
 					className="workout-page-container"
-					style={{ padding: window.innerWidth > INTERFACE.WIDTH ? '30px 40px' : '20px 30px' }}
+					style={{ padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '20px 30px' }}
 				>
-					<Header style={{ display: window.innerWidth > 540 ? 'flex' : 'block' }}>
+					<Header style={{ display: getScreenWidth(540) ? 'flex' : 'block' }}>
 						<HeadingContainer>
 							<Heading>Шаблоны</Heading>
 							<Icon height="35px" name={ICON.ADD} onClick={onAddPatternHandler} />
@@ -134,7 +135,7 @@ const WorkoutPageContainer = ({ className }) => {
 								)}
 							</div>
 						)}
-						<Button width={window.innerWidth > 540 ? '250px' : '100%'} onClick={startNewWorkout}>
+						<Button width={getScreenWidth(540) ? '250px' : '100%'} onClick={startNewWorkout}>
 							Начать пустую тренировку
 						</Button>
 					</Header>

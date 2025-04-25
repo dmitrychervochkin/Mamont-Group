@@ -65,10 +65,14 @@ const MuscleGroupCardContainer = ({ className, id, name, isDelete, setIsDelete }
 
 				<div className="type-icons">
 					{isEditing ? (
-						<Icon height="23px" name={ICON.SAVE} onClick={() => onMuscleGroupSave(editingMuscleGroup)} />
+						<Icon
+							size="small"
+							name={ICON.SAVE}
+							onClick={() => onMuscleGroupSave(editingMuscleGroup)}
+						/>
 					) : (
 						<Icon
-							height="23px"
+							size="small"
 							margin="0 0 -2px 0"
 							name={ICON.EDIT}
 							onClick={() => {
@@ -80,7 +84,7 @@ const MuscleGroupCardContainer = ({ className, id, name, isDelete, setIsDelete }
 							}}
 						/>
 					)}
-					<Icon height="23px" name={ICON.DELETE} onClick={() => onMuscleGroupRemove(id)} />
+					<Icon size="small" name={ICON.DELETE} onClick={() => onMuscleGroupRemove(id)} />
 				</div>
 			</div>
 		</>

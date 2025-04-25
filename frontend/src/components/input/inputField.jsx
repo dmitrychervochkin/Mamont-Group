@@ -25,6 +25,8 @@ const StyledInput = styled.input`
 	transition: border-color 0.2s;
 	background-color: #393939;
 	color: white;
+	display: flex;
+	align-items: center;
 
 	&:focus {
 		border-color: #3eb942;
@@ -32,10 +34,11 @@ const StyledInput = styled.input`
 	}
 `;
 
-const ToggleButton = styled.button`
+const ToggleButton = styled.div`
 	position: absolute;
 	right: 10px;
 	top: 50%;
+	bottom: 50%;
 	transform: translateY(-50%);
 	background: none;
 	border: none;
@@ -88,9 +91,9 @@ const InputField = ({
 			{type === 'password' && (
 				<ToggleButton type="button" onClick={togglePasswordVisibility}>
 					{showPassword ? (
-						<Icon height="20px" name={ICON.EYEOFF} />
+						<Icon size="small" name={ICON.EYEOFF} />
 					) : (
-						<Icon height="20px" name={ICON.EYE} />
+						<Icon size="small" name={ICON.EYE} />
 					)}
 				</ToggleButton>
 			)}

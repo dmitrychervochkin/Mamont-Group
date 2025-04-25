@@ -5,7 +5,7 @@ import { ICON } from '../../constants';
 const SearchContainer = ({ className, onChange }) => {
 	return (
 		<div className={className}>
-			<Icon name={ICON.SEARCH} height="15px" inactive="true" />
+			<Icon name={ICON.SEARCH} size="verySmall" inactive="true" />
 			<input type="search" className="search-input" placeholder={'Поиск...'} onChange={onChange} />
 		</div>
 	);

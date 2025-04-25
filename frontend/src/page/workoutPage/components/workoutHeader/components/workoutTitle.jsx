@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUserWorkout, setUserWorkout } from '../../../../../reducers';
 import { useState } from 'react';
 import { ICON, INTERFACE } from '../../../../../constants';
+import { getScreenWidth } from '../../../../../utils';
 
 const WorkoutTitleContainer = ({ className, name }) => {
 	const [isWorkoutNameEdit, setIsWorkoutNameEdit] = useState(true);
@@ -15,13 +16,20 @@ const WorkoutTitleContainer = ({ className, name }) => {
 	};
 
 	return (
-		<div className={className} style={{ width: window.innerWidth < INTERFACE.WIDTH ? '50%' : '40%' }}>
-			<div style={{ display: 'flex', width: '130px', justifyContent: 'space-between' }}>
+		<div className={className} style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '50%' : '40%' }}>
+			<div
+				style={{
+					display: 'flex',
+					width: '130px',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+				}}
+			>
 				<span style={{ opacity: '0.4' }}>Тренировка:</span>
 				{isWorkoutNameEdit ? (
-					<Icon height="20px" name={ICON.SAVE} onClick={() => setIsWorkoutNameEdit(false)} />
+					<Icon size="small" name={ICON.SAVE} onClick={() => setIsWorkoutNameEdit(false)} />
 				) : (
-					<Icon height="20px" name={ICON.EDIT} onClick={() => setIsWorkoutNameEdit(true)} />
+					<Icon size="small" name={ICON.EDIT} onClick={() => setIsWorkoutNameEdit(true)} />
 				)}
 			</div>
 			{isWorkoutNameEdit ? (

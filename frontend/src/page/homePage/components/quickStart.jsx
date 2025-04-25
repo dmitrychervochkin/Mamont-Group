@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserId, startWorkout } from '../../../reducers';
 import { INTERFACE } from '../../../constants';
+import { getScreenWidth } from '../../../utils';
 
 const QuickStartContainer = ({ className }) => {
 	const userId = useSelector(selectUserId);
@@ -15,7 +16,7 @@ const QuickStartContainer = ({ className }) => {
 		navigate('/workout');
 	};
 	return (
-		<div className={className} style={{ padding: window.innerWidth < INTERFACE.WIDTH ? '10px' : '20px' }}>
+		<div className={className} style={{ padding: getScreenWidth(INTERFACE.WIDTH) ? '20px' : '10px' }}>
 			<div className="quick-start-left-side">
 				<Heading className="info-title">Быстрый старт</Heading>
 				<p className="info-description">
@@ -25,13 +26,13 @@ const QuickStartContainer = ({ className }) => {
 				<Button
 					disabled={!userId}
 					className="quick-start-btn"
-					width={window.innerWidth > INTERFACE.WIDTH ? '250px' : '100%'}
+					width={getScreenWidth(INTERFACE.WIDTH) ? '250px' : '100%'}
 					onClick={newWorkoutHandler}
 				>
 					Начать пустую тренировку
 				</Button>
 			</div>
-			{window.innerWidth > INTERFACE.WIDTH && <div className="quick-start-right-side"></div>}
+			{getScreenWidth(INTERFACE.WIDTH) && <div className="quick-start-right-side"></div>}
 		</div>
 	);
 };

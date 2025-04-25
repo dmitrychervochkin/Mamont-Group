@@ -1,26 +1,21 @@
 import styled from 'styled-components';
 import { INTERFACE } from '../../../../../../../../../constants';
+import { getScreenWidth } from '../../../../../../../../../utils';
 
 const WorkoutTableTitleContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<div style={{ width: '40px', textAlign: 'center' }}>#</div>
-			<div
-				style={{ width: window.innerWidth > INTERFACE.WIDTH ? '250px' : '', textAlign: 'center' }}
-			>
+			<div style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '250px' : '', textAlign: 'center' }}>
 				Предыдущий
 			</div>
-			<div
-				style={{ width: window.innerWidth > INTERFACE.WIDTH ? '200px' : '', textAlign: 'center' }}
-			>
+			<div style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '200px' : '', textAlign: 'center' }}>
 				Вес
 			</div>
-			<div
-				style={{ width: window.innerWidth > INTERFACE.WIDTH ? '200px' : '', textAlign: 'center' }}
-			>
+			<div style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '200px' : '', textAlign: 'center' }}>
 				Кол-во повторений
 			</div>
-			<div style={{ width: window.innerWidth > INTERFACE.WIDTH ? '75px' : '', textAlign: 'center' }}></div>
+			<div style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '75px' : '', textAlign: 'center' }}></div>
 		</div>
 	);
 };

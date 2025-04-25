@@ -20,7 +20,7 @@ import {
 	setUserWorkoutExercises,
 	setWorkoutExercises,
 } from '../../../../../../../../reducers';
-import { findItem, groupArrays } from '../../../../../../../../utils';
+import { findItem, getScreenWidth, groupArrays } from '../../../../../../../../utils';
 
 const WorkoutSetsCardContainer = ({
 	className,
@@ -133,7 +133,7 @@ const WorkoutSetsCardContainer = ({
 		<div
 			className={className + ' card'}
 			style={{
-				padding: window.innerWidth > INTERFACE.WIDTH ? '30px' : '15px',
+				padding: getScreenWidth(INTERFACE.WIDTH) ? '30px' : '15px',
 				borderRadius:
 					isSuperSet && userExercises.filter((item) => item.superSet === superSet).length >= 2
 						? 'none'
@@ -155,10 +155,9 @@ const WorkoutSetsCardContainer = ({
 			onDragStart={isSuperSet ? null : drag}
 		>
 			<div className="exercise-name">
-				<div style={{ display: 'flex' }}>
+				<div style={{ display: 'flex', gap: '15px' }}>
 					<Icon
-						height="25px"
-						margin="0 10px 0 0"
+						size="small"
 						name={ICON.MERGE}
 						onClick={onMergedHandler}
 						onMouseEnter={() => setHover(true)}

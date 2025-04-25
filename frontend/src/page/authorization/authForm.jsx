@@ -32,14 +32,14 @@ const registerSchema = yup.object({
 	password: yup
 		.string()
 		.required('Заполните пароль!')
-		.matches(/^[\w#%]+$/, 'Неверно заполнен пароль! Допускаются буквы и цифры и знаки "#", "%".')
+		.matches(/^[\w#%]+$/, 'Некорректный пароль.')
 		.min(6, 'Минимум 6 символов!')
 		.max(30, 'Максимум 30 символов!'),
 	confirmPassword: yup
 		.string()
 		.oneOf([yup.ref('password'), null], 'Пароли должны совпадать')
 		.required('Подтвердите пароль')
-		.matches(/^[\w#%]+$/, 'Неверно заполнен пароль! Допускаются буквы и цифры и знаки "#", "%".')
+		.matches(/^[\w]+$/, 'Некорректный пароль.')
 		.min(6, 'Минимум 6 символов!')
 		.max(30, 'Максимум 30 символов!'),
 });
@@ -122,7 +122,6 @@ const AuthFormContainer = ({ className, type }) => {
 			</Heading>
 			<form onSubmit={handleSubmit(onSubmit)} className="auth-container">
 				<InputField
-					style={{ marginBottom: '20px' }}
 					label="Email"
 					placeholder="Введите email..."
 					register={register('email')}
@@ -132,7 +131,6 @@ const AuthFormContainer = ({ className, type }) => {
 
 				{(type === 'register' || type === 'reset') && (
 					<InputField
-						style={{ marginBottom: '20px' }}
 						label="Логин"
 						placeholder="Введите логин..."
 						register={register('login')}
@@ -142,7 +140,6 @@ const AuthFormContainer = ({ className, type }) => {
 				)}
 
 				<InputField
-					style={{ marginBottom: '20px' }}
 					label="Пароль"
 					placeholder="Введите пароль..."
 					type="password"
@@ -153,7 +150,6 @@ const AuthFormContainer = ({ className, type }) => {
 
 				{(type === 'register' || type === 'reset') && (
 					<InputField
-						style={{ marginBottom: '20px' }}
 						label="Повторите пароль"
 						placeholder="Повторите пароль..."
 						type="password"
@@ -176,15 +172,7 @@ const AuthFormContainer = ({ className, type }) => {
 					<Loader />
 				</div>
 			) : (
-				<div
-					style={{
-						marginTop: '15px',
-						display: 'flex',
-						width: '350px',
-						justifyContent: 'space-around',
-						flexDirection: 'row-reverse',
-					}}
-				>
+				<div className="auth-footer-btns" style={{}}>
 					{type === 'login' && (
 						<Link to="/register" style={{ color: '#646464' }}>
 							Регистрация
@@ -230,5 +218,14 @@ export const AuthForm = styled(AuthFormContainer)`
 		align-items: center;
 		max-width: 350px;
 		width: 100%;
+		gap: 20px;
+	}
+	.auth-footer-btns {
+		margin-top: 15px;
+		display: flex;
+		max-width: 350px;
+		min-width: 300px;
+		justify-content: space-around;
+		flex-direction: row-reverse;
 	}
 `;

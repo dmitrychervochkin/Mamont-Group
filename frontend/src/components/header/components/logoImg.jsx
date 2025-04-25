@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 import { INTERFACE, LOGO } from '../../../constants';
+import { getScreenWidth } from '../../../utils';
 
 const LogoImgContainer = ({ className }) => {
 	return (
-		<div className={className} style={{ width: window.innerWidth > INTERFACE.WIDTH ? '260px' : '80px' }}>
+		<div className={className} style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '260px' : '80px' }}>
 			<img
 				className="img-logo"
 				style={{
-					marginTop: window.innerWidth > INTERFACE.WIDTH ? '10px' : '0px',
-					height: window.innerWidth > INTERFACE.WIDTH ? '70px' : '60px',
+					marginTop: getScreenWidth(INTERFACE.WIDTH) ? '10px' : '0px',
+					height: getScreenWidth(INTERFACE.WIDTH) ? '70px' : '60px',
 				}}
-				src={`/images/${window.innerWidth > INTERFACE.WIDTH ? LOGO.HEADER : LOGO.MOBILE}`}
+				src={`/images/${getScreenWidth(INTERFACE.WIDTH) ? LOGO.HEADER : LOGO.MOBILE}`}
 				alt="Logo"
 			/>
 		</div>

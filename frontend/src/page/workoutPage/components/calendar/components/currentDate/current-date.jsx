@@ -4,7 +4,7 @@ import { Button, Input, Loader, Select } from '../../../../../../components';
 import { COMPLEXITY, INTERFACE } from '../../../../../../constants';
 import { useEffect, useState } from 'react';
 import { AddNewEvent } from './add-new-event';
-import { findItem, timeConverter } from '../../../../../../utils';
+import { findItem, getScreenWidth, timeConverter } from '../../../../../../utils';
 import { server } from '../../../../../../bff';
 import { useDispatch } from 'react-redux';
 import {
@@ -104,7 +104,7 @@ const CurrentDateContainer = ({
 	};
 
 	return (
-		<div className={className} style={{ width: window.innerWidth > INTERFACE.WIDTH ? '30%' : '100%' }}>
+		<div className={className} style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '30%' : '100%' }}>
 			<div className="current-day">{formatDate(selectedDate, 'DDD DD MMM YYYY')}</div>
 			{isAddEvent ? (
 				<AddNewEvent

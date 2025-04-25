@@ -49,7 +49,7 @@ const HeaderContainer = ({ className }) => {
 				<LogoImg name={LOGO.HEADER} />
 				{windowWidth > INTERFACE.WIDTH && <IconsNavBar userId={userId} />}
 				<RightSideHeader userId={userId} />
-				{windowWidth > 1100 && (
+				{windowWidth > 1250 && (
 					<div
 						ref={buttonRef}
 						id="new-features-dropdown"

@@ -13,6 +13,7 @@ import {
 } from '../../../../../../../../../reducers';
 import { ICON, INTERFACE } from '../../../../../../../../../constants';
 import { COLOR } from '../../../../../../../../../constants/colorsConstants';
+import { getScreenWidth } from '../../../../../../../../../utils';
 
 const WorkoutSetContainer = ({
 	className,
@@ -210,7 +211,7 @@ const WorkoutSetContainer = ({
 				<Input
 					style={{ textAlign: 'center', opacity: checked && '0.5' }}
 					placeholder={weightValue !== '' ? weight + 'кг' : 'Укажите вес'}
-					width={window.innerWidth > INTERFACE.WIDTH ? '200px' : '100%'}
+					width={getScreenWidth(INTERFACE.WIDTH) ? '200px' : '100%'}
 					disabled={checked}
 					value={checked && weightValue !== '' ? weightValue + 'кг' : weightValue}
 					onChange={(e) => onWeightChange(e.target)}
@@ -220,7 +221,7 @@ const WorkoutSetContainer = ({
 				<Input
 					style={{ textAlign: 'center', opacity: checked && '0.5' }}
 					placeholder={repsValue ? reps : 'Укажите повторения'}
-					width={window.innerWidth > INTERFACE.WIDTH ? '200px' : '100%'}
+					width={getScreenWidth(INTERFACE.WIDTH) ? '200px' : '100%'}
 					disabled={checked}
 					value={checked ? repsValue : repsValue}
 					onChange={(e) => onRepsChange(e.target)}

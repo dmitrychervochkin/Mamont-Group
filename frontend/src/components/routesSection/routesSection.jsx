@@ -8,6 +8,7 @@ import { Loader } from '../loader/loader';
 import { useEffect, useState } from 'react';
 import { WorkoutHeader } from '../../page/workoutPage/components/workoutHeader/workoutHeader';
 import { INTERFACE } from '../../constants';
+import { getScreenWidth } from '../../utils';
 
 const RoutesSectionContainer = ({ className }) => {
 	let navigate = useNavigate();
@@ -22,18 +23,18 @@ const RoutesSectionContainer = ({ className }) => {
 		<section
 			className={className}
 			style={{
-				height: window.innerWidth > INTERFACE.WIDTH ? 'calc(100vh - 110px)' : 'calc(100vh - 210px)',
+				height: getScreenWidth(INTERFACE.WIDTH) ? 'calc(100vh - 110px)' : 'calc(100vh - 210px)',
 			}}
 		>
 			<Routes>
 				{isAuth &&
 					authRoutes.map(({ path, component }) => (
-						<Route key={path} path={path} element={component} exact />
+						<Route key={path} path={path} element={component} />
 					))}
 				{publicRoutes.map(({ path, component }) => (
-					<Route key={path} path={path} element={component} exact />
+					<Route key={path} path={path} element={component} />
 				))}
-				<Route path="*" element={<Navigate to="/" />} exact />
+				<Route path="*" element={<Navigate to="/" />} />
 			</Routes>
 			{/* )} */}
 		</section>

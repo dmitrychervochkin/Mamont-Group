@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { server } from '../../../../bff';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetError, selectUserId, setError } from '../../../../reducers';
-import { timeConverter } from '../../../../utils';
+import { getScreenWidth, timeConverter } from '../../../../utils';
 import { formatDate } from '../calendar/utils';
 
 const HistoryContainer = ({
@@ -70,8 +70,8 @@ const HistoryContainer = ({
 			<div
 				className="workout-page-header"
 				style={{
-					padding: window.innerWidth > 430 ? '30px 40px' : '20px 30px',
-					display: window.innerWidth > 430 ? 'flex' : 'block',
+					padding: getScreenWidth(430) ? '30px 40px' : '20px 30px',
+					display: getScreenWidth(430) ? 'flex' : 'block',
 				}}
 			>
 				<Heading>Мои тренировки</Heading>
@@ -92,7 +92,7 @@ const HistoryContainer = ({
 					<div
 						key={id}
 						className="workouts-history-card"
-						style={{ padding: window.innerWidth > 430 ? '20px 30px' : '20px 10px' }}
+						style={{ padding: getScreenWidth(430) ? '20px 30px' : '20px 10px' }}
 					>
 						<div style={{ color: 'white', width: '150px' }}>
 							{formatDate(new Date(date), 'DDD DD MMM YYYY')}

@@ -1,37 +1,82 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const IconContainer = ({ className, name, disabled, inactive, ...props }) => {
+export const Icon = ({ className, name, ...props }) => {
 	return (
-		<div className={className} type="image/svg+xml" data={'icons/' + name}>
-			<img
-				className={'icon ' + (disabled && 'disabled')}
-				src={'/icons/' + name}
-				alt="icon"
-				{...props}
-			/>
-		</div>
+		<StyledIcon className={className} type="image/svg+xml" data={'icons/' + name}>
+			<StyledImg className={'icon'} src={'/icons/' + name} alt="icon" {...props} />
+		</StyledIcon>
 	);
 };
 
-export const Icon = styled(IconContainer)`
-	margin: ${({ margin = '0' }) => margin};
+const iconVariants = {
+	primary: css`
+		opacity: 0.8;
+
+		&:hover {
+			opacity: 1;
+		}
+	`,
+	menu: css`
+		opacity: 0.4;
+
+		&:hover {
+			opacity: 0.8;
+		}
+	`,
+	current: css`
+		opacity: 1;
+
+		&:hover {
+			opacity: 0.8;
+		}
+	`,
+};
+
+const iconSizes = {
+	verySmall: css`
+		height: 15px;
+	`,
+	small: css`
+		height: 25px;
+	`,
+	medium: css`
+		height: 30px;
+	`,
+	large: css`
+		height: 35px;
+	`,
+};
+
+const StyledIcon = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	transition: opacity 0.3s;
-	opacity: ${({ reverse = "true" }) => (reverse ? '0.6' : '0.8')};
+`;
 
-	.icon {
-		// height: ${({ height = '30px' }) => height};
-		transition: opacity 0.3s;
-	}
+const StyledImg = styled.img`
+	transition: opacity 0.3s;
 
 	&:hover {
-		cursor: ${({ inactive }) => (inactive ? 'default' : 'pointer')};
-		opacity: ${({ inactive }) => (inactive ? '0.8' : '1')};
+		cursor: pointer;
 	}
-
-	.disabled {
-		cursor: not-allowed;
-	}
+	${({ variant }) => iconVariants[variant] || iconVariants.primary};
+	${({ size }) => iconSizes[size] || iconSizes.medium};
+	${({ disabled = false }) =>
+		disabled &&
+		css`
+			opacity: 0.4;
+			&:hover {
+				opacity: 0.4;
+				cursor: not-allowed;
+			}
+		`};
+	${({ inactive = false }) =>
+		inactive &&
+		css`
+			opacity: 1;
+			&:hover {
+				cursor: default;
+				opacity: 1;
+			}
+		`};
 `;

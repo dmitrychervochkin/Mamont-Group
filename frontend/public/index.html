@@ -25,10 +25,10 @@
 		<div id="root"></div>
 		<script>
 			let img = document.createElement('img');
-			if (window.innerWidth < 1000) {
-				img.src = '/images/Logo-mobile.png';
-			} else {
+			if (window.innerWidth > 1000) {
 				img.src = '/images/Loader-logo.png';
+			} else {
+				img.src = '/images/Logo-mobile.png';
 			}
 			img.alt = 'logo';
 

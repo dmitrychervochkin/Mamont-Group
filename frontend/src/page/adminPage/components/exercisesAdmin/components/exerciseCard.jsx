@@ -103,14 +103,7 @@ const ExerciseCardContainer = ({
 						</div>
 						<div className="exercise-info">
 							<div className="exercise-name">
-								<Icon
-									className="exercise-icon"
-									reverse="true"
-									height="25px"
-									margin="0 10px 0 0"
-									name={ICON.EDIT}
-									onClick={() => setIsEditExercise(true)}
-								/>
+								<Icon size="small" name={ICON.EDIT} onClick={() => setIsEditExercise(true)} />
 								{name}
 							</div>
 							<div className="exercise-type">{muscleGroup?.name}</div>
@@ -154,6 +147,7 @@ export const ExerciseCard = styled(ExerciseCardContainer)`
 	}
 	.exercise-name {
 		display: flex;
+		gap: 15px;
 		align-items: center;
 		font-size: 20px;
 		font-weight: 400;

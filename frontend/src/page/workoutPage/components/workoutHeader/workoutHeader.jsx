@@ -27,6 +27,7 @@ import { useMatch, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { server } from '../../../../bff';
 import { BreakTime, WorkoutTitle } from './components';
+import { getScreenWidth } from '../../../../utils';
 
 const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 	const [hover, setHover] = useState(false);
@@ -114,8 +115,7 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 		<div
 			className={className}
 			style={{
-				padding: window.innerWidth > INTERFACE.WIDTH ? '0 40px' : '0 20px',
-				// display: window.innerWidth > 770 ? 'flex' : 'block',
+				padding: getScreenWidth(INTERFACE.WIDTH) ? '0 40px' : '0 20px',
 				position: workoutPage ? 'relative' : 'absolute',
 				backgroundColor: !workoutPage && '#393939',
 				cursor: !workoutPage && hover && 'pointer',
@@ -144,19 +144,13 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 			) : (
 				<div
 					style={{
-						width: window.innerWidth > INTERFACE.WIDTH ? '60%' : '',
+						width: getScreenWidth(INTERFACE.WIDTH) ? '60%' : '',
 						display: 'flex',
 						justifyContent: 'space-between',
-						height: '100%',
 					}}
 				>
 					<div className="training-time-container">
-						<Icon
-							margin="17px 10px 0 0"
-							height="33px"
-							name={ICON.CLOCK}
-							onClick={() => start && onTimerClicked()}
-						/>
+						<Icon size="large" name={ICON.CLOCK} onClick={() => start && onTimerClicked()} />
 						<div
 							style={{
 								display: 'flex',
@@ -168,14 +162,14 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 							<span style={{ color: '#a2a2a2' }}>Время:</span>
 							<div
 								className="training-time"
-								style={{ width: window.innerWidth > INTERFACE.WIDTH ? '150px' : '' }}
+								style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '150px' : '' }}
 							>
 								<WorkoutTime start={start} initialTime={0} />
 							</div>
 						</div>
 					</div>
 
-					{window.innerWidth > 770 && (
+					{getScreenWidth(770) && (
 						<div
 							style={{
 								height: '100%',
@@ -215,7 +209,8 @@ export const WorkoutHeader = styled(WorkoutHeaderContainer)`
 
 	.training-time-container {
 		display: flex;
-		// justify-content: space-between;
+		gap: 15px;
+		// align-items: flex-end;
 		// padding-left: 30px;
 	}
 

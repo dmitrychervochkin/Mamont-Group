@@ -89,9 +89,9 @@ const UserCardContainer = ({
 			</div>
 			<div className="icons">
 				{roleId !== ROLE[userRole] && (
-					<Icon height="23px" name={ICON.SAVE} onClick={() => onUserSave(userRole)} />
+					<Icon size="small" name={ICON.SAVE} onClick={() => onUserSave(userRole)} />
 				)}
-				<Icon height="23px" name={ICON.DELETE} onClick={() => onUserRemove(userId)} />
+				<Icon size="small" name={ICON.DELETE} onClick={() => onUserRemove(userId)} />
 			</div>
 		</div>
 	);

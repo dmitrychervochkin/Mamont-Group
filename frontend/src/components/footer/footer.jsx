@@ -11,44 +11,39 @@ const FooterContainer = ({ className }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const checkCurrentIcon = (path) => (path === location.pathname ? 'current' : '');
+	const checkCurrentIcon = (path) => (path === location.pathname ? 'current' : 'menu');
 
 	return (
 		<footer className={className}>
 			<Icon
 				name={ICON.BICEPS}
-				reverse="true"
+				variant="menu"
 				disabled="true"
-				onClick={() => navigate(ROUTE.HOMEPAGE)}
-				className={`nav-icon `}
+				onClick={() => userId && navigate(ROUTE.HOMEPAGE)}
 			/>
 			<Icon
 				name={ICON.DUMBBELL}
 				disabled={!userId}
-				reverse="true"
-				onClick={() => navigate(ROUTE.WORKOUT)}
-				className={`nav-icon ${checkCurrentIcon(ROUTE.WORKOUT)}`}
+				variant={checkCurrentIcon(ROUTE.WORKOUT)}
+				onClick={() => userId && navigate(ROUTE.WORKOUT)}
 			/>
 			<Icon
 				name={ICON.HOME}
-				reverse="true"
+				variant={checkCurrentIcon(ROUTE.HOMEPAGE)}
 				onClick={() => navigate(ROUTE.HOMEPAGE)}
-				className={`nav-icon ${checkCurrentIcon(ROUTE.HOMEPAGE)}`}
 			/>
 			<Icon
 				name={ICON.TELEGRAM}
 				disabled="true"
-				reverse="true"
-				onClick={() => navigate(ROUTE.HOMEPAGE)}
-				className={`nav-icon `}
+				variant="menu"
+				onClick={() => userId && navigate(ROUTE.HOMEPAGE)}
 			/>
 			{roleId === ROLE.ADMIN && (
 				<Icon
 					name={ICON.ADMINPANEL}
 					disabled={!userId}
-					reverse="true"
-					onClick={() => navigate(ROUTE.ADMIN)}
-					className={`nav-icon ${checkCurrentIcon(ROUTE.ADMIN)}`}
+					variant={checkCurrentIcon(ROUTE.ADMIN)}
+					onClick={() => userId && navigate(ROUTE.ADMIN)}
 				/>
 			)}
 		</footer>
@@ -62,6 +57,7 @@ export const Footer = styled(FooterContainer)`
 	display: flex;
 	justify-content: space-around;
 	height: 100px;
+	align-items: center;
 	background-color: #222222;
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;

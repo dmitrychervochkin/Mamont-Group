@@ -6,6 +6,7 @@ import { Button } from '../../button/button';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import { ICON, INTERFACE, ROLE, ROUTE } from '../../../constants';
 import { useEffect, useRef, useState } from 'react';
+import { getScreenWidth } from '../../../utils';
 
 const RightSideHeaderContainer = ({ className, userId }) => {
 	const userLogin = useSelector(selectUserLogin);
@@ -74,7 +75,7 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 					<Button
 						ref={buttonRef}
 						id="account-dropdown"
-						width={window.innerWidth > 800 ? '250px' : '130px'}
+						width={getScreenWidth(800) ? '250px' : '130px'}
 						style={{
 							backgroundColor: dropdownDisplay && '#424242',
 							boxShadow: dropdownDisplay && '0 0 20px 5px #141414',
@@ -96,26 +97,26 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 					>
 						<div className="user-information">{userLogin}</div>
 						<div className="dropdown-user-option">
-							<Icon margin="0 15px 0 0" inactive height="25px" name={ICON.TARIFF} />
+							<Icon inactive size="small" name={ICON.TARIFF} />
 							Моя подписка
 						</div>
 						<div className="dropdown-user-option" onClick={() => handleNavigation(ROUTE.HISTORY)}>
-							<Icon margin="0 15px 0 0" inactive height="25px" name={ICON.CLOCK} />
+							<Icon inactive size="small" name={ICON.CLOCK} />
 							История тренировок
 						</div>
 						<div
 							className="dropdown-user-option"
 							onClick={() => handleNavigation(ROUTE.COMMUNITY)}
 						>
-							<Icon margin="0 15px 0 0" inactive height="25px" name={ICON.TELEGRAMGRAY} />
+							<Icon inactive size="small" name={ICON.TELEGRAMGRAY} />
 							Сообщество
 						</div>
 						<div className="dropdown-user-option" onClick={() => handleNavigation(ROUTE.MUSIC)}>
-							<Icon margin="0 15px 0 0" inactive height="25px" name={ICON.MUSIC} />
+							<Icon inactive size="small" name={ICON.MUSIC} />
 							Плейлисты
 						</div>
 						<div className="dropdown-user-option" onClick={onLogoutClick}>
-							<Icon name={ICON.LOGOUT} margin="0 15px 0 0" height="25px" /> Выйти
+							<Icon name={ICON.LOGOUT} size="small" /> Выйти
 						</div>
 					</div>
 				</div>
@@ -123,9 +124,7 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 				<div className="header-right-side">
 					{!matchLogin && !matchRegistration && !matchReset && (
 						<Link to={ROUTE.LOGIN}>
-							<Button width={window.innerWidth > 800 ? '250px' : '150px'}>
-								Войти в аккаунт
-							</Button>
+							<Button width={getScreenWidth(800) ? '250px' : '150px'}>Войти в аккаунт</Button>
 						</Link>
 					)}
 				</div>
@@ -194,6 +193,7 @@ export const RightSideHeader = styled(RightSideHeaderContainer)`
 	}
 	.dropdown-user-option {
 		display: flex;
+		gap: 15px;
 		padding: 0px 20px;
 		align-items: center;
 		width: 100%;

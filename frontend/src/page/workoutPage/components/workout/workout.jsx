@@ -32,7 +32,7 @@ import {
 	timerEditing,
 } from '../../../../reducers';
 import { server } from '../../../../bff';
-import { findItem, groupArrays } from '../../../../utils';
+import { findItem, getScreenWidth, groupArrays } from '../../../../utils';
 import { RestTimeTimer, WorkoutSets } from './components';
 import { useMatch, useNavigate } from 'react-router-dom';
 
@@ -217,7 +217,7 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 					<Button className="add-new-exercise-btn" width="250px" onClick={addNewExercise}>
 						Добавить упражнение
 					</Button>
-					{window.innerWidth < 770 && (
+					{getScreenWidth(770) && (
 						<Button
 							style={{ marginBottom: '10px' }}
 							disabled={isError}

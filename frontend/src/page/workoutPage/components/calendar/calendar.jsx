@@ -8,6 +8,7 @@ import { CalendarDays, CalendarMenu, CalendarMonths, CalendarYears, CurrentDate 
 import { server } from '../../../../bff';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetError, selectUserId, setError } from '../../../../reducers';
+import { getScreenWidth } from '../../../../utils';
 
 const CALENDAR_STATE = [
 	{
@@ -81,10 +82,10 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 		<div
 			className={className}
 			style={{
-				padding: window.innerWidth > INTERFACE.WIDTH ? '30px 40px' : '20px 30px',
+				padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '20px 30px',
 			}}
 		>
-			<div className="calendar-header" style={{ display: window.innerWidth > 570 ? 'flex' : 'block' }}>
+			<div className="calendar-header" style={{ display: getScreenWidth(570) ? 'flex' : 'block' }}>
 				<Heading>Календарь</Heading>
 				<div style={{ display: 'flex', marginTop: '10px', justifyContent: 'space-between' }}>
 					{!calendarEvents?.find((item) => item.date === selectedDate.toString()) && (
@@ -104,7 +105,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 			</div>
 			<div
 				className="workout-calendar"
-				style={{ display: window.innerWidth > INTERFACE.WIDTH ? 'flex' : 'block' }}
+				style={{ display: getScreenWidth(INTERFACE.WIDTH) ? 'flex' : 'block' }}
 			>
 				<CurrentDate
 					calendarEvents={calendarEvents}
@@ -118,7 +119,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 				/>
 				<div
 					className="calendar-body"
-					style={{ width: window.innerWidth > INTERFACE.WIDTH ? '70%' : '100%' }}
+					style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '70%' : '100%' }}
 				>
 					<CalendarMenu functions={functions} state={state} />
 					<div className="calendar-main" onClick={() => setIsAddEvent(false)}>
