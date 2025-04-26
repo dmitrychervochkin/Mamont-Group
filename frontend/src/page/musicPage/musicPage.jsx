@@ -3,6 +3,7 @@ import { Heading } from '../../components';
 import { MusicCard } from './components/musicCard';
 import { useEffect, useState } from 'react';
 import { getScreenWidth } from '../../utils';
+import { INTERFACE } from '../../constants';
 
 const playlistsLinks = [
 	{
@@ -38,7 +39,10 @@ const MusicPageContainer = ({ className }) => {
 
 	return (
 		<div className={className}>
-			<div className="music-page-header">
+			<div
+				className="music-page-header"
+				style={{ padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '20px 30px' }}
+			>
 				<Heading size="large">
 					{getScreenWidth(550) ? 'Плейлисты для тренировок' : 'Плейлисты'}
 				</Heading>
@@ -46,9 +50,10 @@ const MusicPageContainer = ({ className }) => {
 			<div
 				style={{
 					fontStyle: 'italic',
-					margin: '20px 0',
 					height: '100%',
 					animation: '2s infinite shadowDance',
+					padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '20px 30px',
+					margin: getScreenWidth(INTERFACE.WIDTH) ? '20px 0' : '20px 10px',
 				}}
 				className="music-page-header"
 			>
@@ -85,8 +90,6 @@ const MusicPageContainer = ({ className }) => {
 
 export const MusicPage = styled(MusicPageContainer)`
 	.music-page-header {
-		padding: 30px 40px;
-		width: 100%;
 		height: 100px;
 		background-color: #222222;
 		border-radius: 20px;

@@ -133,5 +133,7 @@ export const CommunityPage = styled(CommunityPageContainer)`
 		border-radius: 20px;
 		margin-top: 10px;
 		width: 100%;
+		height; 100%;
+		padding-bottom: 100px;
 	}
 `;
