@@ -1,21 +1,30 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { getScreenWidth } from '../../../utils';
+import { INTERFACE } from '../../../constants';
 
 const MusicCardContainer = ({ className, isLoading, id, musicLink, title, description }) => {
 	const [isOpenMore, setIsOpenMore] = useState(false);
 
 	return (
-		<div className={className}>
+		<div className={className} style={{ display: getScreenWidth(INTERFACE.WIDTH) ? 'flex' : 'block' }}>
 			{id % 2 === 1 ? (
 				<>
 					{isLoading ? (
 						<div
-							style={{ marginRight: '10px', height: isOpenMore ? '500px' : '200px' }}
+							style={{
+								marginRight: '10px',
+								height: isOpenMore ? '500px' : '200px',
+							}}
 							className="playlist-link"
 						></div>
 					) : (
 						<iframe
-							style={{ marginRight: '10px', height: isOpenMore ? '500px' : '200px' }}
+							style={{
+								marginRight: getScreenWidth(INTERFACE.WIDTH) ? '10px' : '',
+								height: isOpenMore ? '500px' : '200px',
+								width: getScreenWidth(INTERFACE.WIDTH) ? '700px' : '100%',
+							}}
 							allow="clipboard-write"
 							className="playlist-link"
 							width="700"
@@ -67,7 +76,11 @@ const MusicCardContainer = ({ className, isLoading, id, musicLink, title, descri
 						></div>
 					) : (
 						<iframe
-							style={{ marginLeft: '10px', height: isOpenMore ? '500px' : '200px' }}
+							style={{
+								marginLeft: getScreenWidth(INTERFACE.WIDTH) ? '10px' : '',
+								height: isOpenMore ? '500px' : '200px',
+								width: getScreenWidth(INTERFACE.WIDTH) ? '700px' : '100%',
+							}}
 							allow="clipboard-write"
 							className="playlist-link"
 							width="700"
@@ -82,12 +95,10 @@ const MusicCardContainer = ({ className, isLoading, id, musicLink, title, descri
 };
 
 export const MusicCard = styled(MusicCardContainer)`
-	display: flex;
 	margin-bottom: 20px;
 
 	.playlist-link {
 		border: none;
-		width: 700px;
 		height: 400px;
 		border-radius: 20px;
 		border: 2px solid #a2a2a2;

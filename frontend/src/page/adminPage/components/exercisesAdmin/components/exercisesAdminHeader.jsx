@@ -11,15 +11,15 @@ const ExercisesAdminHeaderContainer = ({
 	currentType,
 	searchingExercises,
 	isAddNewExercise,
-    setIsAddNewExercise,
-    type,
+	setIsAddNewExercise,
+	type,
 }) => {
 	const exercisesState = useSelector(selectExercises);
 	const isError = useSelector(selectIsError);
 
 	return (
 		<div className={className}>
-			<Heading>
+			<Heading size="large">
 				Упражнения{' '}
 				{!isSearch &&
 					!isLoading &&
@@ -32,7 +32,7 @@ const ExercisesAdminHeaderContainer = ({
 			{!isAddNewExercise && !isError && (
 				<div className="add-new-exercise-btn" onClick={() => setIsAddNewExercise(true)}>
 					<Heading color="#3EB942">+</Heading>
-					<Heading weight="400" size="20px" margin="7px 0 0 5px" color="#3EB942">
+					<Heading weight="400" size="small" margin="7px 0 0 5px" color="#3EB942">
 						NEW
 					</Heading>
 				</div>
@@ -45,4 +45,10 @@ export const ExercisesAdminHeader = styled(ExercisesAdminHeaderContainer)`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	.add-new-exercise-btn {
+		display: flex;
+		gap: 5px;
+		align-items: flex-end;
+	}
 `;

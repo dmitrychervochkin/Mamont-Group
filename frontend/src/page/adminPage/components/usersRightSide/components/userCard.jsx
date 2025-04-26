@@ -66,7 +66,7 @@ const UserCardContainer = ({
 				<div className="user-icon">{icon}</div>
 			</div>
 			<div className="user-data-container">
-				<Heading size="16px" weight="400" color="#3EB942">
+				<Heading size="xsmall" weight="400" color="#3EB942">
 					{login}
 				</Heading>
 				<div>{email}</div>

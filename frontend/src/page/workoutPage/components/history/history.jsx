@@ -74,7 +74,7 @@ const HistoryContainer = ({
 					display: getScreenWidth(430) ? 'flex' : 'block',
 				}}
 			>
-				<Heading>Мои тренировки</Heading>
+				<Heading size="large">Мои тренировки</Heading>
 				<div className="show-workouts-btn" onClick={onHistoryClick}>
 					{isWorkoutsDropdown ? 'Скрыть' : 'Показать'}
 				</div>

@@ -59,29 +59,29 @@ const UsersLeftSideContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<div className="users-header">
-				<Heading>Пользователи</Heading>
+				<Heading size="large">Пользователи</Heading>
 				<div className="left-side-main">
 					<div className="left-side-main-header">
 						<Search margin="0 10px 0 0" onChange={(e) => onUserSearch(e.target.value)} />
-						<Icon name={ICON.MENU} height="35px" />
+						<Icon name={ICON.MENU} size="large" />
 					</div>
 				</div>
 			</div>
 			<div className="title-of-table">
 				<div className="user-id">
-					<Heading size="15px">id</Heading>
+					<Heading size="xsmall">id</Heading>
 				</div>
 				<div className="user-icon-title">
-					<Heading size="15px">Иконка</Heading>
+					<Heading size="xsmall">Иконка</Heading>
 				</div>
 				<div className="user-data">
-					<Heading size="15px">Данные о пользователе</Heading>
+					<Heading size="xsmall">Данные о пользователе</Heading>
 				</div>
 				<div className="user-role">
-					<Heading size="15px">Роль</Heading>
+					<Heading size="xsmall">Роль</Heading>
 				</div>
 				<div className="user-actions">
-					<Heading size="15px">Действия</Heading>
+					<Heading size="xsmall">Действия</Heading>
 				</div>
 			</div>
 			{isLoading ? (

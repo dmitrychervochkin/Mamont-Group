@@ -146,6 +146,7 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 					style={{
 						width: getScreenWidth(INTERFACE.WIDTH) ? '60%' : '',
 						display: 'flex',
+						width: '100%',
 						justifyContent: 'space-between',
 					}}
 				>
@@ -198,7 +199,6 @@ export const WorkoutHeader = styled(WorkoutHeaderContainer)`
 	background-color: #222222;
 	height: 100px;
 	border-radius: 20px;
-	align-items: center;
 	justify-content: space-between;
 	max-width: 1000px;
 	width: 100%;

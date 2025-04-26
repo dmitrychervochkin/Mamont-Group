@@ -5,10 +5,10 @@ const RoleCardContainer = ({ className, id, name }) => {
 	return (
 		<div className={className}>
 			<div className="role-id">
-				<Heading size="15px">{id}</Heading>
+				<Heading size="xsmall">{id}</Heading>
 			</div>
 			<div className="role-name">
-				<Heading size="18px">{name}</Heading>
+				<Heading size="small">{name}</Heading>
 			</div>
 		</div>
 	);

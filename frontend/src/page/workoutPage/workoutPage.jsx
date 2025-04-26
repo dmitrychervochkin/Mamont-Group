@@ -113,7 +113,7 @@ const WorkoutPageContainer = ({ className }) => {
 				>
 					<Header style={{ display: getScreenWidth(540) ? 'flex' : 'block' }}>
 						<HeadingContainer>
-							<Heading>Шаблоны</Heading>
+							<Heading size="large">Шаблоны</Heading>
 							<Icon height="35px" name={ICON.ADD} onClick={onAddPatternHandler} />
 						</HeadingContainer>
 						{!isLoading && (

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { getScreenWidth } from '../../../utils';
 
 const featuresData = [
 	{ id: 1, title: 'Календарь тренировок', description: 'Описание 1' },
@@ -26,7 +27,13 @@ const NewFeaturesContainer = ({ className, isDropdownOpen }) => {
 					{featuresData.map(({ id, title, description }) => (
 						<li key={id}>
 							<div className="new-feature">{title}</div>
-							<div className="new-features-more-info">
+							<div
+								className="new-features-more-info"
+								style={{
+									top: getScreenWidth(620) ? '0' : '100%',
+									left: getScreenWidth(620) ? '-300px' : '0',
+								}}
+							>
 								<div
 									style={{
 										borderBottom: '2px solid #a2a2a2',
@@ -64,9 +71,7 @@ export const NewFeatures = styled(NewFeaturesContainer)`
 
 	.new-features-more-info {
 		transition: opacity 0.5s;
-		top: 0;
 		border-radius: 20px;
-		left: -300px;
 		position: absolute;
 		width: 300px;
 		height: 100%;
@@ -77,6 +82,7 @@ export const NewFeatures = styled(NewFeaturesContainer)`
 	}
 
 	.new-feature {
+		position: relative;
 		cursor: default;
 		transition: color 0.5s;
 

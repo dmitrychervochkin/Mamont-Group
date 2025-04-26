@@ -1,35 +1,52 @@
 import styled from 'styled-components';
 import { Heading, Icon } from '../../../components';
+import { getScreenWidth } from '../../../utils';
+import { INTERFACE } from '../../../constants';
 
 const CommunityCardContainer = ({ className, icon, title, description, link }) => {
 	return (
-		<div className={className}>
-			<div className="community-icon-container">
+		<div
+			className={className}
+			style={{
+				flexDirection: getScreenWidth(INTERFACE.WIDTH) ? '0' : 'column',
+				padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '30px',
+			}}
+		>
+			<div
+				className="community-icon-container"
+				style={{
+					height: getScreenWidth(INTERFACE.WIDTH) ? '120px' : '80px',
+				}}
+			>
 				<div type="image/svg+xml" data={'icons/' + icon}>
-					<img style={{ height: '130px' }} src={'/icons/' + icon} alt="icon" />
+					<img
+						style={{ height: getScreenWidth(INTERFACE.WIDTH) ? '130px' : '50px' }}
+						src={'/icons/' + icon}
+						alt="icon"
+					/>
+				</div>
+				{!getScreenWidth(INTERFACE.WIDTH) && <Heading>{title}</Heading>}
+			</div>
+			<div>
+				{getScreenWidth(INTERFACE.WIDTH) && <Heading>{title}</Heading>}
+				<div style={{ margin: '10px 0', color: '#a2a2a2' }}>{description}</div>
+				<div style={{ width: '100%', textAlign: 'right' }}>
+					<a className="go-to-tg-chanel-btn" href={link} target="_blank" rel="noopener noreferrer">
+						Ссылка
+					</a>
 				</div>
 			</div>
-			<div style={{ width: '600px' }}>
-				<Heading>{title}</Heading>
-				<div style={{ marginTop: '10px', color: '#a2a2a2' }}>{description}</div>
-			</div>
-			<span style={{ width: '130px', textAlign: 'right' }}>
-				<a className="go-to-tg-chanel-btn" href={link} target="_blank" rel="noopener noreferrer">
-					Ссылка
-				</a>
-			</span>
 		</div>
 	);
 };
 
 export const CommunityCard = styled(CommunityCardContainer)`
-	padding: 30px 40px;
 	border-radius: 20px;
-	height: 200px;
 	width: 100%;
 	background-color: #222222;
 	margin-bottom: 10px;
 	display: flex;
+	align-items: flex-start;
 	justify-content: space-between;
 
 	.go-to-tg-chanel-btn {
@@ -43,22 +60,10 @@ export const CommunityCard = styled(CommunityCardContainer)`
 		}
 	}
 	.community-icon-container {
-		margin-top: -20px;
-		box-shadow: inset 0px 0px 10px 7px #141414;
 		margin-right: 50px;
-		padding: 10px;
-		width: 180px;
-		height: 180px;
-		background-color: #393939;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		border-radius: 50%;
+		gap: 30px;
 		transition: background-color 0.3s, box-shadow 0.3s;
-
-		&:hover {
-			background-color: #646464;
-			box-shadow: inset 0px 0px 10px 7px black;
-		}
 	}
 `;

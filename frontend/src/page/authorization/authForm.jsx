@@ -11,6 +11,8 @@ import { resetError, selectUserId, setError, setUser } from '../../reducers';
 import { server } from '../../bff';
 import { jwtDecode } from 'jwt-decode';
 import { Button } from '../../components/button/button';
+import { getScreenWidth } from '../../utils';
+import { INTERFACE } from '../../constants';
 
 const emailField = yup
 	.string()
@@ -117,7 +119,7 @@ const AuthFormContainer = ({ className, type }) => {
 
 	return (
 		<div className={className}>
-			<Heading>
+			<Heading size="large">
 				{type === 'register' ? 'Регистрация' : type === 'reset' ? 'Сброс пароля' : 'Вход'}
 			</Heading>
 			<form onSubmit={handleSubmit(onSubmit)} className="auth-container">
@@ -159,7 +161,7 @@ const AuthFormContainer = ({ className, type }) => {
 					/>
 				)}
 
-				<Button variant="auth" type="submit">
+				<Button variant="auth" type="submit" width={getScreenWidth(500) ? '250px' : '100%'}>
 					{type === 'register'
 						? 'Зарегистрироваться'
 						: type === 'reset'

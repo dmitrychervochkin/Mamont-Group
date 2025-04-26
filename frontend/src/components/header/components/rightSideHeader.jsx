@@ -8,7 +8,7 @@ import { ICON, INTERFACE, ROLE, ROUTE } from '../../../constants';
 import { useEffect, useRef, useState } from 'react';
 import { getScreenWidth } from '../../../utils';
 
-const RightSideHeaderContainer = ({ className, userId }) => {
+const RightSideHeaderContainer = ({ className, userId, setIsDropdownOpen, buttonRef: buttonRefFeatures }) => {
 	const userLogin = useSelector(selectUserLogin);
 	const roleId = useSelector(selectRoleId);
 	const matchLogin = useMatch(ROUTE.LOGIN);
@@ -115,6 +115,19 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 							<Icon inactive size="small" name={ICON.MUSIC} />
 							Плейлисты
 						</div>
+						{window.innerWidth < 1250 && (
+							<div
+								ref={buttonRefFeatures}
+								className="dropdown-user-option"
+								onClick={() => {
+									setIsDropdownOpen((prev) => !prev);
+									setDropdownDisplay(false);
+								}}
+							>
+								<Icon inactive size="small" name={ICON.INFOLIGHT} />
+								Что нового?
+							</div>
+						)}
 						<div className="dropdown-user-option" onClick={onLogoutClick}>
 							<Icon name={ICON.LOGOUT} size="small" /> Выйти
 						</div>
@@ -122,10 +135,12 @@ const RightSideHeaderContainer = ({ className, userId }) => {
 				</div>
 			) : (
 				<div className="header-right-side">
-					{!matchLogin && !matchRegistration && !matchReset && (
+					{!matchLogin && !matchRegistration && !matchReset ? (
 						<Link to={ROUTE.LOGIN}>
 							<Button width={getScreenWidth(800) ? '250px' : '150px'}>Войти в аккаунт</Button>
 						</Link>
+					) : (
+						<div style={{ width: getScreenWidth(800) ? '250px' : '150px' }}></div>
 					)}
 				</div>
 			)}
@@ -167,6 +182,7 @@ export const RightSideHeader = styled(RightSideHeaderContainer)`
 		align-items: center;
 		border-bottom: 1px solid #393939;
 		justify-content: center;
+		margin-bottom: 8px;
 	}
 	.user-information-role {
 		position: absolute;

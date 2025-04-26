@@ -43,10 +43,10 @@ const MuscleGroupCardContainer = ({ className, id, name, isDelete, setIsDelete }
 		<>
 			<div className={className}>
 				<div className="type-id">
-					<Heading size="15px">{id}</Heading>
+					<Heading size="xsmall">{id}</Heading>
 				</div>
 				<div className="type-name">
-					<Heading size="18px">
+					<Heading size="small">
 						{isEditing ? (
 							<Input
 								id="edit-role-input"

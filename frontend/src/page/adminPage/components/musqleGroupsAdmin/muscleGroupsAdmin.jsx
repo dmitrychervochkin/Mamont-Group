@@ -60,7 +60,7 @@ const MuscleGroupsAdminContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<div className="types-container-header">
-				<Heading>Мышечная группа</Heading>
+				<Heading size="large">Мышечная группа</Heading>
 				<Icon
 					name={isAdd ? ICON.CLOSE : ICON.ADD}
 					margin="8px 0 0 0"
@@ -71,10 +71,10 @@ const MuscleGroupsAdminContainer = ({ className }) => {
 			<div className="types-container-main">
 				<div className="title-types-table">
 					<div className="title-types-table-role-id">
-						<Heading size="15px">id</Heading>
+						<Heading size="xsmall">id</Heading>
 					</div>
 					<div className="title-types-table-role-name">
-						<Heading size="15px">Наименование</Heading>
+						<Heading size="xsmall">Наименование</Heading>
 					</div>
 				</div>
 				{isLoading ? (
@@ -115,9 +115,6 @@ const MuscleGroupsAdminContainer = ({ className }) => {
 								setIsDelete={setIsDelete}
 							/>
 						))}
-						{/* <Heading size="12px" margin="10px 0 0 0">
-							{typeError}
-						</Heading> */}
 					</ScrollSlider>
 				)}
 			</div>

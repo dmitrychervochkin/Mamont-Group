@@ -42,30 +42,33 @@ const HeaderContainer = ({ className }) => {
 
 		return () => window.removeEventListener('click', handleClickOutside);
 	}, [isDropdownOpen]);
-
+	console.log(isDropdownOpen);
 	return (
 		<header className={className}>
 			<div className="header-container">
 				<LogoImg name={LOGO.HEADER} />
 				{windowWidth > INTERFACE.WIDTH && <IconsNavBar userId={userId} />}
-				<RightSideHeader userId={userId} />
+				<RightSideHeader
+					userId={userId}
+					buttonRef={buttonRef}
+					setIsDropdownOpen={setIsDropdownOpen}
+				/>
 				{windowWidth > 1250 && (
 					<div
 						ref={buttonRef}
 						id="new-features-dropdown"
 						className="new-features-btn"
-						// onClick={() => onDropdownHandler()}
 						onClick={() => setIsDropdownOpen((prev) => !prev)}
 					>
 						Что нового?
 					</div>
 				)}
 			</div>
-			{windowWidth > 1100 && (
-				<div ref={dropdownRef}>
-					<NewFeatures isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen} />
-				</div>
-			)}
+			{/* {windowWidth > 1100 && ( */}
+			<div ref={dropdownRef}>
+				<NewFeatures isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen} />
+			</div>
+			{/* )} */}
 		</header>
 	);
 };

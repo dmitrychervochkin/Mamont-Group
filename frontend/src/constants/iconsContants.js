@@ -32,6 +32,7 @@ export const ICON = {
 	CLOCK: 'clock.svg',
 	CROSS: 'cross.svg',
 	INFO: 'info.svg',
+	INFOLIGHT: 'info-light.svg',
 	CHECKBOX: 'checkbox.svg',
 	CHECK: 'check.svg',
 	PLAY: 'play.svg',

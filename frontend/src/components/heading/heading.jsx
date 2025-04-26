@@ -1,15 +1,12 @@
 import styled, { css } from 'styled-components';
 
-export const Heading = ({ className, children }) => {
-	return <HeadingStyled className={className}>{children}</HeadingStyled>;
+export const Heading = ({ className, children, ...props }) => {
+	return (
+		<HeadingStyled className={className} {...props}>
+			{children}
+		</HeadingStyled>
+	);
 };
-
-const HeadingStyled = styled.span`
-	font-weight: ${({ weight = '300' }) => weight};
-	font-size: ${({ size = '35px' }) => size};
-	margin: ${({ margin = '0' }) => margin};
-	color: ${({ color = 'white' }) => color};
-`;
 
 const HeadingSizes = {
 	large: css`
@@ -25,3 +22,9 @@ const HeadingSizes = {
 		font-size: 15px;
 	`,
 };
+
+const HeadingStyled = styled.div`
+	font-weight: ${({ weight = '300' }) => weight};
+	${({ size }) => HeadingSizes[size] || HeadingSizes.medium};
+	color: ${({ color = 'white' }) => color};
+`;

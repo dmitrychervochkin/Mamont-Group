@@ -13,14 +13,16 @@ const RolesLeftSideContainer = ({ className }) => {
 
 	return (
 		<div className={className}>
-			<Heading className="roles-header">Роли</Heading>
+			<Heading size="large" className="roles-header">
+				Роли
+			</Heading>
 			<div className="left-side-main">
 				<div className="title-of-table">
 					<div className="role-id">
-						<Heading size="15px">id</Heading>
+						<Heading size="xsmall">id</Heading>
 					</div>
 					<div className="role-name">
-						<Heading size="15px">Название роли</Heading>
+						<Heading size="xsmall">Название роли</Heading>
 					</div>
 				</div>
 				<div className="roles-cards">
@@ -28,7 +30,7 @@ const RolesLeftSideContainer = ({ className }) => {
 						<RoleCard key={id} id={id} name={name} />
 					))}
 					{roles[0] && (
-						<Heading size="12px" margin="10px 0 0 0">
+						<Heading size="xsmall" style={{ margin: '20px 0' }}>
 							Действия с ролями заблокированы
 						</Heading>
 					)}

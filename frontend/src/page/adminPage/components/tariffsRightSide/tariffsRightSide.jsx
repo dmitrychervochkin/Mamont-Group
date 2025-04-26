@@ -33,13 +33,15 @@ const TariffsRightSideContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<div className="right-side-header">
-				<Heading>Подписки</Heading>
-				{!isAdd && <div className="add-new-tariff" onClick={() => setIsAdd(true)}>
-					<Heading color="#3EB942">+</Heading>
-					<Heading weight="400" size="20px" margin="7px 0 0 5px" color="#3EB942">
-						NEW
-					</Heading>
-				</div>}
+				<Heading size="large">Подписки</Heading>
+				{!isAdd && (
+					<div className="add-new-tariff" onClick={() => setIsAdd(true)}>
+						<Heading color="#3EB942">+</Heading>
+						<Heading weight="400" size="small" color="#3EB942">
+							NEW
+						</Heading>
+					</div>
+				)}
 			</div>
 			<div className="right-side-main">
 				<div className="right-side-main-header">
@@ -64,7 +66,8 @@ export const TariffsRightSide = styled(TariffsRightSideContainer)`
 	}
 	.add-new-tariff {
 		display: flex;
-		align-items: center;
+		align-items: flex-end;
+		gap: 5px;
 		transition: filter 0.2s;
 
 		&:hover {
@@ -74,6 +77,6 @@ export const TariffsRightSide = styled(TariffsRightSideContainer)`
 	}
 
 	.right-side-main {
-		margin-top: 10px;
+		margin-top: 7px;
 	}
 `;

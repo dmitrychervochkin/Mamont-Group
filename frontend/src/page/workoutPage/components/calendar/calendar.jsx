@@ -86,7 +86,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 			}}
 		>
 			<div className="calendar-header" style={{ display: getScreenWidth(570) ? 'flex' : 'block' }}>
-				<Heading>Календарь</Heading>
+				<Heading size="large">Календарь</Heading>
 				<div style={{ display: 'flex', marginTop: '10px', justifyContent: 'space-between' }}>
 					{!calendarEvents?.find((item) => item.date === selectedDate.toString()) && (
 						<Button

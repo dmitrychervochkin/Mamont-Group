@@ -29,7 +29,7 @@ const PatternsContainer = ({ className }) => {
 						className="left-side"
 						style={{ justifyContent: getScreenWidth(540) ? '' : 'space-between' }}
 					>
-						<Heading className="patterns-title">Шаблоны</Heading>
+						<Heading size="large">Шаблоны</Heading>
 						<Icon height="31px" name={userId ? ICON.UNLOCK : ICON.LOCK} inactive="true" />
 					</div>
 					<div className="right-side">

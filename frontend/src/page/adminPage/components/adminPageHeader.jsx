@@ -27,7 +27,7 @@ const AdminPageHeaderContainer = ({ className, leftSide, rightSide, setLeftSide,
 
 	return (
 		<div className={className}>
-			<Heading>Админ панель</Heading>
+			<Heading size="large">Админ панель</Heading>
 			<div className="admin-page-header-icons">
 				{leftSide !== 'roles' && (
 					<Icon

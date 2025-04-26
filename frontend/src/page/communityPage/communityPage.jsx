@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { Heading } from '../../components';
 import { useState } from 'react';
 import { CommunityCard } from './components/communityCard';
-import { ICON } from '../../constants';
+import { ICON, INTERFACE } from '../../constants';
+import { getScreenWidth } from '../../utils';
 
 const CommunityPageContainer = ({ className }) => {
 	const [isMoreInfoOpen, setIsMoreInfoOpen] = useState(false);
@@ -53,8 +54,14 @@ const CommunityPageContainer = ({ className }) => {
 
 	return (
 		<div className={className}>
-			<div className="community-page-header">
-				<Heading>Сообщество</Heading>
+			<div
+				className="community-page-header"
+				style={{
+					padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '20px 30px',
+					display: getScreenWidth(360) ? 'flex' : 'block',
+				}}
+			>
+				<Heading size="large">Сообщество</Heading>
 				<span className="more-info-btn" onClick={() => setIsMoreInfoOpen(!isMoreInfoOpen)}>
 					Подробнее
 				</span>
@@ -64,22 +71,22 @@ const CommunityPageContainer = ({ className }) => {
 					maxHeight: isMoreInfoOpen ? '100%' : '100px',
 					marginTop: isMoreInfoOpen ? '0' : '-110px',
 					opacity: isMoreInfoOpen ? '1' : '0',
+					padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '20px 30px',
 				}}
 				className="community-page-info"
 			>
 				<p style={{ borderLeft: '3px solid #a2a2a2', paddingLeft: '20px' }}>
 					<b style={{ color: '#ffffff90' }}>Сообщество</b> – это твой проводник в мир здоровья, силы
 					и осознанного образа жизни. Здесь ты найдёшь прове&shy;ренные знания, поддержку и
-					мотивацию от единомышленников. Мы собрали три Telegram-канала, каждый из которых
-					поможет тебе прокачаться в важнейших аспектах:{' '}
-					<b style={{ color: '#ffffff90' }}>Питание </b>– разберись в основах сбалансированного
-					рациона, узнай, как грамотно подбирать БЖУ, изучи рабочие лайфхаки для набора массы,
-					похудения и поддер&shy;жания энергии. <b style={{ color: '#ffffff90' }}>Тренировки </b> –
-					эффективные программы для любого уровня, правильная техника выполнения упражнений, советы
-					по прогрессии нагрузки и мощная мотивация, чтобы не сдаться на полпути.{' '}
-					<b style={{ color: '#ffffff90' }}>Здоровье </b> – всё о восстановлении, профилактике,
-					полезных привычках и научном подходе к физическому и ментальному сос&shy;тоянию. Присоединяйся
-					и стань лучшей версией себя! 🚀
+					мотивацию от единомышленников. Мы собрали три Telegram-канала, каждый из которых поможет
+					тебе прокачаться в важнейших аспектах: <b style={{ color: '#ffffff90' }}>Питание </b>–
+					разберись в основах сбалансированного рациона, узнай, как грамотно подбирать БЖУ, изучи
+					рабочие лайфхаки для набора массы, похудения и поддер&shy;жания энергии.{' '}
+					<b style={{ color: '#ffffff90' }}>Тренировки </b> – эффективные программы для любого
+					уровня, правильная техника выполнения упражнений, советы по прогрессии нагрузки и мощная
+					мотивация, чтобы не сдаться на полпути. <b style={{ color: '#ffffff90' }}>Здоровье </b> –
+					всё о восстановлении, профилактике, полезных привычках и научном подходе к физическому и
+					ментальному сос&shy;тоянию. Присоединяйся и стань лучшей версией себя! 🚀
 				</p>
 			</div>
 			<div className="community-page-main">
@@ -97,9 +104,7 @@ export const CommunityPage = styled(CommunityPageContainer)`
 		width: 100%;
 		background-color: #222222;
 		border-radius: 20px;
-		padding: 30px 40px;
 		margin-bottom: 10px;
-		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		position: relative;
@@ -107,12 +112,10 @@ export const CommunityPage = styled(CommunityPageContainer)`
 	}
 	.community-page-info {
 		position: absolute;
-		// word-break: break-all;
 		transition: 0.5s;
 		overflow: hidden;
 		width: 100%;
 		border-radius: 20px;
-		padding: 30px 40px;
 		background-color: #393939;
 		color: #a2a2a2;
 		border: 2px dashed #a2a2a2;
@@ -129,8 +132,6 @@ export const CommunityPage = styled(CommunityPageContainer)`
 	.community-page-main {
 		border-radius: 20px;
 		margin-top: 10px;
-		// height: 300px;
 		width: 100%;
-		// background-color: #222222;
 	}
 `;

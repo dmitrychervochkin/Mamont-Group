@@ -20,8 +20,7 @@ const WorkoutTitleContainer = ({ className, name }) => {
 			<div
 				style={{
 					display: 'flex',
-					width: '130px',
-					justifyContent: 'space-between',
+					gap: '10px',
 					alignItems: 'center',
 				}}
 			>

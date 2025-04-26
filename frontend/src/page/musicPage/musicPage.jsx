@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Heading } from '../../components';
 import { MusicCard } from './components/musicCard';
 import { useEffect, useState } from 'react';
+import { getScreenWidth } from '../../utils';
 
 const playlistsLinks = [
 	{
@@ -38,7 +39,9 @@ const MusicPageContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<div className="music-page-header">
-				<Heading>Плейлисты для тренировок</Heading>
+				<Heading size="large">
+					{getScreenWidth(550) ? 'Плейлисты для тренировок' : 'Плейлисты'}
+				</Heading>
 			</div>
 			<div
 				style={{
@@ -94,6 +97,7 @@ export const MusicPage = styled(MusicPageContainer)`
 
 	.playlists {
 		width: 100%;
+		margin-bottom: 90px;
 	}
 
 	@keyframes shadowDance {
