@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
 	modal: {
 		isSuccess: false,
+		isMobileGuide: false,
 		isExercises: false,
 		isOpen: false,
 		isConfirm: false,
@@ -38,6 +39,7 @@ export const modalSlice = createSlice({
 		selectIsEditExerciseInfo: (state) => state.modal.isEditExerciseInfo,
 		selectIsWorkoutPreview: (state) => state.modal.workoutPreview,
 		selectIsEndOfBreak: (state) => state.modal.isEndOfBreak,
+		selectIsMobileGuide: (state) => state.modal.isMobileGuide,
 	},
 });
 
@@ -54,5 +56,6 @@ export const {
 	selectIsEditExerciseInfo,
 	selectIsWorkoutPreview,
 	selectIsEndOfBreak,
+	selectIsMobileGuide,
 } = modalSlice.selectors;
 export const modalReducer = modalSlice.reducer;

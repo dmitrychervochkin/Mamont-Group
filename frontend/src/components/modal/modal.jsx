@@ -17,6 +17,7 @@ import {
 	selectStartWorkout,
 	selectWorkout,
 	selectWorkoutExercises,
+	selectIsMobileGuide,
 } from '../../reducers';
 
 import { useMatch } from 'react-router-dom';
@@ -24,6 +25,7 @@ import {
 	AddExercisesModalWindow,
 	ConfirmModalWindow,
 	EditExerciseInfoModal,
+	MobileGuideModal,
 	ReturnToWorkModal,
 	SuccessModalWindow,
 	WorkoutPreviewModal,
@@ -42,6 +44,7 @@ const ModalContainer = ({ className }) => {
 	const isEditExerciseInfo = useSelector(selectIsEditExerciseInfo);
 	const isWorkoutPreview = useSelector(selectIsWorkoutPreview);
 	const isEndOfBreak = useSelector(selectIsEndOfBreak);
+	const isMobileGuide = useSelector(selectIsMobileGuide);
 
 	if (!isOpen) {
 		return null;
@@ -56,6 +59,7 @@ const ModalContainer = ({ className }) => {
 			{isSuccess && <SuccessModalWindow text={text} onCancel={onCancel} />}
 			{isConfirm && <ConfirmModalWindow onCancel={onCancel} text={text} onConfirm={onConfirm} />}
 			{isWorkoutPreview && <WorkoutPreviewModal onCancel={onCancel} onConfirm={onConfirm} />}
+			{isMobileGuide && <MobileGuideModal onCancel={onCancel} />}
 		</div>
 	);
 };

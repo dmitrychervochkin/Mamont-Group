@@ -59,7 +59,6 @@ a:hover {
 #loader-logo {
 	animation: loadedLogo 1s linear;
 	overflow-x: hidden;
-	margin-right: 50px;
 	border: none;
 	margin: 0 auto;
 }

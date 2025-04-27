@@ -1,9 +1,12 @@
 import styled from 'styled-components';
-import { Patterns, QuickStart } from './components';
+import { MobileGuide, Patterns, QuickStart } from './components';
+import { getScreenWidth } from '../../utils';
+import { INTERFACE } from '../../constants';
 
 const HomePageContainer = ({ className, isLoading }) => {
 	return (
 		<div className={className}>
+			{!getScreenWidth(INTERFACE.WIDTH) && <MobileGuide />}
 			{!isLoading && <QuickStart />}
 			{!isLoading && <Patterns />}
 		</div>

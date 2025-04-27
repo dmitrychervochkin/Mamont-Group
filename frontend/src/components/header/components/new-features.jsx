@@ -58,7 +58,7 @@ export const NewFeatures = styled(NewFeaturesContainer)`
 	transition: opacity 0.3s, max-height 0.3s;
 	position: absolute;
 	right: 0;
-	top: 90px;
+	top: 80px;
 	margin: 10px;
 	border-radius: 20px;
 	width: 300px;
