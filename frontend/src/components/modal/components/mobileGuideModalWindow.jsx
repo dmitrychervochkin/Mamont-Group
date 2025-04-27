@@ -129,6 +129,11 @@ export const MobileGuideModal = styled(MobileGuideModalContainer)`
 
 	.guide-container {
 		margin-bottom: 10px;
+		margin-right: 0;
 		height: calc(100vh - 380px);
+
+		&::-webkit-scrollbar {
+			width: 0px; /* ширина scrollbar */
+		}
 	}
 `;
