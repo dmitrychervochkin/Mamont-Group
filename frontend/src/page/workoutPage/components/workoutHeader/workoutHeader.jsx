@@ -153,10 +153,10 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 			) : (
 				<div
 					style={{
-						width: getScreenWidth(INTERFACE.WIDTH) ? '60%' : '',
+						width: getScreenWidth(800) ? '60%' : '',
 						display: 'flex',
 						width: '100%',
-						justifyContent: getScreenWidth(INTERFACE.WIDTH) ? 'space-between' : 'flex-end',
+						justifyContent: getScreenWidth(800) ? 'space-between' : 'flex-end',
 					}}
 				>
 					<div className="training-time-container">
@@ -170,16 +170,13 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 							}}
 						>
 							<span style={{ color: '#a2a2a2' }}>Время:</span>
-							<div
-								className="training-time"
-								style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '150px' : '' }}
-							>
+							<div className="training-time">
 								<WorkoutTime start={start} initialTime={0} onTimeChange={onTimeChange} />
 							</div>
 						</div>
 					</div>
 
-					{getScreenWidth(770) && (
+					{getScreenWidth(800) && (
 						<div
 							style={{
 								height: '100%',
@@ -189,7 +186,7 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 						>
 							<Button
 								disabled={!!isError}
-								color={workoutPage ? '#393939' : '#222222'}
+								variant={workoutPage ? 'primary' : 'primary2'}
 								className="finish-workout-btn"
 								width="250px"
 								onClick={onFinishWorkout}
@@ -224,6 +221,7 @@ export const WorkoutHeader = styled(WorkoutHeaderContainer)`
 	}
 
 	.training-time {
+		min-width: 90px;
 		display: flex;
 		align-items: center;
 		// justify-content: space-between;

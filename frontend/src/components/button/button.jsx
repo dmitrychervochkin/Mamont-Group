@@ -19,6 +19,15 @@ const buttonVariants = {
 			box-shadow: 0 0 20px 5px #141414;
 		}
 	`,
+	primary2: css`
+		background-color: #222222;
+		color: white;
+
+		&:hover {
+			background-color: #424242;
+			box-shadow: 0 0 20px 5px #141414;
+		}
+	`,
 	secondary: css`
 		background-color: #3eb942;
 		color: white;

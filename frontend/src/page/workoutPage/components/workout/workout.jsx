@@ -65,7 +65,7 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 	const isError = useSelector(selectIsError);
 	const error = useSelector(selectErrorMessage);
 	const navigate = useNavigate();
-	console.log('error', error);
+	console.log(error);
 	useEffect(() => {
 		Promise.all([server.fetchExercises(), server.fetchMuscleGroups()])
 			.then(([exercises, muscleGroups]) => {
@@ -222,7 +222,7 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 					<Button className="add-new-exercise-btn" width="250px" onClick={addNewExercise}>
 						Добавить упражнение
 					</Button>
-					{!getScreenWidth(770) && (
+					{!getScreenWidth(800) && (
 						<Button
 							style={{ marginBottom: '10px' }}
 							disabled={!!isError}
