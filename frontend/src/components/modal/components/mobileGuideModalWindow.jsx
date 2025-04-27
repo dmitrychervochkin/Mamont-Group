@@ -87,7 +87,7 @@ export const MobileGuideModal = styled(MobileGuideModalContainer)`
 	top: 50%;
 	transform: translate(0, -50%);
 	background-color: #222222;
-	padding: 20px 20px;
+	padding: 20px;
 
 	.guide-img {
 		width: 100%;

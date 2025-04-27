@@ -16,7 +16,7 @@ const WorkoutTitleContainer = ({ className, name }) => {
 	};
 
 	return (
-		<div className={className} style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '50%' : '40%' }}>
+		<div className={className} style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '40%' : '50%' }}>
 			<div
 				style={{
 					display: 'flex',
@@ -47,6 +47,7 @@ const WorkoutTitleContainer = ({ className, name }) => {
 
 export const WorkoutTitle = styled(WorkoutTitleContainer)`
 	display: flex;
+	justify-content: center;
 	flex-direction: column;
 	height: 100%;
 	padding: 20px 0;

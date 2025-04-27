@@ -28,7 +28,7 @@ const registerSchema = yup.object({
 		.string()
 		.min(3, 'Минимум 3 символа')
 		.required('Введите логин!')
-		.matches(/^[a-z0-9_-]{3,16}$/, 'Пожалуйста, введите корректный логин!!')
+		.matches(/^[a-zA-Z0-9_-]{3,16}$/, 'Пожалуйста, введите корректный логин!!')
 		.min(3, 'Минимум 3 символов!')
 		.max(18, 'Максимум 18 символов!'),
 	password: yup
@@ -71,8 +71,9 @@ const AuthFormContainer = ({ className, type }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		reset();
 		clearErrors();
-	}, [type]);
+	}, [type, reset, clearErrors]);
 
 	const onSubmit = ({ email, login, password }) => {
 		setIsLoading(true);
@@ -136,7 +137,7 @@ const AuthFormContainer = ({ className, type }) => {
 						label="Логин"
 						placeholder="Введите логин..."
 						register={register('login')}
-						error={errors?.username}
+						error={errors?.login}
 						onChange={handleInputChange('login')}
 					/>
 				)}
@@ -174,7 +175,7 @@ const AuthFormContainer = ({ className, type }) => {
 					<Loader />
 				</div>
 			) : (
-				<div className="auth-footer-btns" style={{}}>
+				<div className="auth-footer-btns">
 					{type === 'login' && (
 						<Link to="/register" style={{ color: '#646464' }}>
 							Регистрация

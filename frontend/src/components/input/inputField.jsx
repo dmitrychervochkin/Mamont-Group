@@ -37,14 +37,8 @@ const StyledInput = styled.input`
 const ToggleButton = styled.div`
 	position: absolute;
 	right: 10px;
-	top: 50%;
-	bottom: 50%;
-	transform: translateY(-50%);
-	background: none;
-	border: none;
+	bottom: 8px;
 	cursor: pointer;
-	color: #6b7280;
-	font-size: 1rem;
 `;
 
 const ErrorText = styled.p`

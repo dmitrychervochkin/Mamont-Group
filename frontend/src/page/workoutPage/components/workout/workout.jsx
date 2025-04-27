@@ -8,6 +8,7 @@ import {
 	finishWorkout,
 	openModal,
 	resetError,
+	selectErrorMessage,
 	selectExercises,
 	selectIsAddPattern,
 	selectIsError,
@@ -26,13 +27,14 @@ import {
 	setUserExercises,
 	setUserWorkout,
 	setUserWorkoutExercises,
+	setUserWorkoutTime,
 	startBreak,
 	stopBreak,
 	stopWorkout,
 	timerEditing,
 } from '../../../../reducers';
 import { server } from '../../../../bff';
-import { findItem, getScreenWidth, groupArrays } from '../../../../utils';
+import { findItem, getScreenWidth, groupArrays, stringTimeConverter, timeConverter } from '../../../../utils';
 import { RestTimeTimer, WorkoutSets } from './components';
 import { useMatch, useNavigate } from 'react-router-dom';
 
@@ -61,8 +63,9 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 	const isAddPattern = useSelector(selectIsAddPattern);
 	const dispatch = useDispatch();
 	const isError = useSelector(selectIsError);
+	const error = useSelector(selectErrorMessage);
 	const navigate = useNavigate();
-
+	console.log('error', error);
 	useEffect(() => {
 		Promise.all([server.fetchExercises(), server.fetchMuscleGroups()])
 			.then(([exercises, muscleGroups]) => {
@@ -164,6 +167,8 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 	};
 
 	const onFinishWorkout = () => {
+		const currentWorkoutTime = document.querySelector('.training-time')?.innerText;
+		dispatch(setUserWorkoutTime(stringTimeConverter(currentWorkoutTime)));
 		let zeroWeight = userWorkoutExercises.find((item) => item.weight === '');
 		let zeroReps = userWorkoutExercises.find((item) => item.reps === '');
 		if (zeroWeight || zeroReps) {
@@ -217,10 +222,10 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 					<Button className="add-new-exercise-btn" width="250px" onClick={addNewExercise}>
 						Добавить упражнение
 					</Button>
-					{getScreenWidth(770) && (
+					{!getScreenWidth(770) && (
 						<Button
 							style={{ marginBottom: '10px' }}
-							disabled={isError}
+							disabled={!!isError}
 							color="#222222"
 							className="finish-workout-btn"
 							width="250px"

@@ -18,6 +18,7 @@ import {
 	selectUserWorkoutExercises,
 	setError,
 	setUserWorkout,
+	setUserWorkoutTime,
 	startWorkout,
 	stopBreak,
 	stopWorkout,
@@ -27,10 +28,11 @@ import { useMatch, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { server } from '../../../../bff';
 import { BreakTime, WorkoutTitle } from './components';
-import { getScreenWidth } from '../../../../utils';
+import { getScreenWidth, stringTimeConverter } from '../../../../utils';
 
 const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 	const [hover, setHover] = useState(false);
+	const [workoutTime, setWorkoutTime] = useState(0);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const workoutPage = useMatch('/workout');
@@ -57,10 +59,13 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 		}
 		setHover(false);
 	};
-
 	const onFinishWorkout = () => {
+		const currentWorkoutTime = document.querySelector('.training-time')?.innerText;
+		dispatch(setUserWorkoutTime(stringTimeConverter(currentWorkoutTime)));
+
 		let zeroWeight = userWorkoutExercises.find((item) => item.weight === '');
 		let zeroReps = userWorkoutExercises.find((item) => item.reps === '');
+
 		if (zeroWeight || zeroReps) {
 			dispatch(setError('Пожалуйста заполните все упражнения!'));
 			setTimeout(() => {
@@ -111,6 +116,10 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 		dispatch(timerEditing());
 	};
 
+	const onTimeChange = (time) => {
+		setWorkoutTime(time);
+	};
+
 	return (
 		<div
 			className={className}
@@ -147,7 +156,7 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 						width: getScreenWidth(INTERFACE.WIDTH) ? '60%' : '',
 						display: 'flex',
 						width: '100%',
-						justifyContent: 'space-between',
+						justifyContent: getScreenWidth(INTERFACE.WIDTH) ? 'space-between' : 'flex-end',
 					}}
 				>
 					<div className="training-time-container">
@@ -165,7 +174,7 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 								className="training-time"
 								style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '150px' : '' }}
 							>
-								<WorkoutTime start={start} initialTime={0} />
+								<WorkoutTime start={start} initialTime={0} onTimeChange={onTimeChange} />
 							</div>
 						</div>
 					</div>
@@ -179,7 +188,7 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 							}}
 						>
 							<Button
-								disabled={isError}
+								disabled={!!isError}
 								color={workoutPage ? '#393939' : '#222222'}
 								className="finish-workout-btn"
 								width="250px"

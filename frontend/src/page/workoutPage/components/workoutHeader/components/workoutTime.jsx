@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { closeModal, openModal, setUserWorkoutTime, stopBreak } from '../../../../../reducers';
 import { useNavigate } from 'react-router-dom';
+import { memo } from 'react';
 
-const WorkoutTimeContainer = ({ className, start, reverse = false, initialTime }) => {
+const WorkoutTimeContainer = memo(({ className, start, reverse = false, initialTime, onTimeChange }) => {
 	const [isActive, setIsActive] = useState(false);
 	const [time, setTime] = useState(initialTime);
 	const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const WorkoutTimeContainer = ({ className, start, reverse = false, initialTime }
 
 					// Обновляем Redux-состояние только если не reverse
 					if (!reverse) {
-						dispatch(setUserWorkoutTime(newTime));
+						onTimeChange(newTime);
 					}
 
 					return newTime;
@@ -70,5 +71,5 @@ const WorkoutTimeContainer = ({ className, start, reverse = false, initialTime }
 			<span className="digits">{('0' + Math.floor(time % 60)).slice(-2)}</span>
 		</div>
 	);
-};
+});
 export const WorkoutTime = styled(WorkoutTimeContainer)``;
