@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { Heading } from '../../heading/heading';
 import { Button } from '../../button/button';
 import { useState } from 'react';
+import { ScrollSlider } from '../../scrollSlider/scrollSlider';
+import { INTERFACE } from '../../../constants';
+import { getScreenWidth } from '../../../utils';
 
 const MobileGuideModalContainer = ({ className, onCancel }) => {
 	const [selector, setSelector] = useState('IOS');
@@ -43,7 +46,7 @@ const MobileGuideModalContainer = ({ className, onCancel }) => {
 				</div>
 			</div>
 			{selector === 'IOS' && (
-				<div className="guide-container">
+				<ScrollSlider className="guide-container">
 					<div className="guide-point-container">
 						<div className="guide-label">1. Нажмите на иконку "Share"</div>
 						<img className="guide-img" src="/images/guide-img1.jpg" />
@@ -56,7 +59,7 @@ const MobileGuideModalContainer = ({ className, onCancel }) => {
 						<div className="guide-label">3. Добавьте иконку на рабочий стол </div>
 						<img className="guide-img" src="/images/guide-img3.jpg" />
 					</div>
-				</div>
+				</ScrollSlider>
 			)}
 
 			{(selector === 'MacOS' || selector === 'Android') && (
@@ -122,5 +125,10 @@ export const MobileGuideModal = styled(MobileGuideModalContainer)`
 	.no-guide-text {
 		color: #a2a2a2;
 		margin: 30px 0;
+	}
+
+	.guide-container {
+		margin-bottom: 10px;
+		height: calc(100vh - 380px);
 	}
 `;
