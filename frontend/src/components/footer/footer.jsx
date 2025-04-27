@@ -18,7 +18,7 @@ const FooterContainer = ({ className }) => {
 			<Icon
 				name={ICON.BICEPS}
 				variant="menu"
-				disabled="true"
+				disabled={!userId}
 				onClick={() => userId && navigate(ROUTE.HOMEPAGE)}
 			/>
 			<Icon
@@ -34,7 +34,7 @@ const FooterContainer = ({ className }) => {
 			/>
 			<Icon
 				name={ICON.TELEGRAM}
-				disabled="true"
+				disabled={!userId}
 				variant="menu"
 				onClick={() => userId && navigate(ROUTE.HOMEPAGE)}
 			/>

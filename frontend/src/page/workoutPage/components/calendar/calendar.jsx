@@ -105,7 +105,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 			</div>
 			<div
 				className="workout-calendar"
-				style={{ display: getScreenWidth(INTERFACE.WIDTH) ? 'flex' : 'block' }}
+				style={{ flexDirection: getScreenWidth(INTERFACE.WIDTH) ? 'flex' : 'column' }}
 			>
 				<CurrentDate
 					calendarEvents={calendarEvents}
@@ -185,13 +185,15 @@ export const Calendar = styled(CalendarContainer)`
 	.workout-calendar {
 		height: 100%;
 		width: 100%;
+		display: flex;
 		justify-content: space-between;
+		gap: 20px;
 	}
 	.calendar-body {
-		margin-top: 20px;
+		// margin-top: 20px;
 	}
 	.calendar-main {
-		height: 500px;
+		// height: 500px;
 	}
 
 	.calendar-header {

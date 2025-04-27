@@ -75,7 +75,7 @@ const HeaderContainer = ({ className }) => {
 
 export const Header = styled(HeaderContainer)`
 	background-color: #222222;
-	height: 90px;
+	height: 80px;
 	position: fixed;
 	width: 100%;
 	top: 0;

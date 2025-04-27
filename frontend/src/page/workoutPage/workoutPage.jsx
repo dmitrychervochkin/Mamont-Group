@@ -94,7 +94,10 @@ const WorkoutPageContainer = ({ className }) => {
 	}
 
 	return (
-		<div className={className}>
+		<div
+			className={className}
+			style={{ paddingBottom: getScreenWidth(INTERFACE.WIDTH) ? '10px' : '110px' }}
+		>
 			{isStartWorkout && <Workout setIsSave={setIsDataUpdating} />}
 
 			<ContentWrapper isStartWorkout={isStartWorkout}>
@@ -160,11 +163,10 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 
 	.workout-page-container {
 		width: 100%;
-		height: 100%;
 		background-color: #222222;
 		border-radius: 20px;
-		// min-height: 415px;
-		margin-bottom: 10px;
+		min-height: 440px;
+		height: 100%;
 	}
 
 	.workout-page-main {
@@ -172,8 +174,9 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 		z-index: 0;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
+		height: 100%;
 		// min-height: 400px;
-		margin-bottom: 500px;
+		// margin-bottom: 500px;
 	}
 
 	.show-workouts-btn {

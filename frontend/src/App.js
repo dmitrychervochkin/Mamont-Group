@@ -33,10 +33,9 @@ const AppContainer = ({ className }) => {
 					return;
 				}
 				const currentUserData = jwtDecode(JSON.parse(currentUserDataJSON));
-				console.log(currentUserData)
+				console.log(currentUserData);
 				dispatch(setUser({ ...currentUserData }));
 			} catch (err) {
-
 				dispatch(setError('Ошибка при получении данных' || err.message));
 				setTimeout(() => dispatch(resetError()), 10000);
 			}
@@ -45,7 +44,7 @@ const AppContainer = ({ className }) => {
 	}, [dispatch]);
 
 	return (
-		<div className={className + ' app'}>
+		<div className={className}>
 			<Header />
 			{errorMessage && <DropdownError>{errorMessage}</DropdownError>}
 			{start && <WorkoutHeader start={start} />}
@@ -57,10 +56,10 @@ const AppContainer = ({ className }) => {
 };
 
 export const App = styled(AppContainer)`
-	margin-top: 100px;
-	display: flex;
+	margin-top: 90px;
 	flex-direction: column;
 	align-items: center;
+	display: flex;
 `;
 
 // 1600 пикселей — для компьютеров;

@@ -1,16 +1,18 @@
 import styled from 'styled-components';
-import { INTERFACE, LOGO } from '../../../constants';
+import { INTERFACE, LOGO, ROUTE } from '../../../constants';
 import { getScreenWidth } from '../../../utils';
+import { useNavigate } from 'react-router-dom';
 
 const LogoImgContainer = ({ className }) => {
+	const navigate = useNavigate();
 	return (
-		<div className={className} style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '260px' : '80px' }}>
+		<div
+			className={className}
+			style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '260px' : '80px' }}
+			onClick={() => navigate(ROUTE.HOMEPAGE)}
+		>
 			<img
 				className="img-logo"
-				style={{
-					marginTop: getScreenWidth(INTERFACE.WIDTH) ? '10px' : '0px',
-					height: getScreenWidth(INTERFACE.WIDTH) ? '70px' : '60px',
-				}}
 				src={`/images/${getScreenWidth(INTERFACE.WIDTH) ? LOGO.HEADER : LOGO.MOBILE}`}
 				alt="Logo"
 			/>
@@ -27,9 +29,14 @@ export const LogoImg = styled(LogoImgContainer)`
 	z-index: 6;
 	transition: 0.3s;
 
+	.img-logo {
+		height: 80px;
+	}
+
 	&:hover {
 		cursor: pointer;
-		transition: 0.3s;
-		box-shadow: 0px 0px 50px -5px #3eb942;
+		opacity: 0.8;
+		// transition: 0.3s;
+		// box-shadow: 0px 0px 50px -5px #3eb942;
 	}
 `;
