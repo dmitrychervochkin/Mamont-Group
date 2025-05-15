@@ -25,6 +25,7 @@ const HistoryPageContainer = ({ className }) => {
 			? server
 					.fetchWorkouts(userId, page, LIMITS.WORKOUTS)
 					.then(({ res }) => {
+						console.log(res);
 						setCount(res.count);
 
 						setTimeout(() => {
@@ -50,6 +51,7 @@ const HistoryPageContainer = ({ className }) => {
 	const onMoreWorkoutsBtnHandler = () => {
 		setPage(page + 1);
 	};
+
 	return (
 		<div className={className}>
 			<div
@@ -87,11 +89,8 @@ const HistoryPageContainer = ({ className }) => {
 					<Loader width="30px" height="30px" />
 				</div>
 			) : (
-				workouts.length < count && (
-					<Button
-						width="200px"
-						onClick={onMoreWorkoutsBtnHandler}
-					>
+				workouts?.length < count && (
+					<Button width="200px" onClick={onMoreWorkoutsBtnHandler}>
 						Загрузить ещё...
 					</Button>
 				)
