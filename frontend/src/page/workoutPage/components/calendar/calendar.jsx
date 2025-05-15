@@ -82,7 +82,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 		<div
 			className={className}
 			style={{
-				padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '20px 30px',
+				padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '25px',
 			}}
 		>
 			<div className="calendar-header" style={{ display: getScreenWidth(570) ? 'flex' : 'block' }}>

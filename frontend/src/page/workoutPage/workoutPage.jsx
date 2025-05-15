@@ -112,7 +112,7 @@ const WorkoutPageContainer = ({ className }) => {
 
 				<div
 					className="workout-page-container"
-					style={{ padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '20px 30px' }}
+					style={{ padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '25px' }}
 				>
 					<Header style={{ display: getScreenWidth(540) ? 'flex' : 'block' }}>
 						<HeadingContainer>
@@ -175,8 +175,6 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		height: 100%;
-		// min-height: 400px;
-		// margin-bottom: 500px;
 	}
 
 	.show-workouts-btn {

@@ -22,7 +22,7 @@ const PatternsContainer = ({ className }) => {
 			{!userId && <div className="blocked-patterns"></div>}
 			<div
 				className="patterns-container"
-				style={{ padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '30px' }}
+				style={{ padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '25px' }}
 			>
 				<div className="patterns-header" style={{ display: getScreenWidth(540) ? 'flex' : 'block' }}>
 					<div

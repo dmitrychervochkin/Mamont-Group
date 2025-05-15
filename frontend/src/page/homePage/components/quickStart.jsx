@@ -16,7 +16,10 @@ const QuickStartContainer = ({ className }) => {
 		navigate('/workout');
 	};
 	return (
-		<div className={className} style={{ padding: getScreenWidth(INTERFACE.WIDTH) ? '20px' : '10px' }}>
+		<div
+			className={className}
+			style={{ padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 40px' : '25px' }}
+		>
 			<div className="quick-start-left-side">
 				<Heading size="large" className="info-title">
 					Быстрый старт
@@ -46,10 +49,6 @@ export const QuickStart = styled(QuickStartContainer)`
 	display: flex;
 	justify-content: space-between;
 
-	.info-title {
-		margin-top: 10px;
-	}
-
 	.info-description {
 		margin: 15px 0 15px 0;
 		font-weight: 200;
@@ -60,8 +59,6 @@ export const QuickStart = styled(QuickStartContainer)`
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		margin: 0px 20px 10px 20px;
-		// width: 50%;
 	}
 	.quick-start-right-side {
 		width: 40%;

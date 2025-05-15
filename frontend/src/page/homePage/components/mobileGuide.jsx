@@ -22,7 +22,7 @@ const MobileGuideContainer = ({ className }) => {
 		<div
 			className={className}
 			style={{
-				padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 30px' : '20px',
+				padding: getScreenWidth(INTERFACE.WIDTH) ? '30px 30px' : '25px',
 			}}
 		>
 			<Heading size="small" color="#a2a2a2">

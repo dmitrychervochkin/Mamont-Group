@@ -30,7 +30,12 @@ class WorkoutController {
 			page = page || 1;
 			limit = limit || 9;
 			let offset = page * limit - limit;
-			const workout = await Workout.findAndCountAll({ where: { user_id }, limit, offset });
+			const workout = await Workout.findAndCountAll({
+				where: { user_id },
+				order: [['createdAt', 'DESC']],
+				limit,
+				offset,
+			});
 
 			return res.json(workout);
 		} catch (err) {

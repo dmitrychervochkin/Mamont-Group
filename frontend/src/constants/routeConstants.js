@@ -1,7 +1,7 @@
 export const ROUTE = {
 	HOMEPAGE: '/',
 	WORKOUT: '/workout',
-	HISTORY: '/workout/history',
+	HISTORY: '/history',
 	ADMIN: '/admin',
 	LOGIN: '/login',
 	REGISTRATION: '/register',

@@ -70,7 +70,7 @@ const HistoryContainer = ({
 			<div
 				className="workout-page-header"
 				style={{
-					padding: getScreenWidth(430) ? '30px 40px' : '20px 30px',
+					padding: getScreenWidth(430) ? '30px 40px' : '20px 25px',
 					display: getScreenWidth(430) ? 'flex' : 'block',
 				}}
 			>
