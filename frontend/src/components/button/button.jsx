@@ -71,6 +71,7 @@ const buttonSizes = {
 
 const StyledButton = styled.button`
 	display: flex;
+	font-weight: 300;
 	align-items: center;
 	justify-content: center;
 	border: none;
