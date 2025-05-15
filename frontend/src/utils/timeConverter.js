@@ -1,22 +1,11 @@
-export const timeConverter = (seconds) => {
-	let minutes = Math.floor(seconds / 60);
-	let hours = 0;
-	seconds = seconds % 60;
+export const timeConverter = (totalSeconds) => {
+	const hours = Math.floor(totalSeconds / 3600);
+	const minutes = Math.floor((totalSeconds % 3600) / 60);
+	const seconds = totalSeconds % 60;
 
-	if (seconds >= 3600) {
-		hours = minutes / 60;
-	}
-	if (Number(seconds) < 10) {
-		seconds = '0' + seconds;
-	}
-	if (minutes < 10) {
-		minutes = '0' + minutes;
-	}
-	if (hours < 10) {
-		hours = '0' + hours;
-	}
+	const pad = (num) => String(num).padStart(2, '0');
 
-	return `${hours}:${minutes}:${seconds}`;
+	return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 };
 
 export const stringTimeConverter = (string) => {

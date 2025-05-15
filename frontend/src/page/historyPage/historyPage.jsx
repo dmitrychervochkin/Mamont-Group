@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Button, Heading, Loader } from '../../components';
-import { getScreenWidth, timeConverter } from '../../utils';
+import { getScreenWidth, stringTimeConverter, timeConverter } from '../../utils';
 import { INTERFACE, LIMITS } from '../../constants';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';

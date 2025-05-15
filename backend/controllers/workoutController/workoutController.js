@@ -33,6 +33,7 @@ class WorkoutController {
 			const workout = await Workout.findAndCountAll({
 				where: { user_id },
 				limit,
+				order: [['date', 'DESC']],
 				offset,
 			});
 
