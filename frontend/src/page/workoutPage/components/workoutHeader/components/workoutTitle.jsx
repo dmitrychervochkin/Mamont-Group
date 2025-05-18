@@ -48,6 +48,7 @@ const WorkoutTitleContainer = ({ className, name }) => {
 export const WorkoutTitle = styled(WorkoutTitleContainer)`
 	display: flex;
 	justify-content: center;
+	align-items: flex-start;
 	flex-direction: column;
 	height: 100%;
 	padding: 20px 0;
@@ -55,10 +56,14 @@ export const WorkoutTitle = styled(WorkoutTitleContainer)`
 	.workout-name-input {
 		background-color: transparent;
 		border: none;
+		padding-left: 0;
+		min-width: 200px;
+		max-width: 50%;
 		outline: none;
 		color: white;
 		font-size: 35px;
 		margin: 0;
 		font-weight: 300;
+		height: 40px;
 	}
 `;

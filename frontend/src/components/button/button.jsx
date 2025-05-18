@@ -86,12 +86,12 @@ const StyledButton = styled.button`
 		disabled &&
 		css`
 			background-color: #646464;
-			color: #393939;
+			color: #a1a1a1;
 			cursor: not-allowed;
+			box-shadow: none;
+			
 			&:hover {
 				background-color: #646464;
-				color: #222222;
-				box-shadow: none;
 			}
 		`};
 `;

@@ -15,7 +15,7 @@ const CheckboxContainer = ({ className, checked, setChecked, onClick, ...props }
 			{...props}
 		>
 			<div className="checkbox" style={{ display: checked && 'none' }}></div>
-			<Icon height="40px" name={ICON.CHECKBOX} style={{ display: !checked && 'none' }} />
+			<Icon size="xlarge" name={ICON.CHECKBOX} style={{ display: !checked && 'none' }} />
 		</div>
 	);
 };

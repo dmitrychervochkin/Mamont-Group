@@ -23,7 +23,7 @@ const RestTimeTimerContainer = ({ className }) => {
 		<div
 			className={className}
 			style={{
-				marginTop: isTimerEditing ? '0' : '-110px',
+				marginTop: isTimerEditing ? '0' : '-100px',
 				opacity: isTimerEditing ? '1' : '0',
 			}}
 		>
@@ -31,12 +31,12 @@ const RestTimeTimerContainer = ({ className }) => {
 			<div style={{ display: 'flex' }}>
 				<input
 					style={{
+						height: '40px',
 						border: 'none',
 						color: 'white',
 						transition: 'background-color 0.5s',
 						backgroundColor: '#393939',
 						fontSize: '35px',
-						borderRadius: '15px',
 					}}
 					type="time"
 					value={timerValue}
@@ -51,7 +51,6 @@ const RestTimeTimerContainer = ({ className }) => {
 export const RestTimeTimer = styled(RestTimeTimerContainer)`
 	transition: margin 0.5s, opacity 0.5s;
 	z-index: 4;
-	position: absolute;
 	width: 250px;
 	height: 100px;
 	background-color: #393939;
@@ -63,4 +62,5 @@ export const RestTimeTimer = styled(RestTimeTimerContainer)`
 	justify-content: space-between;
 	padding: 20px 0 15px 0;
 	color: #a2a2a2;
+	position: absolute;
 `;

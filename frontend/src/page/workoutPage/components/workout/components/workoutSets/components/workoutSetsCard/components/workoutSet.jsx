@@ -231,7 +231,7 @@ const WorkoutSetContainer = ({
 				<Checkbox checked={checked} setChecked={setChecked} onClick={onSaveSet} />
 				<Icon
 					name={ICON.CROSS}
-					height="30px"
+					size="xlarge"
 					style={{ display: checked && 'none' }}
 					margin="0 0 0 5px"
 					onClick={onSetDelete}

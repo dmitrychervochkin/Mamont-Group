@@ -18,7 +18,7 @@ const RightSideHeaderContainer = ({ className, userId, setIsDropdownOpen, button
 	const navigate = useNavigate();
 	const [dropdownDisplay, setDropdownDisplay] = useState(false);
 	const dropdownRef = useRef(null);
-	const buttonRef = useRef(null); // Новый ref для кнопки
+	const buttonRef = useRef(null);
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -75,6 +75,7 @@ const RightSideHeaderContainer = ({ className, userId, setIsDropdownOpen, button
 					<Button
 						ref={buttonRef}
 						id="account-dropdown"
+						disabled={dropdownDisplay}
 						width={getScreenWidth(800) ? '250px' : '130px'}
 						style={{
 							backgroundColor: dropdownDisplay && '#424242',
@@ -128,6 +129,15 @@ const RightSideHeaderContainer = ({ className, userId, setIsDropdownOpen, button
 								Что нового?
 							</div>
 						)}
+						<Link
+							className="dropdown-user-option service-option"
+							to="https://mamont-matrix.onrender.com"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<img src="images/Logo-mobile.png" className="logo-icon" />
+							MAMONT Matrix
+						</Link>
 						<div className="dropdown-user-option" onClick={onLogoutClick}>
 							<Icon name={ICON.LOGOUT} size="small" /> Выйти
 						</div>
@@ -225,5 +235,19 @@ export const RightSideHeader = styled(RightSideHeaderContainer)`
 	}
 	.header-right-side {
 		margin-left: 40px;
+	}
+	.service-option {
+		border-radius: 8px;
+
+		font-weight: 600;
+
+		&:hover {
+			background-color: #ae74ed;
+			color: #222222;
+		}
+	}
+	.logo-icon {
+		height: 45px;
+		margin: 0 -10px 0 -10px;
 	}
 `;

@@ -45,6 +45,9 @@ const iconSizes = {
 	large: css`
 		height: 35px;
 	`,
+	xlarge: css`
+		height: 40px;
+	`,
 };
 
 const StyledIcon = styled.div`
