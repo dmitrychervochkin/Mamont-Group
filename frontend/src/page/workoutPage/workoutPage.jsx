@@ -191,6 +191,7 @@ const ContentWrapper = styled.div`
 	transition: opacity 1.5s, margin-top 1s;
 	opacity: ${(props) => (props.isStartWorkout ? 0 : 1)};
 	margin-top: ${(props) => (props.isStartWorkout ? '-1000px' : '0px')};
+	height: ${(props) => (props.isStartWorkout ? '400px' : '100%')};
 `;
 
 const Header = styled.div`
