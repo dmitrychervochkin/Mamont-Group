@@ -4,7 +4,7 @@ const initialState = {
 	wasLogout: false,
 	error: {
 		isError: false,
-		message: '',
+		message: null,
 	},
 	progressBar: {
 		isLoading: false,

@@ -65,7 +65,7 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 	const isError = useSelector(selectIsError);
 	const error = useSelector(selectErrorMessage);
 	const navigate = useNavigate();
-	console.log(error);
+	console.log(isError, error);
 	useEffect(() => {
 		Promise.all([server.fetchExercises(), server.fetchMuscleGroups()])
 			.then(([exercises, muscleGroups]) => {
@@ -225,7 +225,7 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 					{!getScreenWidth(800) && (
 						<Button
 							style={{ marginBottom: '10px' }}
-							disabled={!!isError}
+							disabled={isError}
 							color="#222222"
 							className="finish-workout-btn"
 							width="250px"

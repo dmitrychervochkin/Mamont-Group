@@ -51,7 +51,7 @@ const CalendarContainer = ({ className, locale = 'default', firstWeekDayNumber =
 			.fetchCalendarEvents(userId)
 			.then(({ res, error }) => {
 				setCalendarEvents(res ?? []);
-				dispatch(setError(error));
+				if (error) dispatch(setError(error));
 				setTimeout(() => {
 					setIsLoading(false);
 					setIsSave(false);
