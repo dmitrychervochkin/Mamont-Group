@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Icon } from '../../../../components';
-import { ICON } from '../../../../constants';
-import { findItem, findLastSet, getRandomInt, timeConverter } from '../../../../utils';
+import { ICON, INTERFACE } from '../../../../constants';
+import { findItem, findLastSet, getRandomInt, getScreenWidth, timeConverter } from '../../../../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	addPattern,
@@ -116,11 +116,11 @@ const WorkoutCardContainer = ({ className, exercises, id, name, description, use
 			>
 				<div className="workout-card-dropdown-selector" onClick={() => onEditPattern(id)}>
 					<span>Редактировать</span>
-					<Icon height="25px" name={ICON.EDIT} />
+					<Icon size={getScreenWidth(INTERFACE.WIDTH) ? 'medium' : 'small'} name={ICON.EDIT} />
 				</div>
 				<div className="workout-card-dropdown-selector" onClick={() => onRemovePattern(id)}>
 					<span>Удалить</span>
-					<Icon height="25px" name={ICON.DELETE} />
+					<Icon size={getScreenWidth(INTERFACE.WIDTH) ? 'medium' : 'small'} name={ICON.DELETE} />
 				</div>
 			</div>
 			<Icon
@@ -204,8 +204,9 @@ export const WorkoutCard = styled(WorkoutCardContainer)`
 		box-shadow: 0 0 5px 1px #141414;
 		position: absolute;
 		z-index: 1;
-		left: 220px;
-		top: 20px;
+		// left: 40px;
+		right: 20px;
+		top: 50px;
 		border-radius: 15px;
 		transition: opacity 0.5s, max-height 0.3s;
 		overflow: hidden;
