@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Icon } from '../icon/icon';
 import { ICON } from '../../constants';
 import { useState } from 'react';
 
-const CheckboxContainer = ({ className, checked, setChecked, onClick, ...props }) => {
+const CheckboxContainer = ({ className, checked, size, setChecked, onClick, ...props }) => {
 	return (
 		<div
 			className={className}
@@ -15,19 +15,33 @@ const CheckboxContainer = ({ className, checked, setChecked, onClick, ...props }
 			{...props}
 		>
 			<div className="checkbox" style={{ display: checked && 'none' }}></div>
-			<Icon size="xlarge" name={ICON.CHECKBOX} style={{ display: !checked && 'none' }} />
+			<Icon size={size} name={ICON.CHECKBOX} style={{ display: !checked && 'none' }} />
 		</div>
 	);
+};
+
+const iconSizes = {
+	small: css`
+		width: 25px;
+		height: 25px;
+	`,
+	medium: css`
+		width: 34px;
+		height: 34px;
+	`,
+	large: css`
+		height: 35px;
+	`,
 };
 
 export const Checkbox = styled(CheckboxContainer)`
 	display: flex;
 	align-items: center;
 	transition: 0.3s;
+
 	.checkbox {
 		margin: 0 3px;
-		width: 34px;
-		height: 34px;
+		${({ size }) => iconSizes[size] || iconSizes.medium};
 		border: 3px solid #393939;
 		cursor: pointer;
 		user-select: none;

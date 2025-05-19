@@ -32,13 +32,11 @@ import {
 } from './components';
 
 const ModalContainer = ({ className }) => {
-	const workoutPage = useMatch('/workout');
 	const text = useSelector(selectModalText);
 	const onConfirm = useSelector(selectModalOnConfirm);
 	const onCancel = useSelector(selectModalOnCancel);
 	const isOpen = useSelector(selectModalIsOpen);
 	const isConfirm = useSelector(selectModalIsConfirm);
-	const isBreak = useSelector(selectIsBreak);
 	const isSuccess = useSelector(selectIsSuccessModal);
 	const isExercises = useSelector(selectModalIsExercises);
 	const isEditExerciseInfo = useSelector(selectIsEditExerciseInfo);

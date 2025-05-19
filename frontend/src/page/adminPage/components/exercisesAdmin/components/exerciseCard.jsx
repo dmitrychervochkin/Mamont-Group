@@ -92,14 +92,17 @@ const ExerciseCardContainer = ({
 				<>
 					<div className="left-side-exercise-container">
 						<div>
-							<img
+							{/* <img
 								id={id}
 								className="exercise-img"
 								src={
 									exerciseImg?.description &&
 									process.env.REACT_APP_API_URL + '/static/' + exerciseImg?.description
 								}
-							/>
+								alt={name ? `Изображение упражнения ${name}` : ''}
+							/> */}
+
+							<Icon name={ICON.BICEPSGRAY} className="exercise-img" />
 						</div>
 						<div className="exercise-info">
 							<div className="exercise-name">

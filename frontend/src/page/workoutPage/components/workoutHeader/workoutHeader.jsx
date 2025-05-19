@@ -25,7 +25,7 @@ import {
 	timerEditing,
 } from '../../../../reducers';
 import { useMatch, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { server } from '../../../../bff';
 import { BreakTime, WorkoutTitle } from './components';
 import { getScreenWidth, stringTimeConverter } from '../../../../utils';
@@ -120,6 +120,12 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 		setWorkoutTime(time);
 	};
 
+	useEffect(() => {
+		if (workoutPage) {
+			setHover(false);
+		}
+	}, [workoutPage]);
+
 	return (
 		<div
 			className={className}
@@ -160,7 +166,11 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 					}}
 				>
 					<div className="training-time-container">
-						<Icon size="large" name={ICON.CLOCK} onClick={() => start && onTimerClicked()} />
+						<Icon
+							size={getScreenWidth(INTERFACE.WIDTH) ? 'large' : 'medium'}
+							name={ICON.CLOCK}
+							onClick={() => start && onTimerClicked()}
+						/>
 						<div
 							style={{
 								display: 'flex',

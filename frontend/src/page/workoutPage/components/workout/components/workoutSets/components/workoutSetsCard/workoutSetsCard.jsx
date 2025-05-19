@@ -189,7 +189,11 @@ const WorkoutSetsCardContainer = ({
 					</div>
 				</div>
 
-				<Icon height="30px" name={ICON.DELETE} onClick={onDeleteExercise} />
+				<Icon
+					size={getScreenWidth(INTERFACE.WIDTH) ? 'medium' : 'small'}
+					name={ICON.DELETE}
+					onClick={onDeleteExercise}
+				/>
 			</div>
 			<WorkoutTableTitle style="zIndex: 6, position: absolute" />
 			<div className="workout-exercises-container">

@@ -4,8 +4,8 @@ import { getScreenWidth } from '../../../../../../../../../utils';
 
 const WorkoutTableTitleContainer = ({ className }) => {
 	return (
-		<div className={className}>
-			<div style={{ width: '40px', textAlign: 'center' }}>#</div>
+		<div className={className} style={{ fontSize: getScreenWidth(INTERFACE.WIDTH) ? '16px' : '14px' }}>
+			<div style={{ width: '40px', padding: '0 15px', textAlign: 'center' }}>#</div>
 			<div style={{ width: getScreenWidth(INTERFACE.WIDTH) ? '250px' : '', textAlign: 'center' }}>
 				Предыдущий
 			</div>

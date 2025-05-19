@@ -145,7 +145,7 @@ const WorkoutSetContainer = ({
 				borderBottom: checked ? '2px solid #393939' : 'none',
 			}}
 		>
-			<span
+			<div
 				id="rep-number-btn"
 				className="rep-number"
 				style={{
@@ -171,7 +171,7 @@ const WorkoutSetContainer = ({
 				onClick={onRepNumberHandler}
 			>
 				{set}
-			</span>
+			</div>
 			{navMenu && (
 				<div
 					id="rep-number-nav-menu"
@@ -204,13 +204,25 @@ const WorkoutSetContainer = ({
 					</div>
 				</div>
 			)}
-			<div style={{ color: checked ? '#222222' : '#a2a2a2' }} className="rep-last-result">
+			<div
+				style={{
+					color: checked ? '#222222' : '#a2a2a2',
+					fontSize: getScreenWidth(INTERFACE.WIDTH) ? '18px' : '16px',
+				}}
+				className="rep-last-result"
+			>
 				{prev ? prev : '-'}
 			</div>
 			<div className="current-rep">
 				<Input
 					style={{ textAlign: 'center', opacity: checked && '0.5' }}
-					placeholder={weightValue !== '' ? weight + 'кг' : 'Укажите вес'}
+					placeholder={
+						weightValue !== ''
+							? weight + 'кг'
+							: getScreenWidth(INTERFACE.WIDTH)
+							? 'Укажите вес'
+							: 'Вес'
+					}
 					width={getScreenWidth(INTERFACE.WIDTH) ? '200px' : '100%'}
 					disabled={checked}
 					value={checked && weightValue !== '' ? weightValue + 'кг' : weightValue}
@@ -220,7 +232,13 @@ const WorkoutSetContainer = ({
 			<div className="current-rep">
 				<Input
 					style={{ textAlign: 'center', opacity: checked && '0.5' }}
-					placeholder={repsValue ? reps : 'Укажите повторения'}
+					placeholder={
+						repsValue
+							? reps
+							: getScreenWidth(INTERFACE.WIDTH)
+							? 'Укажите повторения'
+							: 'Повторения'
+					}
 					width={getScreenWidth(INTERFACE.WIDTH) ? '200px' : '100%'}
 					disabled={checked}
 					value={checked ? repsValue : repsValue}
@@ -228,10 +246,15 @@ const WorkoutSetContainer = ({
 				/>
 			</div>
 			<div className="exercise-set-icons">
-				<Checkbox checked={checked} setChecked={setChecked} onClick={onSaveSet} />
+				<Checkbox
+					size={getScreenWidth(INTERFACE.WIDTH) ? 'xlarge' : 'small'}
+					checked={checked}
+					setChecked={setChecked}
+					onClick={onSaveSet}
+				/>
 				<Icon
 					name={ICON.CROSS}
-					size="xlarge"
+					size={getScreenWidth(INTERFACE.WIDTH) ? 'xlarge' : 'small'}
 					style={{ display: checked && 'none' }}
 					margin="0 0 0 5px"
 					onClick={onSetDelete}
@@ -244,6 +267,7 @@ const WorkoutSetContainer = ({
 export const WorkoutSet = styled(WorkoutSetContainer)`
 	font-size: 20px;
 	display: flex;
+	gap: 5px;
 	width: 100%;
 	justify-content: space-between;
 	align-items: center;
@@ -328,6 +352,7 @@ export const WorkoutSet = styled(WorkoutSetContainer)`
 		justify-content: center;
 		height: 40px;
 		width: 40px;
+		padding: 0 15px;
 		border-radius: 10px;
 		transition: filter 0.3s;
 		border: 3px solid #393939;

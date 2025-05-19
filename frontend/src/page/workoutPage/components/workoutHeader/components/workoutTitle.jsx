@@ -36,6 +36,7 @@ const WorkoutTitleContainer = ({ className, name }) => {
 					placeholder="Название..."
 					maxLength="18"
 					className="workout-name-input"
+					style={{ fontSize: getScreenWidth(INTERFACE.WIDTH) ? '35px' : '30px' }}
 					onChange={onWorkoutNameChange}
 				/>
 			) : (
@@ -61,7 +62,6 @@ export const WorkoutTitle = styled(WorkoutTitleContainer)`
 		max-width: 50%;
 		outline: none;
 		color: white;
-		font-size: 35px;
 		margin: 0;
 		font-weight: 300;
 		height: 40px;

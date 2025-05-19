@@ -1,5 +1,13 @@
 import { ROUTE } from './constants/routeConstants';
-import { HomePage, AdminPage, MusicPage, CommunityPage, WorkoutPage, AuthForm, HistoryPage } from './page';
+import {
+	HomePage,
+	AdminPage,
+	MusicPage,
+	CommunityPage,
+	WorkoutPage,
+	AuthForm,
+	HistoryPage,
+} from './page';
 
 export const authRoutes = [
 	{

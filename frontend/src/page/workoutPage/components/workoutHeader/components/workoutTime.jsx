@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { closeModal, openModal, setUserWorkoutTime, stopBreak } from '../../../../../reducers';
 import { useNavigate } from 'react-router-dom';
 import { memo } from 'react';
+import { getScreenWidth } from '../../../../../utils';
+import { INTERFACE } from '../../../../../constants';
 
 const WorkoutTimeContainer = memo(({ className, start, reverse = false, initialTime, onTimeChange }) => {
 	const [isActive, setIsActive] = useState(false);
@@ -63,7 +65,13 @@ const WorkoutTimeContainer = memo(({ className, start, reverse = false, initialT
 	};
 
 	return (
-		<div className={className} style={{ color: reverse && '#3eb942', fontSize: '35px' }}>
+		<div
+			className={className}
+			style={{
+				color: reverse && '#3eb942',
+				fontSize: getScreenWidth(INTERFACE.WIDTH) ? '35px' : '30px',
+			}}
+		>
 			{time >= 3600 && (
 				<span className="digits">{('0' + Math.floor((time / 60 / 60) % 60)).slice(-2)}:</span>
 			)}

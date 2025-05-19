@@ -4,6 +4,11 @@ import styled from 'styled-components';
 import { resetError } from '../../reducers';
 
 const DropdownErrorContainer = ({ className, children }) => {
+	const dispatch = useDispatch();
+	const onCloseError = () => {
+		dispatch(resetError());
+	};
+
 	return (
 		<div
 			className={className}
@@ -12,6 +17,7 @@ const DropdownErrorContainer = ({ className, children }) => {
 				maxHeight: !!children ? '200px' : 0,
 				opacity: !!children ? 1 : 0,
 			}}
+			onClick={onCloseError}
 		>
 			{children}
 		</div>
@@ -35,4 +41,8 @@ export const DropdownError = styled(DropdownErrorContainer)`
 	align-items: center;
 	text-align: center;
 	justify-content: center;
+
+	&:hover {
+		cursor: pointer;
+	}
 `;
