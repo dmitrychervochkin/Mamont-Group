@@ -13,9 +13,10 @@ export const savePatternWorkoutExercises = async (
 			exerciseId: newPatternWorkoutExercisesData.exerciseId,
 			patternExerciseId: patternExerciseId,
 			patternId: patternId,
-			reps: newPatternWorkoutExercisesData.reps,
+			reps: newPatternWorkoutExercisesData.reps === '' ? null : newPatternWorkoutExercisesData.reps,
 			set: newPatternWorkoutExercisesData.set,
-			weight: newPatternWorkoutExercisesData.weight,
+			weight:
+				newPatternWorkoutExercisesData.weight === '' ? null : newPatternWorkoutExercisesData.weight,
 		},
 		userToken,
 	);

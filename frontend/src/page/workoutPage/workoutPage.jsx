@@ -143,7 +143,14 @@ const WorkoutPageContainer = ({ className }) => {
 						</Button>
 					</Header>
 
-					<div className="workout-page-main">
+					<div
+						className="workout-page-main"
+						style={{
+							gridTemplateColumns: getScreenWidth(INTERFACE.WIDTH)
+								? 'repeat(3, 1fr)'
+								: 'repeat(2, 1fr)',
+						}}
+					>
 						{isLoading ? (
 							<LoaderContainer>
 								<Loader />
@@ -173,7 +180,6 @@ export const WorkoutPage = styled(WorkoutPageContainer)`
 		position: relative;
 		z-index: 0;
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
 		height: 100%;
 	}
 

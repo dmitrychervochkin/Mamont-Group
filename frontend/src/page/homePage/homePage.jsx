@@ -22,4 +22,5 @@ export const HomePage = styled(HomePageContainer)`
 	position: absolute;
 	top: 0;
 	bottom: 0;
+	
 `;

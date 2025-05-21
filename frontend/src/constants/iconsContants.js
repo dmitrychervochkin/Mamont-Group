@@ -41,4 +41,5 @@ export const ICON = {
 	HEALTH: 'health.svg',
 	ARROWLEFT: 'arrow-left.svg',
 	ARROWRIGHT: 'arrow-right.svg',
+	STAR: 'star.svg',
 };

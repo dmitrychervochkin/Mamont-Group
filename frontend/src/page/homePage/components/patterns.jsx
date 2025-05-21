@@ -49,6 +49,7 @@ export const Patterns = styled(PatternsContainer)`
 	height: 100%;
 	border-radius: 20px;
 	position: relative;
+	box-shadow: #141414 0px 3px 5px 1px;
 
 	.patterns-container {
 		width: 100%;

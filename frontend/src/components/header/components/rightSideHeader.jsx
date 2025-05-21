@@ -207,11 +207,11 @@ export const RightSideHeader = styled(RightSideHeaderContainer)`
 		z-index: 10;
 		margin-top: 5px;
 		position: absolute;
-		background-color: #222222;
+		background: linear-gradient(#222222 10%, #393939);
 		border-radius: 20px;
 		width: 250px;
 		overflow: hidden;
-		border: 2px solid #393939;
+		border: 2px solid #646464;
 		display: flex;
 		flex-direction: column;
 		padding: 8px 0px;

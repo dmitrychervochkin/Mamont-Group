@@ -115,6 +115,10 @@ const WorkoutCardContainer = ({ className, exercises, id, name, description, use
 				className="workout-card-dropdown"
 			>
 				<div className="workout-card-dropdown-selector" onClick={() => onEditPattern(id)}>
+					<span>Добавить в избранное</span>
+					<Icon size={getScreenWidth(INTERFACE.WIDTH) ? 'medium' : 'small'} name={ICON.STAR} />
+				</div>
+				<div className="workout-card-dropdown-selector" onClick={() => onEditPattern(id)}>
 					<span>Редактировать</span>
 					<Icon size={getScreenWidth(INTERFACE.WIDTH) ? 'medium' : 'small'} name={ICON.EDIT} />
 				</div>
@@ -129,7 +133,14 @@ const WorkoutCardContainer = ({ className, exercises, id, name, description, use
 				name={ICON.MENU}
 				onClick={onDropdownHandler}
 			/>
-			<div className="workout-card" onClick={onWorkoutCardHandler}>
+			<div
+				className="workout-card"
+				onClick={onWorkoutCardHandler}
+				style={{
+					width: getScreenWidth(INTERFACE.WIDTH) ? '250px' : '170px',
+					padding: getScreenWidth(INTERFACE.WIDTH) ? '20px 30px' : '20px 15px',
+				}}
+			>
 				<div className="workout-card-header">{name}</div>
 				<div className="workout-card-main">
 					<div className="workout-sets">
@@ -155,8 +166,6 @@ export const WorkoutCard = styled(WorkoutCardContainer)`
 	margin: 0 auto;
 
 	.workout-card {
-		width: 250px;
-		padding: 20px 30px;
 		height: 250px;
 		background-color: #393939;
 		border-radius: 20px;

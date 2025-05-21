@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	selectBreakTime,
+	selectIsAddPattern,
 	selectIsBreak,
 	selectWorkoutExercises,
 	setUserWorkoutExercises,
@@ -32,6 +33,7 @@ const WorkoutSetContainer = ({
 	const [weightValue, setWeightValue] = useState(weight || '');
 	const [navMenu, setNavMenu] = useState(false);
 	const isBreak = useSelector(selectIsBreak);
+	const isAddPattern = useSelector(selectIsAddPattern);
 	const breakTime = useSelector(selectBreakTime);
 	const dispatch = useDispatch();
 
@@ -57,6 +59,8 @@ const WorkoutSetContainer = ({
 		dispatch(setUserWorkoutExercises(workoutExerciseCopy));
 	};
 	const onSetDelete = () => {
+		if (checked) return;
+
 		let userStringSet = [
 			...workoutExercises
 				.filter((item) => item.userExerciseId === userExerciseId)
@@ -224,7 +228,7 @@ const WorkoutSetContainer = ({
 							: 'Вес'
 					}
 					width={getScreenWidth(INTERFACE.WIDTH) ? '200px' : '100%'}
-					disabled={checked}
+					disabled={checked || isAddPattern}
 					value={checked && weightValue !== '' ? weightValue + 'кг' : weightValue}
 					onChange={(e) => onWeightChange(e.target)}
 				/>
@@ -240,22 +244,25 @@ const WorkoutSetContainer = ({
 							: 'Повторения'
 					}
 					width={getScreenWidth(INTERFACE.WIDTH) ? '200px' : '100%'}
-					disabled={checked}
+					disabled={checked || isAddPattern}
 					value={checked ? repsValue : repsValue}
 					onChange={(e) => onRepsChange(e.target)}
 				/>
 			</div>
 			<div className="exercise-set-icons">
-				<Checkbox
-					size={getScreenWidth(INTERFACE.WIDTH) ? 'xlarge' : 'small'}
-					checked={checked}
-					setChecked={setChecked}
-					onClick={onSaveSet}
-				/>
+				{!isAddPattern && (
+					<Checkbox
+						size={getScreenWidth(INTERFACE.WIDTH) ? 'xlarge' : 'small'}
+						checked={checked}
+						setChecked={setChecked}
+						onClick={onSaveSet}
+					/>
+				)}
 				<Icon
 					name={ICON.CROSS}
 					size={getScreenWidth(INTERFACE.WIDTH) ? 'xlarge' : 'small'}
-					style={{ display: checked && 'none' }}
+					style={{ opacity: checked && '0' }}
+					inactive={checked}
 					margin="0 0 0 5px"
 					onClick={onSetDelete}
 				/>
@@ -381,6 +388,7 @@ export const WorkoutSet = styled(WorkoutSetContainer)`
 	.exercise-set-icons {
 		display: flex;
 		align-items: center;
+		justify-content: flex-end;
 		width: 75px;
 	}
 `;

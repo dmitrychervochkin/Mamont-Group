@@ -74,7 +74,8 @@ const HeaderContainer = ({ className }) => {
 };
 
 export const Header = styled(HeaderContainer)`
-	background-color: #222222;
+	// background-color: #222222;
+	background: linear-gradient(#141414, #222222 30%);
 	height: 80px;
 	position: fixed;
 	width: 100%;

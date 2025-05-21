@@ -150,6 +150,7 @@ const WorkoutHeaderContainer = ({ className, start, id, name, time }) => {
 				<div style={{ height: '100%', padding: '20px 0' }}>
 					<div style={{ opacity: '0.4', marginBottom: '5px' }}>Описание:</div>
 					<Input
+						width={getScreenWidth(INTERFACE.WIDTH) ? '350px' : '100%'}
 						style={{ backgroundColor: !workoutPage && '#222222' }}
 						placeholder="Описание упражнения..."
 						value={userWorkout?.description}

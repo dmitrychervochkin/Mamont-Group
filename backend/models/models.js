@@ -121,6 +121,7 @@ const Patterns = sequelize.define(
 		id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 		name: { type: DataTypes.STRING, allowNull: false },
 		description: { type: DataTypes.STRING, allowNull: true },
+		favourite: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: false },
 	},
 	{
 		timestamps: false,

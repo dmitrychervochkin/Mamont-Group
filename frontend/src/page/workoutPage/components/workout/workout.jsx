@@ -65,7 +65,7 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 	const isError = useSelector(selectIsError);
 	const error = useSelector(selectErrorMessage);
 	const navigate = useNavigate();
-	console.log(isError, error);
+
 	useEffect(() => {
 		Promise.all([server.fetchExercises(), server.fetchMuscleGroups()])
 			.then(([exercises, muscleGroups]) => {
@@ -134,6 +134,7 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 	};
 
 	const onSavePattern = () => {
+		console.log(userWorkoutExercises);
 		if (userWorkoutExercises.length === 0 || userExercises.length === 0) {
 			dispatch(setError('Заполните упражнения и подходы!'));
 			setTimeout(() => {
@@ -222,7 +223,7 @@ const WorkoutContainer = ({ className, setIsSave }) => {
 					<Button className="add-new-exercise-btn" width="250px" onClick={addNewExercise}>
 						Добавить упражнение
 					</Button>
-					{!getScreenWidth(800) && (
+					{!getScreenWidth(800) && !isAddPattern && (
 						<Button
 							style={{ marginBottom: '10px' }}
 							disabled={isError}

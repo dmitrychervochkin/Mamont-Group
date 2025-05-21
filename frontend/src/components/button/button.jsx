@@ -1,13 +1,15 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-export const Button = ({ children, variant = 'primary', size = 'medium', disabled = false, ...props }) => {
-	return (
-		<StyledButton variant={variant} size={size} disabled={disabled} {...props}>
-			{children}
-		</StyledButton>
-	);
-};
+export const Button = React.forwardRef(
+	({ children, variant = 'primary', size = 'medium', disabled = false, ...props }, ref) => {
+		return (
+			<StyledButton ref={ref} variant={variant} size={size} disabled={disabled} {...props}>
+				{children}
+			</StyledButton>
+		);
+	},
+);
 
 const buttonVariants = {
 	primary: css`
@@ -89,7 +91,7 @@ const StyledButton = styled.button`
 			color: #a1a1a1;
 			cursor: not-allowed;
 			box-shadow: none;
-			
+
 			&:hover {
 				background-color: #646464;
 			}

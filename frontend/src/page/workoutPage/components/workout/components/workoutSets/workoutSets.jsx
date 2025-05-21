@@ -37,40 +37,6 @@ const WorkoutSetsContainer = ({ className }) => {
 	};
 
 	const drop = (event) => {
-		// let userExercisesWithSupersets = groupArrays(userExercises, {
-		// 	toReturn: 'array',
-		// 	filteredBy: 'superSet',
-		// });
-
-		// const id = Number(event.dataTransfer.getData('text/plain'));
-		// event.currentTarget.querySelector('.card').classList.remove('drop');
-		// document.querySelectorAll('.card').forEach((item) => (item.style.borderTop = '0px solid #222222'));
-		// document.querySelectorAll('.card').forEach((item) => item.classList.remove('swapped'));
-		// event.preventDefault();
-
-		// const swapElements = (array, index1, index2) => {
-		// 	[array[index1], array[index2]] = [array[index2], array[index1]];
-		// };
-
-		// let newArray = [...userExercisesWithSupersets];
-		// for (let i in userExercisesWithSupersets) {
-		// 	if (
-		// 		userExercisesWithSupersets[i].id === id ||
-		// 		userExercisesWithSupersets[i][0]?.superSet === id
-		// 	) {
-		// 		for (let j in userExercisesWithSupersets) {
-		// 			if (
-		// 				userExercisesWithSupersets[j].id === swapElement ||
-		// 				userExercisesWithSupersets[j][0]?.superSet === swapElement
-		// 			) {
-		// 				swapElements(newArray, i, j);
-		// 			}
-		// 		}
-		// 	}
-		// }
-
-		// dispatch(setUserExercises(newArray.flat()));
-
 		event.preventDefault();
 
 		let userExercisesWithSupersets = groupArrays(userExercises, {

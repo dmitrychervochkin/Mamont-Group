@@ -198,19 +198,11 @@ const CurrentDateContainer = ({
 										{calendarTypeEvents.length === 0 && <div>Не добавлены</div>}
 									</div>
 								</div>
-								<div style={{ position: 'absolute', bottom: '10px' }}>
-									<Button
-										width="240px"
-										style={{ marginBottom: '10px' }}
-										onClick={onStartWorkout}
-									>
+								<div style={{ justifySelf: 'flex-end' }}>
+									<Button style={{ marginBottom: '10px' }} onClick={onStartWorkout}>
 										Начать
 									</Button>
-									<Button
-										className="delete-event-btn"
-										width="240px"
-										onClick={onRemoveEventHandler}
-									>
+									<Button className="delete-event-btn" onClick={onRemoveEventHandler}>
 										Удалить
 									</Button>
 								</div>
@@ -220,7 +212,7 @@ const CurrentDateContainer = ({
 					{!isLoading && pastDateEvents.length !== 0 && (
 						<div className="past-calendar-events">
 							{pastDateEvents.map((item) => (
-								<div className="past-calendar-event">
+								<div key={item.id} className="past-calendar-event">
 									<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 										<div style={{ color: '#a2a2a2' }}>Название:</div>
 										<div style={{ textAlign: 'end' }}>{item.name}</div>

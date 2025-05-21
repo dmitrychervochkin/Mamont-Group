@@ -48,6 +48,7 @@ export const QuickStart = styled(QuickStartContainer)`
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
+	box-shadow: #141414 0px 3px 5px 1px;
 
 	.info-description {
 		margin: 15px 0 15px 0;
